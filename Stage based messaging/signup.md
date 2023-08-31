@@ -8,6 +8,16 @@ columns: []
 | ----------------- | ---------------------------------------- |
 | contentrepo_token | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
 
+This flow asks the user whether they want to sign up for the testing stage based messaging.
+
+If they decline, then we exit
+
+If they accept, then we search the ordered content sets on contentrepo for one called "demo", and store the following values on the contact:
+
+* push_messaging_signup: The timestamp when the user accepts the sign up
+* push_messaging_content_set: The ID of the ordered content set named "demo"
+* push_messaging_content_set_position: Start at 0, to always start at the beginning of the message set
+
 <!-- { section: "c1af92c3-f489-4f4b-8182-865897f83ea1", x: 0, y: 0} -->
 
 ```stack
@@ -36,16 +46,18 @@ card FetchContentSet, then: CompleteSignup do
 end
 
 card CompleteSignup do
+  write_result("sbm_signup", "@contentset.id")
   update_contact(push_messaging_signup: "@now()")
   update_contact(push_messaging_content_set: "@contentset.id")
   update_contact(push_messaging_content_set_position: 0)
   text("Thank you for signing up! You will receive your first message shortly")
+  # SBM: Schedule next push message
   run_stack("f7a966e0-2945-455e-a3d2-519b750e20aa")
 end
 
 card Exit do
+  write_result("sbm_signup", "no")
   text("Thank you! You will not be sent any messages")
-  schedule_stack("5c6b568b-58ec-444f-9e34-9f23fdfc0219", in: 0)
 end
 
 ```
