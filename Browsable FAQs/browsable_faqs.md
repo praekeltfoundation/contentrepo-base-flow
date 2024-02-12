@@ -14,7 +14,6 @@ columns: []
 ```stack
 card MainMenu do
   # Main menu displays all of the index pages for the user to select from
-
   # TODO: replace this with URL in config once Turn has fixed the bug that changes the URL into markdown
   indexes_data =
     get(
@@ -88,7 +87,6 @@ card DisplayContent when content_data.body.has_children do
     )
 
   parent_title = content_data.body.title
-
   selected_content_id = find(page_list_data.body.results, &(&1.title == selected_content_name)).id
 
   page_list_data =
@@ -117,13 +115,11 @@ end
 card DisplayContent when isnumber(content_data.body.body.next_message) do
   next_prompt = "@content_data.body.body.text.value.next_prompt"
   next_prompt = if(len(next_prompt) > 0, next_prompt, "Tell me more")
-
   message = content_data.body.body.next_message
 
   buttons(FetchContent: "@next_prompt") do
     text("""
     @content_data.body.title
-
     @content_data.body.body.text.value.message
     """)
   end
@@ -144,17 +140,89 @@ card DisplayContent when count(content_data.body.related_pages) > 0 do
     list("Select related page", SelectRelatedPage, related_pages) do
       text("""
       @content_data.body.title
-
       @content_data.body.body.text.value.message
       """)
     end
+end
+
+card DisplayContent
+     when isnumber(content_data.body.body.text.value.media) and
+            isnumber(content_data.body.body.text.value.image) do
+  # For content page that have image and media
+  # Get medias in content page and add to buttons
+
+  media_id = content_data.body.body.text.value.media
+  log("Media ID Sila @media_id")
+
+  media_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/media/@media_id/",
+      headers: [
+        ["Authorization", "Token @config.items.contentrepo_token"]
+      ]
+    )
+
+  image_id = content_data.body.body.text.value.image
+  log("Image ID Sila @image_id")
+
+  image_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
+      headers: [
+        ["Authorization", "Token @config.items.contentrepo_token"]
+      ]
+    )
+
+  media_data = media_data.body
+  image_data = image_data.body
+  log("Data: @media_data.body")
+  log("Data: @media_data.media_type == video")
+  buttons(
+    DisplayMedia: "view @media_data.media_type",
+    DisplayImage: "view @image_data.media_type"
+  ) do
+    text("select an option")
+  end
+end
+
+card DisplayContent when isnumber(content_data.body.body.text.value.media), then: DisplayMedia do
+  # For content page that have media only
+  media_id = content_data.body.body.text.value.media
+  log("Media ID @media_id")
+
+  media_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/media/@media_id/",
+      headers: [
+        ["Authorization", "Token @config.items.contentrepo_token"]
+      ]
+    )
+
+  media_data = media_data.body
+  log("Data: @media_data.body")
+  log("Data: @media_data.media_type == video")
+end
+
+card DisplayContent when isnumber(content_data.body.body.text.value.image), then: DisplayImage do
+  image_id = content_data.body.body.text.value.image
+  log("Media ID @image_id")
+
+  image_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
+      headers: [
+        ["Authorization", "Token @config.items.contentrepo_token"]
+      ]
+    )
+
+  image_data = image_data.body
+  log("Data: @image_data.body")
 end
 
 card DisplayContent do
   buttons(Exit: "Main Menu") do
     text("""
     @content_data.body.title
-
     @content_data.body.body.text.value.message
     """)
   end
@@ -187,6 +255,42 @@ end
 
 card Exit do
   schedule_stack("5c6b568b-58ec-444f-9e34-9f23fdfc0219", in: 0)
+end
+
+
+card DisplayImage, then: MainMenu do
+  log("@image_data")
+  log("Image ID: @image_data.id")
+  log("Image Type: @image_data.media_type")
+
+  image("@image_data.meta.download_url")
+  text("@content_data.body.body.text.value.message")
+end
+
+card DisplayMedia when media_data.media_type == "audio", then: MainMenu do
+  log("Media ID-2: @media_data.id")
+  log("Media Type-2: @media_data.media_type")
+
+  audio("@media_data.meta.download_url")
+  text("@content_data.body.body.text.value.message")
+end
+
+card DisplayMedia when media_data.media_type == "video", then: MainMenu do
+  log("Media ID-1: @media_data.id")
+  log("Media Type-1: @media_data.media_type")
+  log("@media_data.meta.download_url")
+
+  video("@media_data.meta.download_url")
+  text("@content_data.body.body.text.value.message")
+end
+
+card DisplayMedia do
+  buttons(Exit: "Main Menu") do
+    text("""
+    @content_data.title
+    @content_data.body.text.value.message
+    """)
+  end
 end
 
 ```
