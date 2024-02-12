@@ -1,3 +1,5 @@
+# Browsable FAQs with media 
+
 ```stack
 card MainMenu do
   # Main menu displays all of the index pages for the user to select from
