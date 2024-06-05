@@ -131,6 +131,14 @@ end
 ```
 
 ```stack
+card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
+  write_result("question_num", question_num)
+  write_result("answer", age)
+  log("Answered @age to question @question_num")
+
+  question_num = question_num + 1
+end
+
 card QuestionResponse, then: CheckEnd do
   answer = find(question.answers, &(&1.answer == question_response))
   write_result("question_num", question_num)
