@@ -1,2556 +1,2868 @@
 {
-    "name": "Depression assessment",
-    "description": "Default description",
-    "uuid": "b86a834c-f4f8-491f-92d9-fa80f7f166b0",
-    "resources": [
-      {
-        "values": [
-          {
-            "value": "@message_body",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "57f2e3cd-b055-447e-b922-60429996c610"
-      },
-      {
-        "values": [
-          {
-            "value": "Answered @answer.answer to question @question_num",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "ba6b4056-b03c-4946-96c1-faf6a6ae9bf5"
-      },
-      {
-        "values": [
-          {
-            "value": "@error",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "59c66fb5-7dd2-4ed0-b91b-3cf1356bc697"
-      },
-      {
-        "values": [
-          {
-            "value": "@question.question",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "e80b2196-e4d3-453b-967a-2f74de425242"
-      },
-      {
-        "values": [
-          {
-            "value": "QuestionResponse",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "65c57f70-e2a1-4598-8a9d-1289e6412279"
-      },
-      {
-        "values": [
-          {
-            "value": "@question.question",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
+  "name": "Flows",
+  "description": "Default description",
+  "uuid": "3706a5b3-9549-403d-953b-0bdbd97403c3",
+  "resources": [
+    {
+      "values": [
+        {
+          "value": "Validatation succeeded for age question",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "0872c5a3-94d0-4ec2-a7bc-e2bb897aab9d"
+    },
+    {
+      "values": [
+        {
+          "value": "Validatation failed for age question",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "2b4a9672-23da-4ea9-ae96-c46a5efe7978"
+    },
+    {
+      "values": [
+        {
+          "value": "@message_body",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "ce4609e5-6499-4e5a-86df-637f25c2384c"
+    },
+    {
+      "values": [
+        {
+          "value": "Answered @answer.answer to question @question_num",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "57aa60c8-b1f3-4513-936e-2bac996a0e87"
+    },
+    {
+      "values": [
+        {
+          "value": "@error",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "7f6f5697-8b61-46c0-979c-0e0bd60da977"
+    },
+    {
+      "values": [
+        {
+          "value": "@question.question",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "71c519c9-785c-4c8d-8cbd-3ca677ba9dc0"
+    },
+    {
+      "values": [
+        {
+          "value": "QuestionResponse",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "9b3dc238-904a-40a6-a21f-5cecc13ccf62"
+    },
+    {
+      "values": [
+        {
+          "value": "@question.question",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "de45fec8-bcc2-4d7e-8c14-ac35a356c37b"
+    },
+    {
+      "values": [
+        {
+          "value": "@question.question",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        },
+        {
+          "value": "Select option",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "539ae5bf-58dc-4485-9747-6895737f7aca"
+    },
+    {
+      "values": [
+        {
+          "value": "Assessment risk: low",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "1df9d2e6-f989-4a74-b36a-745895cd24e8"
+    },
+    {
+      "values": [
+        {
+          "value": "Assessment risk: medium",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "ac08a779-e1fa-4b4a-bc3a-67fe905b78ba"
+    },
+    {
+      "values": [
+        {
+          "value": "Assessment risk: high",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "e09b4c11-9fbe-4a80-aced-b84f3c9a0d49"
+    },
+    {
+      "values": [
+        {
+          "value": "End of assessment, score: @score",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "f3233ad8-37f2-4301-8019-cfebe1916d58"
+    },
+    {
+      "values": [
+        {
+          "value": "Fetching assessment @config.items.assessment_slug",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "3c3a9013-0f72-4417-ad85-ac1d1089fe72"
+    },
+    {
+      "values": [
+        {
+          "value": "Starting assessment @config.items.assessment_slug",
+          "modes": [
+            "RICH_MESSAGING"
+          ],
+          "mime_type": "text/plain",
+          "content_type": "TEXT",
+          "language_id": "caa58408-64ae-458b-8b6f-e3b8e258b3db"
+        }
+      ],
+      "uuid": "bfe4451d-12ca-4f95-b5aa-44b95f77ea37"
+    }
+  ],
+  "flows": [
+    {
+      "label": null,
+      "name": "stack",
+      "blocks": [
+        {
+          "label": null,
+          "name": "validate_age_case",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "fc9581ec-3a50-5540-a17f-0a4bff804b17",
+          "ui_metadata": {},
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for validate_age_case_condition_0",
+              "config": {},
+              "test": "or(not(isnumber(age)), age > 150)",
+              "uuid": "78ad14b7-e415-4c29-b5a7-405f4c4e439e",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "11b114ee-17ba-5b51-bc6f-30049b89e4e0"
+            },
+            {
+              "default": true,
+              "name": "Exit for validate_age_case_condition_1",
+              "config": {},
+              "test": null,
+              "uuid": "c7e2ab0f-8735-4f83-b2e1-7fa21b643d67",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "bdd6d5bc-832b-5cb7-b974-b31da7905e0c"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {}
+        },
+        {
+          "label": null,
+          "name": "validate_age_case_condition_1_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "0872c5a3-94d0-4ec2-a7bc-e2bb897aab9d"
           },
-          {
-            "value": "Select option",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
+          "tags": [],
+          "uuid": "bdd6d5bc-832b-5cb7-b974-b31da7905e0c",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"QuestionResponse\"",
+              "config": {},
+              "test": "",
+              "uuid": "11fd79f6-d7b3-42a4-8e66-a01de0d7e920",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "1eeac99b-f7c5-5d88-8069-b3a1de594f25"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 72
+                      },
+                      "name": "ValidateAge",
+                      "uuid": "aa24f5cb-72b4-54e3-b04c-67b74abdb628"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 73
+                      },
+                      "type": "log"
+                    },
+                    "index": 1
+                  }
+                }
+              }
+            }
           }
-        ],
-        "uuid": "724178ab-d4aa-4085-823a-5c6a0e82a1e0"
-      },
-      {
-        "values": [
-          {
-            "value": "Assessment risk: low",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
+        },
+        {
+          "label": null,
+          "name": "validate_age_case_condition_0_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "2b4a9672-23da-4ea9-ae96-c46a5efe7978"
+          },
+          "tags": [],
+          "uuid": "11b114ee-17ba-5b51-bc6f-30049b89e4e0",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"QuestionError\"",
+              "config": {},
+              "test": "",
+              "uuid": "5bda1729-942f-4b1e-90ed-7db3d853f5a6",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "7193ccfc-0012-5e0c-a10c-ee29e3d111ac"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "not isnumber(age) or age > 150",
+                      "meta": {
+                        "column": 1,
+                        "line": 68
+                      },
+                      "name": "ValidateAge",
+                      "uuid": "fc9581ec-3a50-5540-a17f-0a4bff804b17"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 69
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
           }
-        ],
-        "uuid": "67dc043f-5587-4d66-b458-87043848ac9e"
-      },
-      {
-        "values": [
-          {
-            "value": "Assessment risk: medium",
-            "modes": [
-              "RICH_MESSAGING"
+        },
+        {
+          "label": null,
+          "name": "response",
+          "type": "Io.Turn.Webhook",
+          "config": {
+            "timeout": 5000,
+            "mode": "sync",
+            "body": null,
+            "query": [
+              [
+                "whatsapp",
+                "true"
+              ]
             ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "6c7a6afe-3179-4a07-be54-3d3bd38aede7"
-      },
-      {
-        "values": [
-          {
-            "value": "Assessment risk: high",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "6538baee-cc1c-4712-83c5-0c762992e232"
-      },
-      {
-        "values": [
-          {
-            "value": "End of assessment, score: @score",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "cbfdb8aa-367f-4f6e-9d84-c7a46244f77a"
-      },
-      {
-        "values": [
-          {
-            "value": "Fetching assessment @config.items.assessment_slug",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "d1afd652-bd2a-4231-b016-9d4b48823773"
-      },
-      {
-        "values": [
-          {
-            "value": "Starting assessment @config.items.assessment_slug",
-            "modes": [
-              "RICH_MESSAGING"
-            ],
-            "mime_type": "text/plain",
-            "content_type": "TEXT",
-            "language_id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe"
-          }
-        ],
-        "uuid": "268fb42c-bee6-4df3-bc1b-08dc35669a58"
-      }
-    ],
-    "flows": [
-      {
-        "label": null,
-        "name": "stack",
-        "blocks": [
-          {
-            "label": null,
-            "name": "response",
-            "type": "Io.Turn.Webhook",
-            "config": {
-              "timeout": 5000,
-              "mode": "sync",
-              "body": null,
-              "query": [
-                [
-                  "whatsapp",
-                  "true"
-                ]
+            "url": "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@page_id/",
+            "headers": [
+              [
+                "content-type",
+                "application/json"
               ],
-              "url": "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@page_id/",
-              "headers": [
-                [
-                  "content-type",
-                  "application/json"
-                ],
-                [
-                  "authorization",
-                  "Token @config.items.api_token"
-                ]
-              ],
-              "method": "GET",
-              "cache_ttl": 60000
-            },
-            "tags": [],
-            "uuid": "4d20a639-0c2a-587b-b6db-8738acf4b52a",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "response",
-                "config": {},
-                "test": "",
-                "uuid": "9fbb7321-cfe2-4340-8b52-a0afcbb7dec6",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "afac5e25-1143-5121-a4cb-75ce1592252b"
-              }
+              [
+                "authorization",
+                "Token @config.items.api_token"
+              ]
             ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 100
-                        },
-                        "name": "DisplayEndPage",
-                        "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 101
-                        },
-                        "type": "webhook",
-                        "webhook": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
+            "method": "GET",
+            "cache_ttl": 60000
+          },
+          "tags": [],
+          "uuid": "4d028500-5f30-5e7f-ad64-c581b9c57cfd",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
             }
           },
-          {
-            "label": null,
-            "name": "message_body",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "afac5e25-1143-5121-a4cb-75ce1592252b",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "response.body.body.text.value.message",
-                "config": {},
-                "test": "",
-                "uuid": "3baa9f8f-fb8a-4113-9b88-d2b91d6449ef",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "36a15b0b-3052-56c3-990c-5fb2b37a5f1c"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 100
-                        },
-                        "name": "DisplayEndPage",
-                        "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 114
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
+          "exits": [
+            {
+              "default": true,
+              "name": "response",
+              "config": {},
+              "test": "",
+              "uuid": "0b388e8c-536e-494e-97df-d924d71e9062",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "ba85e291-3c3e-59ba-8221-0eb399f6a65e"
             }
-          },
-          {
-            "label": null,
-            "name": "display_end_page_text",
-            "type": "MobilePrimitives.Message",
-            "config": {
-              "prompt": "57f2e3cd-b055-447e-b922-60429996c610"
-            },
-            "tags": [],
-            "uuid": "36a15b0b-3052-56c3-990c-5fb2b37a5f1c",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "display_end_page_text",
-                "config": {},
-                "test": "",
-                "uuid": "e76d567e-8fbe-4a62-960f-ee448c0899e5",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": null
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 100
-                        },
-                        "name": "DisplayEndPage",
-                        "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 115
-                        },
-                        "text": {},
-                        "type": "text"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "answer",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "70b9284d-ec33-5696-899a-36e6d2cdde12",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "find(question.answers, &(&1.answer == question_response))",
-                "config": {},
-                "test": "",
-                "uuid": "95908499-a5d2-474b-acba-e6bcf6a211db",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "ed5932ca-10d7-5b0b-9dd6-7ac7022deaf0"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 67
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_num",
-            "type": "Core.Output",
-            "config": {
-              "value": "question_num"
-            },
-            "tags": [],
-            "uuid": "ed5932ca-10d7-5b0b-9dd6-7ac7022deaf0",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "question_num",
-                "config": {},
-                "test": "",
-                "uuid": "772bd242-500b-40fd-b2e5-35f06cc0f215",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "8fa294b2-5f1f-58e8-a8e0-9472fc1ad595"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 68
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "answer",
-            "type": "Core.Output",
-            "config": {
-              "value": "answer.answer"
-            },
-            "tags": [],
-            "uuid": "8fa294b2-5f1f-58e8-a8e0-9472fc1ad595",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "answer",
-                "config": {},
-                "test": "",
-                "uuid": "5e35ca6c-e7b1-420e-bbef-9475d3332833",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "e84ea94c-a99e-5c1b-9128-fbbda297b19f"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 69
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_response_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "ba6b4056-b03c-4946-96c1-faf6a6ae9bf5"
-            },
-            "tags": [],
-            "uuid": "e84ea94c-a99e-5c1b-9128-fbbda297b19f",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "question_response_log",
-                "config": {},
-                "test": "",
-                "uuid": "97701096-6b56-45ad-9af2-23123b534930",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "cb7601f3-9783-59e9-af63-1ed42650340a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 70
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "score",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "cb7601f3-9783-59e9-af63-1ed42650340a",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "score + answer.score",
-                "config": {},
-                "test": "",
-                "uuid": "f491b07f-1df1-4f83-9410-da45090448ed",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "115541cf-977e-545c-aca9-4f92b3e4ef51"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 72
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_num",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "115541cf-977e-545c-aca9-4f92b3e4ef51",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "question_num + 1",
-                "config": {},
-                "test": "",
-                "uuid": "9ee8c203-b7df-4b64-8758-7a7cd1841289",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "cebd16e3-4d94-572c-bcd1-6def9e904347"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 66
-                        },
-                        "name": "QuestionResponse",
-                        "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 73
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "error",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "e91b6870-e0fc-540e-98e7-ee6a8687d9a8",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)",
-                "config": {},
-                "test": "",
-                "uuid": "84598c7e-ecc0-4143-918d-9e29247cf631",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "8cd6bcf5-cd71-5038-9702-b5d1785fed40"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 60
-                        },
-                        "name": "QuestionError",
-                        "uuid": "d271ffe7-5cc6-591e-ae80-4b1b649defd9"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 62
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_error_text",
-            "type": "MobilePrimitives.Message",
-            "config": {
-              "prompt": "59c66fb5-7dd2-4ed0-b91b-3cf1356bc697"
-            },
-            "tags": [],
-            "uuid": "8cd6bcf5-cd71-5038-9702-b5d1785fed40",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "Default exit to \"DisplayQuestion\"",
-                "config": {},
-                "test": "",
-                "uuid": "089baec1-ceda-46bf-9eeb-60c1370269fb",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "7ae8a003-3532-5525-a5ff-141121af718c"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 60
-                        },
-                        "name": "QuestionError",
-                        "uuid": "d271ffe7-5cc6-591e-ae80-4b1b649defd9"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 63
-                        },
-                        "text": {},
-                        "type": "text"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "display_question_case",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "7ae8a003-3532-5525-a5ff-141121af718c",
-            "ui_metadata": {},
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for display_question_case_condition_0",
-                "config": {},
-                "test": "count(questions[question_num].answers) > 3",
-                "uuid": "9a8695ab-4cea-4d4e-873f-61df7946051b",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "002fc7de-ea1c-5f1e-b630-eb9e9b8e32af"
-              },
-              {
-                "default": true,
-                "name": "Exit for display_question_case_condition_1",
-                "config": {},
-                "test": null,
-                "uuid": "1d65f0d0-3afe-4867-a66c-77bd78578aac",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "eac53d96-d619-5324-9781-69c4f0b2ab27"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {}
-          },
-          {
-            "label": null,
-            "name": "question",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "eac53d96-d619-5324-9781-69c4f0b2ab27",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "questions[question_num]",
-                "config": {},
-                "test": "",
-                "uuid": "a3a8824e-1abb-4550-a903-aad2624c3a2f",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "0d8110e3-e394-588b-b62a-6aeb1bacab62"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 50
-                        },
-                        "name": "DisplayQuestion",
-                        "uuid": "defb5bca-57e7-58f3-9fa0-b0a30c9e2275"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 52
-                        },
-                        "type": "expression"
-                      },
-                      "index": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_response",
-            "type": "Io.Turn.DynamicSelectOneResponse",
-            "config": {
-              "prompt": "e80b2196-e4d3-453b-967a-2f74de425242",
-              "destination_block": "70b9284d-ec33-5696-899a-36e6d2cdde12",
-              "choices": [],
-              "choice_expression": "map(question.answers, &[&1.answer, &1.answer])"
-            },
-            "tags": [],
-            "uuid": "0d8110e3-e394-588b-b62a-6aeb1bacab62",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "Default exit to \"QuestionError\"",
-                "config": {},
-                "test": "",
-                "uuid": "02920883-537d-4ec4-aba2-856d602f922f",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "e91b6870-e0fc-540e-98e7-ee6a8687d9a8"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 50
-                        },
-                        "name": "DisplayQuestion",
-                        "uuid": "defb5bca-57e7-58f3-9fa0-b0a30c9e2275"
-                      },
-                      "card_item": {
-                        "dynamic_button": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 54
-                        },
-                        "type": "dynamic_button"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "002fc7de-ea1c-5f1e-b630-eb9e9b8e32af",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "questions[question_num]",
-                "config": {},
-                "test": "",
-                "uuid": "1a246591-479d-4d88-b0cf-22cda0e41abd",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "82375d67-77f3-57d0-a914-614cdf9bfb12"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "count(questions[question_num].answers) > 3",
-                        "meta": {
-                          "column": 1,
-                          "line": 40
-                        },
-                        "name": "DisplayQuestion",
-                        "uuid": "7ae8a003-3532-5525-a5ff-141121af718c"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 42
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_response",
-            "type": "Io.Turn.DynamicSelectOneResponse",
-            "config": {
-              "prompt": "724178ab-d4aa-4085-823a-5c6a0e82a1e0",
-              "destination_block": "70b9284d-ec33-5696-899a-36e6d2cdde12",
-              "choices": [],
-              "choice_expression": "map(question.answers, &[&1.answer, &1.answer])"
-            },
-            "tags": [],
-            "uuid": "82375d67-77f3-57d0-a914-614cdf9bfb12",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "Default exit to \"QuestionError\"",
-                "config": {},
-                "test": "",
-                "uuid": "0d4af390-21a6-4239-8f0d-a0bea7cdb7b3",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "e91b6870-e0fc-540e-98e7-ee6a8687d9a8"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "count(questions[question_num].answers) > 3",
-                        "meta": {
-                          "column": 1,
-                          "line": 40
-                        },
-                        "name": "DisplayQuestion",
-                        "uuid": "7ae8a003-3532-5525-a5ff-141121af718c"
-                      },
-                      "card_item": {
-                        "dynamic_list": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 44
-                        },
-                        "type": "dynamic_list"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "end_case",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0",
-            "ui_metadata": {},
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for end_case_condition_0",
-                "config": {},
-                "test": "score >= assessment_data.high_inflection",
-                "uuid": "7d504da4-6260-4514-9d0a-fc47178f6f04",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "80981681-dfec-5699-b1c8-2032b404d40e"
-              },
-              {
-                "default": false,
-                "name": "Exit for end_case_condition_1",
-                "config": {},
-                "test": "score >= assessment_data.medium_inflection",
-                "uuid": "0d6397de-3e16-4425-a4d1-93af02fee28e",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "d939bb0f-7c4e-521d-9e72-0b8d0a1e56f8"
-              },
-              {
-                "default": true,
-                "name": "Exit for end_case_condition_2",
-                "config": {},
-                "test": null,
-                "uuid": "5764cd7a-ea1b-429c-862e-df752ab34ffa",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "ff5b59f2-6ce1-51fb-98dc-ed44931cf54e"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {}
-          },
-          {
-            "label": null,
-            "name": "assessment_risk",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"low\""
-            },
-            "tags": [],
-            "uuid": "ff5b59f2-6ce1-51fb-98dc-ed44931cf54e",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_risk",
-                "config": {},
-                "test": "",
-                "uuid": "c575f2ab-19ed-4268-b648-c9dbc25c7cb2",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "74d2b169-c529-5191-b400-7d2a022ee7a0"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 92
-                        },
-                        "name": "End",
-                        "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 93
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 2
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "end_case_condition_2_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "67dc043f-5587-4d66-b458-87043848ac9e"
-            },
-            "tags": [],
-            "uuid": "74d2b169-c529-5191-b400-7d2a022ee7a0",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "end_case_condition_2_log",
-                "config": {},
-                "test": "",
-                "uuid": "f3253f02-e229-4bcd-92c9-56a0cdbdd5c4",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "07bc8877-1237-517b-b2c3-fae47b37a9dc"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 92
-                        },
-                        "name": "End",
-                        "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 94
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "page_id",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "07bc8877-1237-517b-b2c3-fae47b37a9dc",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_data.low_result_page.id",
-                "config": {},
-                "test": "",
-                "uuid": "6e2cbe8e-465c-45b4-9d39-8e31b33362dc",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "d9cabc59-b4ec-5fe2-a3c6-3624809ac3a6"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 92
-                        },
-                        "name": "End",
-                        "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 95
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "Routing for end_case_condition_2",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "d9cabc59-b4ec-5fe2-a3c6-3624809ac3a6",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for DisplayEndPage",
-                "config": {},
-                "test": "true",
-                "uuid": "13af73ad-3224-4e16-9d1c-fbf216a553db",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "4d20a639-0c2a-587b-b6db-8738acf4b52a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 92
-                        },
-                        "name": "End",
-                        "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 97
-                        },
-                        "then": {},
-                        "type": "then"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_risk",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"medium\""
-            },
-            "tags": [],
-            "uuid": "d939bb0f-7c4e-521d-9e72-0b8d0a1e56f8",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_risk",
-                "config": {},
-                "test": "",
-                "uuid": "af7c46d8-b072-4acf-8090-41a76be22fa5",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "befdf755-77e0-5975-ac2f-e93e531c1659"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.medium_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 84
-                        },
-                        "name": "End",
-                        "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 85
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "end_case_condition_1_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "6c7a6afe-3179-4a07-be54-3d3bd38aede7"
-            },
-            "tags": [],
-            "uuid": "befdf755-77e0-5975-ac2f-e93e531c1659",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "end_case_condition_1_log",
-                "config": {},
-                "test": "",
-                "uuid": "bd8955d5-b5f8-49e1-868b-059c241a1183",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "36f8f244-75f1-553f-87bc-b89c3a3f24be"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.medium_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 84
-                        },
-                        "name": "End",
-                        "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 86
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "page_id",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "36f8f244-75f1-553f-87bc-b89c3a3f24be",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_data.medium_result_page.id",
-                "config": {},
-                "test": "",
-                "uuid": "0a5deec7-cddd-4b58-872d-ef0670ed729f",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "abcf1cd7-159e-5bb9-a2b1-82e0d0e1d220"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.medium_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 84
-                        },
-                        "name": "End",
-                        "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 87
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "Routing for end_case_condition_1",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "abcf1cd7-159e-5bb9-a2b1-82e0d0e1d220",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for DisplayEndPage",
-                "config": {},
-                "test": "true",
-                "uuid": "8095303f-6c10-41fa-8f88-f72eb2486481",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "4d20a639-0c2a-587b-b6db-8738acf4b52a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.medium_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 84
-                        },
-                        "name": "End",
-                        "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 89
-                        },
-                        "then": {},
-                        "type": "then"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_risk",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"high\""
-            },
-            "tags": [],
-            "uuid": "80981681-dfec-5699-b1c8-2032b404d40e",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_risk",
-                "config": {},
-                "test": "",
-                "uuid": "c3765cc2-989b-42df-af7f-7744ac7b38eb",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "aeebb402-3628-5a73-9fd1-1b217e2ae64b"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.high_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 76
-                        },
-                        "name": "End",
-                        "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 77
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "end_case_condition_0_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "6538baee-cc1c-4712-83c5-0c762992e232"
-            },
-            "tags": [],
-            "uuid": "aeebb402-3628-5a73-9fd1-1b217e2ae64b",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "end_case_condition_0_log",
-                "config": {},
-                "test": "",
-                "uuid": "82cb49e6-0a6e-4996-accd-dc865579633b",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "09d126cd-1b7d-5a88-89bf-b828e74de3ec"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.high_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 76
-                        },
-                        "name": "End",
-                        "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 78
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "page_id",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "09d126cd-1b7d-5a88-89bf-b828e74de3ec",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_data.high_result_page.id",
-                "config": {},
-                "test": "",
-                "uuid": "c7cfaf06-36bf-46a9-9c4d-d2d4450460a6",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "b9b5088e-376c-51fa-84c6-144c166836b1"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.high_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 76
-                        },
-                        "name": "End",
-                        "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 79
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "Routing for end_case_condition_0",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "b9b5088e-376c-51fa-84c6-144c166836b1",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for DisplayEndPage",
-                "config": {},
-                "test": "true",
-                "uuid": "63906a59-488e-40f8-85d5-8028aa46f309",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "4d20a639-0c2a-587b-b6db-8738acf4b52a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "score >= assessment_data.high_inflection",
-                        "meta": {
-                          "column": 1,
-                          "line": 76
-                        },
-                        "name": "End",
-                        "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 81
-                        },
-                        "then": {},
-                        "type": "then"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "check_end_case",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347",
-            "ui_metadata": {},
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for check_end_case_condition_0",
-                "config": {},
-                "test": "question_num == count(questions)",
-                "uuid": "1331fbdd-67ed-4559-9b34-5aaa275ec8d8",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "cecc9a2d-5595-5cbf-a93c-509a48a3d86b"
-              },
-              {
-                "default": true,
-                "name": "Exit for check_end_case_condition_1",
-                "config": {},
-                "test": null,
-                "uuid": "e3d31038-ea80-4fd6-996f-c3d59233a65c",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "214a74c0-678b-5157-9fed-fd184966035a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {}
-          },
-          {
-            "label": null,
-            "name": "Routing for check_end_case_condition_1",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "214a74c0-678b-5157-9fed-fd184966035a",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": false,
-                "name": "Exit for DisplayQuestion",
-                "config": {},
-                "test": "true",
-                "uuid": "a7e21332-812b-4faa-afc4-7f6ad8ad5016",
-                "semantic_label": null,
-                "vendor_metadata": {},
-                "destination_block": "7ae8a003-3532-5525-a5ff-141121af718c"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 36
-                        },
-                        "name": "CheckEnd",
-                        "uuid": "56017223-732a-571c-89a3-81b7fefe550d"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 37
-                        },
-                        "then": {},
-                        "type": "then"
-                      },
-                      "index": 1
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "check_end_case_condition_0_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "cbfdb8aa-367f-4f6e-9d84-c7a46244f77a"
-            },
-            "tags": [],
-            "uuid": "cecc9a2d-5595-5cbf-a93c-509a48a3d86b",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "check_end_case_condition_0_log",
-                "config": {},
-                "test": "",
-                "uuid": "39674b8e-b321-44d9-adc5-b981129d34bb",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "373475d1-7f73-5db4-be43-481760e2ce92"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "question_num == count(questions)",
-                        "meta": {
-                          "column": 1,
-                          "line": 27
-                        },
-                        "name": "CheckEnd",
-                        "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 31
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_end",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"@assessment_data.slug\""
-            },
-            "tags": [],
-            "uuid": "373475d1-7f73-5db4-be43-481760e2ce92",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_end",
-                "config": {},
-                "test": "",
-                "uuid": "9d4bf01b-b73d-4c18-a65b-c735f501b5f6",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "1cd04018-728c-5838-95fc-997677eabedb"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "question_num == count(questions)",
-                        "meta": {
-                          "column": 1,
-                          "line": 27
-                        },
-                        "name": "CheckEnd",
-                        "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 32
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_score",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"@score\""
-            },
-            "tags": [],
-            "uuid": "1cd04018-728c-5838-95fc-997677eabedb",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "Default exit to \"End\"",
-                "config": {},
-                "test": "",
-                "uuid": "8ec9dfaf-a8e7-402d-8138-499ebd0f9f3c",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": "question_num == count(questions)",
-                        "meta": {
-                          "column": 1,
-                          "line": 27
-                        },
-                        "name": "CheckEnd",
-                        "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 33
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "get_assessment_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "d1afd652-bd2a-4231-b016-9d4b48823773"
-            },
-            "tags": [],
-            "uuid": "53f47793-39d4-5241-9309-a82a22dde970",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "get_assessment_log",
-                "config": {},
-                "test": "",
-                "uuid": "fd42bb03-9ee9-437e-b403-816c658b76eb",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "aab449fd-3210-5616-892f-be733693a0dd"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 4
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "response",
-            "type": "Io.Turn.Webhook",
-            "config": {
-              "timeout": 5000,
-              "mode": "sync",
-              "body": null,
-              "query": [
-                [
-                  "slug",
-                  "@config.items.assessment_slug"
-                ]
-              ],
-              "url": "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/assessment/",
-              "headers": [
-                [
-                  "content-type",
-                  "application/json"
-                ],
-                [
-                  "authorization",
-                  "Token @config.items.api_token"
-                ]
-              ],
-              "method": "GET",
-              "cache_ttl": 60000
-            },
-            "tags": [],
-            "uuid": "aab449fd-3210-5616-892f-be733693a0dd",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "response",
-                "config": {},
-                "test": "",
-                "uuid": "0e1cecda-0f09-43f7-b96a-1576e3e3b64b",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "8a9dea5b-ee5e-5350-a7b5-a9b1a4a1cf9a"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 6
-                        },
-                        "type": "webhook",
-                        "webhook": {}
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_data",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "8a9dea5b-ee5e-5350-a7b5-a9b1a4a1cf9a",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "response.body.results[0]",
-                "config": {},
-                "test": "",
-                "uuid": "4758ca26-7668-422d-8623-b4adfa1b814e",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "eeaef0cf-3fb3-564e-8b04-c3a525512ff4"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 19
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "questions",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "eeaef0cf-3fb3-564e-8b04-c3a525512ff4",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "assessment_data[\"questions\"]",
-                "config": {},
-                "test": "",
-                "uuid": "a593582a-049e-4720-8169-29e485ed374d",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "656eab9f-735d-55fb-97ab-6ca361a4810c"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "expression": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 20
-                        },
-                        "type": "expression"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "question_num",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "656eab9f-735d-55fb-97ab-6ca361a4810c",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "0",
-                "config": {},
-                "test": "",
-                "uuid": "6c44aac3-3368-43a0-b4f3-9b070d8c82f0",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "ce0a99e7-7062-54ab-aa50-1446a589232e"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "literal": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 21
-                        },
-                        "type": "literal"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "score",
-            "type": "Core.Case",
-            "config": {},
-            "tags": [],
-            "uuid": "ce0a99e7-7062-54ab-aa50-1446a589232e",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "0",
-                "config": {},
-                "test": "",
-                "uuid": "90f1cbad-1e91-4063-8443-65dc53b99809",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "e4db9a69-5c3e-5f0b-93b5-cd4be3b33981"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "literal": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 22
-                        },
-                        "type": "literal"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "get_assessment_log",
-            "type": "Core.Log",
-            "config": {
-              "message": "268fb42c-bee6-4df3-bc1b-08dc35669a58"
-            },
-            "tags": [],
-            "uuid": "e4db9a69-5c3e-5f0b-93b5-cd4be3b33981",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "get_assessment_log",
-                "config": {},
-                "test": "",
-                "uuid": "8d98d94d-eb51-42d0-8a3a-f5f9afde47e7",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "632d2dfa-4931-5889-b0eb-c119213f203e"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "log": {},
-                        "meta": {
-                          "column": 3,
-                          "line": 23
-                        },
-                        "type": "log"
-                      },
-                      "index": 0
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "label": null,
-            "name": "assessment_start",
-            "type": "Core.Output",
-            "config": {
-              "value": "\"@config.items.assessment_slug\""
-            },
-            "tags": [],
-            "uuid": "632d2dfa-4931-5889-b0eb-c119213f203e",
-            "ui_metadata": {
-              "canvas_coordinates": {
-                "x": 0,
-                "y": 0
-              }
-            },
-            "exits": [
-              {
-                "default": true,
-                "name": "Default exit to \"CheckEnd\"",
-                "config": {},
-                "test": "",
-                "uuid": "9d8d95a0-efe2-46dd-bff8-238842f7e87b",
-                "semantic_label": "",
-                "vendor_metadata": {},
-                "destination_block": "cebd16e3-4d94-572c-bcd1-6def9e904347"
-              }
-            ],
-            "semantic_label": null,
-            "vendor_metadata": {
-              "io": {
-                "turn": {
-                  "stacks_dsl": {
-                    "0.1.0": {
-                      "card": {
-                        "condition": null,
-                        "meta": {
-                          "column": 1,
-                          "line": 3
-                        },
-                        "name": "GetAssessment",
-                        "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
-                      },
-                      "card_item": {
-                        "meta": {
-                          "column": 3,
-                          "line": 24
-                        },
-                        "type": "write_result",
-                        "write_result": {}
-                      },
-                      "index": 0
-                    }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 116
+                      },
+                      "name": "DisplayEndPage",
+                      "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 117
+                      },
+                      "type": "webhook",
+                      "webhook": {}
+                    },
+                    "index": 0
                   }
                 }
               }
             }
           }
-        ],
-        "last_modified": "2024-05-08T12:49:14.258092Z",
-        "uuid": "14e04521-f858-46f2-a4c6-5584b446baa1",
-        "languages": [
-          {
-            "id": "c572d00d-be7b-4c80-8a6f-30fcf4ba8bfe",
-            "label": "English",
-            "variant": null,
-            "iso_639_3": "eng",
-            "bcp_47": null
+        },
+        {
+          "label": null,
+          "name": "message_body",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "ba85e291-3c3e-59ba-8221-0eb399f6a65e",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "response.body.body.text.value.message",
+              "config": {},
+              "test": "",
+              "uuid": "bfdc40b6-c40d-41c2-861f-858d881b17ef",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "f6651a3a-610c-5643-9bb4-7407f9936d7f"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 116
+                      },
+                      "name": "DisplayEndPage",
+                      "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 130
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
           }
-        ],
-        "first_block_id": "53f47793-39d4-5241-9309-a82a22dde970",
-        "interaction_timeout": 300,
-        "vendor_metadata": {},
-        "supported_modes": [
-          "RICH_MESSAGING"
-        ],
-        "exit_block_id": ""
-      }
-    ],
-    "vendor_metadata": {},
-    "specification_version": "1.0.0-rc3"
-  }
+        },
+        {
+          "label": null,
+          "name": "display_end_page_text",
+          "type": "MobilePrimitives.Message",
+          "config": {
+            "prompt": "ce4609e5-6499-4e5a-86df-637f25c2384c"
+          },
+          "tags": [],
+          "uuid": "f6651a3a-610c-5643-9bb4-7407f9936d7f",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "display_end_page_text",
+              "config": {},
+              "test": "",
+              "uuid": "6c3ebf2f-7ed0-4d39-9c06-3e6d05df6eca",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": null
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 116
+                      },
+                      "name": "DisplayEndPage",
+                      "uuid": "e8288a8a-72ae-50b8-9ffe-80fdf0569447"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 131
+                      },
+                      "text": {},
+                      "type": "text"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "answer",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "1eeac99b-f7c5-5d88-8069-b3a1de594f25",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "find(question.answers, &(&1.answer == question_response))",
+              "config": {},
+              "test": "",
+              "uuid": "d09f98ec-51d1-4815-83dc-45d1a8bab422",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "ae7907a7-0de7-5a17-ac90-8d3a68bf9850"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 83
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_num",
+          "type": "Core.Output",
+          "config": {
+            "value": "question_num"
+          },
+          "tags": [],
+          "uuid": "ae7907a7-0de7-5a17-ac90-8d3a68bf9850",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "question_num",
+              "config": {},
+              "test": "",
+              "uuid": "534fe35c-e064-408f-a8fc-531025629e79",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "d939bb0f-7c4e-521d-9e72-0b8d0a1e56f8"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 84
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "answer",
+          "type": "Core.Output",
+          "config": {
+            "value": "answer.answer"
+          },
+          "tags": [],
+          "uuid": "d939bb0f-7c4e-521d-9e72-0b8d0a1e56f8",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "answer",
+              "config": {},
+              "test": "",
+              "uuid": "ead1f8dd-6406-46c3-ac9c-f3b38d6f5f62",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "befdf755-77e0-5975-ac2f-e93e531c1659"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 85
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_response_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "57aa60c8-b1f3-4513-936e-2bac996a0e87"
+          },
+          "tags": [],
+          "uuid": "befdf755-77e0-5975-ac2f-e93e531c1659",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "question_response_log",
+              "config": {},
+              "test": "",
+              "uuid": "120bca5d-a17c-4960-bac6-de294d4052ee",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "8e272c1e-8356-526f-bc36-7ef6537bb281"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 86
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "score",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "8e272c1e-8356-526f-bc36-7ef6537bb281",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "score + answer.score",
+              "config": {},
+              "test": "",
+              "uuid": "21f571e0-5e14-451b-9abd-b1bcd50b9e39",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "060d5242-469c-536e-9bd9-e32b1d28b698"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 88
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_num",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "060d5242-469c-536e-9bd9-e32b1d28b698",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "question_num + 1",
+              "config": {},
+              "test": "",
+              "uuid": "89053188-dcf6-4f53-8747-b21c5c234de6",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "cebd16e3-4d94-572c-bcd1-6def9e904347"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 82
+                      },
+                      "name": "QuestionResponse",
+                      "uuid": "84a273e4-f078-57ef-8980-2774eb9c1a9c"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 89
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "error",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "7193ccfc-0012-5e0c-a10c-ee29e3d111ac",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)",
+              "config": {},
+              "test": "",
+              "uuid": "a1b51579-7b07-4787-a287-9ad8c5be70a6",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "3441965b-c275-52d0-b2eb-849da0211f44"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 76
+                      },
+                      "name": "QuestionError",
+                      "uuid": "d271ffe7-5cc6-591e-ae80-4b1b649defd9"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 78
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_error_text",
+          "type": "MobilePrimitives.Message",
+          "config": {
+            "prompt": "7f6f5697-8b61-46c0-979c-0e0bd60da977"
+          },
+          "tags": [],
+          "uuid": "3441965b-c275-52d0-b2eb-849da0211f44",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"DisplayQuestion\"",
+              "config": {},
+              "test": "",
+              "uuid": "e8365c60-c853-461d-8e4e-702f684f0b1f",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "7ae8a003-3532-5525-a5ff-141121af718c"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 76
+                      },
+                      "name": "QuestionError",
+                      "uuid": "d271ffe7-5cc6-591e-ae80-4b1b649defd9"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 79
+                      },
+                      "text": {},
+                      "type": "text"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "display_question_case",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "7ae8a003-3532-5525-a5ff-141121af718c",
+          "ui_metadata": {},
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for display_question_case_condition_0",
+              "config": {},
+              "test": "count(questions[question_num].answers) > 3",
+              "uuid": "c96ec682-9518-41e1-adc4-e6876d7b2108",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "002fc7de-ea1c-5f1e-b630-eb9e9b8e32af"
+            },
+            {
+              "default": false,
+              "name": "Exit for display_question_case_condition_1",
+              "config": {},
+              "test": "questions[question_num].question_type == \"age_question\"",
+              "uuid": "d4536db3-99da-4174-8a00-3bc28a60c4e9",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "2bfb8da8-3095-5ae8-b6be-6f5d2f299066"
+            },
+            {
+              "default": true,
+              "name": "Exit for display_question_case_condition_2",
+              "config": {},
+              "test": null,
+              "uuid": "ec85977a-e338-4314-9cf8-f4b833d0e8a1",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "13155706-afee-5db5-b8d2-463198a95826"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {}
+        },
+        {
+          "label": null,
+          "name": "question",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "13155706-afee-5db5-b8d2-463198a95826",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "questions[question_num]",
+              "config": {},
+              "test": "",
+              "uuid": "6558bd9c-ee8c-4df3-80f4-55e9945bd144",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "351c0af7-ac88-5910-af29-89142282205e"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 58
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "defb5bca-57e7-58f3-9fa0-b0a30c9e2275"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 60
+                      },
+                      "type": "expression"
+                    },
+                    "index": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_response",
+          "type": "Io.Turn.DynamicSelectOneResponse",
+          "config": {
+            "prompt": "71c519c9-785c-4c8d-8cbd-3ca677ba9dc0",
+            "destination_block": "1eeac99b-f7c5-5d88-8069-b3a1de594f25",
+            "choices": [],
+            "choice_expression": "map(question.answers, &[&1.answer, &1.answer])"
+          },
+          "tags": [],
+          "uuid": "351c0af7-ac88-5910-af29-89142282205e",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"QuestionError\"",
+              "config": {},
+              "test": "",
+              "uuid": "836af7d8-9908-4071-93d8-ce8f5d11c181",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "7193ccfc-0012-5e0c-a10c-ee29e3d111ac"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 58
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "defb5bca-57e7-58f3-9fa0-b0a30c9e2275"
+                    },
+                    "card_item": {
+                      "dynamic_button": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 62
+                      },
+                      "type": "dynamic_button"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "2bfb8da8-3095-5ae8-b6be-6f5d2f299066",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "questions[question_num]",
+              "config": {},
+              "test": "",
+              "uuid": "a70c7c0c-dafb-4af6-96c7-e4be0be658d5",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "d721d59c-ded9-5f09-bdae-bb82b394cff5"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "questions[question_num].question_type == \"age_question\"",
+                      "meta": {
+                        "column": 1,
+                        "line": 50
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "36549b5c-32a0-5c4c-a3d7-4938c96762be"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 53
+                      },
+                      "type": "expression"
+                    },
+                    "index": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "age",
+          "type": "MobilePrimitives.OpenResponse",
+          "config": {
+            "prompt": "de45fec8-bcc2-4d7e-8c14-ac35a356c37b",
+            "max_response_characters": null
+          },
+          "tags": [],
+          "uuid": "d721d59c-ded9-5f09-bdae-bb82b394cff5",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"ValidateAge\"",
+              "config": {},
+              "test": "",
+              "uuid": "31df1577-e563-4b04-9c92-7a745a2410b2",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "fc9581ec-3a50-5540-a17f-0a4bff804b17"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "questions[question_num].question_type == \"age_question\"",
+                      "meta": {
+                        "column": 1,
+                        "line": 50
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "36549b5c-32a0-5c4c-a3d7-4938c96762be"
+                    },
+                    "card_item": {
+                      "ask": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 55
+                      },
+                      "type": "ask"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "002fc7de-ea1c-5f1e-b630-eb9e9b8e32af",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "questions[question_num]",
+              "config": {},
+              "test": "",
+              "uuid": "d54e9dd5-7edb-4af0-9da3-10dfac7353e0",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "82375d67-77f3-57d0-a914-614cdf9bfb12"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "count(questions[question_num].answers) > 3",
+                      "meta": {
+                        "column": 1,
+                        "line": 40
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "7ae8a003-3532-5525-a5ff-141121af718c"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 42
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_response",
+          "type": "Io.Turn.DynamicSelectOneResponse",
+          "config": {
+            "prompt": "539ae5bf-58dc-4485-9747-6895737f7aca",
+            "destination_block": "1eeac99b-f7c5-5d88-8069-b3a1de594f25",
+            "choices": [],
+            "choice_expression": "map(question.answers, &[&1.answer, &1.answer])"
+          },
+          "tags": [],
+          "uuid": "82375d67-77f3-57d0-a914-614cdf9bfb12",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"QuestionError\"",
+              "config": {},
+              "test": "",
+              "uuid": "ae951cc2-42a6-48e4-a038-fcb6d72a9bdd",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "7193ccfc-0012-5e0c-a10c-ee29e3d111ac"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "count(questions[question_num].answers) > 3",
+                      "meta": {
+                        "column": 1,
+                        "line": 40
+                      },
+                      "name": "DisplayQuestion",
+                      "uuid": "7ae8a003-3532-5525-a5ff-141121af718c"
+                    },
+                    "card_item": {
+                      "dynamic_list": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 44
+                      },
+                      "type": "dynamic_list"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "end_case",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0",
+          "ui_metadata": {},
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for end_case_condition_0",
+              "config": {},
+              "test": "score >= assessment_data.high_inflection",
+              "uuid": "df5df6eb-0620-4c90-b268-3e1422d6fe48",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "ff5b59f2-6ce1-51fb-98dc-ed44931cf54e"
+            },
+            {
+              "default": false,
+              "name": "Exit for end_case_condition_1",
+              "config": {},
+              "test": "score >= assessment_data.medium_inflection",
+              "uuid": "a950b6a3-1a5f-4458-b7cd-e0d48967ff92",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "472a6a5a-bad0-59a8-95c2-230b05a18044"
+            },
+            {
+              "default": true,
+              "name": "Exit for end_case_condition_2",
+              "config": {},
+              "test": null,
+              "uuid": "5352245a-4265-4cf3-a3b0-519ab3c995e5",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "59b1a7b2-4cf1-5c51-8047-465d14065954"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {}
+        },
+        {
+          "label": null,
+          "name": "assessment_risk",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"low\""
+          },
+          "tags": [],
+          "uuid": "59b1a7b2-4cf1-5c51-8047-465d14065954",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_risk",
+              "config": {},
+              "test": "",
+              "uuid": "73698634-b939-4ee2-bdeb-cc8bad2c6098",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "e77236ea-eafa-5dad-bee6-88c578e560f5"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 108
+                      },
+                      "name": "End",
+                      "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 109
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "end_case_condition_2_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "1df9d2e6-f989-4a74-b36a-745895cd24e8"
+          },
+          "tags": [],
+          "uuid": "e77236ea-eafa-5dad-bee6-88c578e560f5",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "end_case_condition_2_log",
+              "config": {},
+              "test": "",
+              "uuid": "b3a6f9a2-d40d-4b2c-8a79-c7d2e663ec6a",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "048dc483-6718-58c2-80cd-f3b8dad18b28"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 108
+                      },
+                      "name": "End",
+                      "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 110
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "page_id",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "048dc483-6718-58c2-80cd-f3b8dad18b28",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_data.low_result_page.id",
+              "config": {},
+              "test": "",
+              "uuid": "c074ebce-e996-4d17-bf7a-026fa089a5f2",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "efc5dc99-c80d-55c1-a49b-053506d11e83"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 108
+                      },
+                      "name": "End",
+                      "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 111
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "Routing for end_case_condition_2",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "efc5dc99-c80d-55c1-a49b-053506d11e83",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for DisplayEndPage",
+              "config": {},
+              "test": "true",
+              "uuid": "af568393-9f2f-4665-85b6-3a03f9d66e15",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "4d028500-5f30-5e7f-ad64-c581b9c57cfd"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 108
+                      },
+                      "name": "End",
+                      "uuid": "135d85be-cce5-5d0c-af9e-fc591fdbaeca"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 113
+                      },
+                      "then": {},
+                      "type": "then"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_risk",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"medium\""
+          },
+          "tags": [],
+          "uuid": "472a6a5a-bad0-59a8-95c2-230b05a18044",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_risk",
+              "config": {},
+              "test": "",
+              "uuid": "5363657a-5b9d-4ec8-992f-b7cf602eb963",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "1e3b0fc3-1840-5799-98c4-61abe028fd5b"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.medium_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 100
+                      },
+                      "name": "End",
+                      "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 101
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "end_case_condition_1_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "ac08a779-e1fa-4b4a-bc3a-67fe905b78ba"
+          },
+          "tags": [],
+          "uuid": "1e3b0fc3-1840-5799-98c4-61abe028fd5b",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "end_case_condition_1_log",
+              "config": {},
+              "test": "",
+              "uuid": "d53e1ebc-2169-40c3-b04c-f7d3f7181e3d",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "eadede73-f7b7-5892-b525-2564a2cc7a89"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.medium_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 100
+                      },
+                      "name": "End",
+                      "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 102
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "page_id",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "eadede73-f7b7-5892-b525-2564a2cc7a89",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_data.medium_result_page.id",
+              "config": {},
+              "test": "",
+              "uuid": "ed5138a6-c8fe-4d9d-b1de-c276ed66d2aa",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "ea0c6ee3-009b-5064-bf3d-55d6b1339207"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.medium_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 100
+                      },
+                      "name": "End",
+                      "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 103
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "Routing for end_case_condition_1",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "ea0c6ee3-009b-5064-bf3d-55d6b1339207",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for DisplayEndPage",
+              "config": {},
+              "test": "true",
+              "uuid": "b6910bc1-aeea-4b58-a770-28e518fc9145",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "4d028500-5f30-5e7f-ad64-c581b9c57cfd"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.medium_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 100
+                      },
+                      "name": "End",
+                      "uuid": "c6b2ec16-b9eb-5547-9101-690042a9b3a9"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 105
+                      },
+                      "then": {},
+                      "type": "then"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_risk",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"high\""
+          },
+          "tags": [],
+          "uuid": "ff5b59f2-6ce1-51fb-98dc-ed44931cf54e",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_risk",
+              "config": {},
+              "test": "",
+              "uuid": "90fcc0e8-78aa-4b7b-8512-ba72d6b7addd",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "74d2b169-c529-5191-b400-7d2a022ee7a0"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.high_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 92
+                      },
+                      "name": "End",
+                      "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 93
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "end_case_condition_0_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "e09b4c11-9fbe-4a80-aced-b84f3c9a0d49"
+          },
+          "tags": [],
+          "uuid": "74d2b169-c529-5191-b400-7d2a022ee7a0",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "end_case_condition_0_log",
+              "config": {},
+              "test": "",
+              "uuid": "90750abf-233b-4433-8c53-cf675aa5a9ef",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "07bc8877-1237-517b-b2c3-fae47b37a9dc"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.high_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 92
+                      },
+                      "name": "End",
+                      "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 94
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "page_id",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "07bc8877-1237-517b-b2c3-fae47b37a9dc",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_data.high_result_page.id",
+              "config": {},
+              "test": "",
+              "uuid": "25b00226-8e93-44af-8ab6-83af5695fd69",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "d9cabc59-b4ec-5fe2-a3c6-3624809ac3a6"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.high_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 92
+                      },
+                      "name": "End",
+                      "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 95
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "Routing for end_case_condition_0",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "d9cabc59-b4ec-5fe2-a3c6-3624809ac3a6",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for DisplayEndPage",
+              "config": {},
+              "test": "true",
+              "uuid": "f51247e1-6b3b-45d3-a3c6-32f5ff55b5f4",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "4d028500-5f30-5e7f-ad64-c581b9c57cfd"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "score >= assessment_data.high_inflection",
+                      "meta": {
+                        "column": 1,
+                        "line": 92
+                      },
+                      "name": "End",
+                      "uuid": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 97
+                      },
+                      "then": {},
+                      "type": "then"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "check_end_case",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347",
+          "ui_metadata": {},
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for check_end_case_condition_0",
+              "config": {},
+              "test": "question_num == count(questions)",
+              "uuid": "bed6b0e5-d47b-436f-a483-dc74ecb5771f",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "cecc9a2d-5595-5cbf-a93c-509a48a3d86b"
+            },
+            {
+              "default": true,
+              "name": "Exit for check_end_case_condition_1",
+              "config": {},
+              "test": null,
+              "uuid": "36fa4e94-e1ec-4cee-a744-69f852cb3c10",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "214a74c0-678b-5157-9fed-fd184966035a"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {}
+        },
+        {
+          "label": null,
+          "name": "Routing for check_end_case_condition_1",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "214a74c0-678b-5157-9fed-fd184966035a",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": false,
+              "name": "Exit for DisplayQuestion",
+              "config": {},
+              "test": "true",
+              "uuid": "97a8c716-064b-45c0-af17-c9cfda3da679",
+              "semantic_label": null,
+              "vendor_metadata": {},
+              "destination_block": "7ae8a003-3532-5525-a5ff-141121af718c"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 36
+                      },
+                      "name": "CheckEnd",
+                      "uuid": "56017223-732a-571c-89a3-81b7fefe550d"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 37
+                      },
+                      "then": {},
+                      "type": "then"
+                    },
+                    "index": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "check_end_case_condition_0_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "f3233ad8-37f2-4301-8019-cfebe1916d58"
+          },
+          "tags": [],
+          "uuid": "cecc9a2d-5595-5cbf-a93c-509a48a3d86b",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "check_end_case_condition_0_log",
+              "config": {},
+              "test": "",
+              "uuid": "8be0c981-e81e-4efc-85f0-cfa595de94bb",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "373475d1-7f73-5db4-be43-481760e2ce92"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "question_num == count(questions)",
+                      "meta": {
+                        "column": 1,
+                        "line": 27
+                      },
+                      "name": "CheckEnd",
+                      "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 31
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_end",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"@assessment_data.slug\""
+          },
+          "tags": [],
+          "uuid": "373475d1-7f73-5db4-be43-481760e2ce92",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_end",
+              "config": {},
+              "test": "",
+              "uuid": "aa1c7716-cb28-488a-9d15-ed7f940ae0cb",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "1cd04018-728c-5838-95fc-997677eabedb"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "question_num == count(questions)",
+                      "meta": {
+                        "column": 1,
+                        "line": 27
+                      },
+                      "name": "CheckEnd",
+                      "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 32
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_score",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"@score\""
+          },
+          "tags": [],
+          "uuid": "1cd04018-728c-5838-95fc-997677eabedb",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"End\"",
+              "config": {},
+              "test": "",
+              "uuid": "3d6fba13-2511-4116-80c1-964347f24f4b",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "324b6c44-3ddc-53d2-a170-bc5de0f692a0"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": "question_num == count(questions)",
+                      "meta": {
+                        "column": 1,
+                        "line": 27
+                      },
+                      "name": "CheckEnd",
+                      "uuid": "cebd16e3-4d94-572c-bcd1-6def9e904347"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 33
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "get_assessment_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "3c3a9013-0f72-4417-ad85-ac1d1089fe72"
+          },
+          "tags": [],
+          "uuid": "53f47793-39d4-5241-9309-a82a22dde970",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "get_assessment_log",
+              "config": {},
+              "test": "",
+              "uuid": "63ded619-298b-4deb-8609-d274ca39b96f",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "aab449fd-3210-5616-892f-be733693a0dd"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 4
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "response",
+          "type": "Io.Turn.Webhook",
+          "config": {
+            "timeout": 5000,
+            "mode": "sync",
+            "body": null,
+            "query": [
+              [
+                "tag",
+                "@config.items.assessment_tag"
+              ]
+            ],
+            "url": "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/assessment/",
+            "headers": [
+              [
+                "content-type",
+                "application/json"
+              ],
+              [
+                "authorization",
+                "Token @config.items.api_token"
+              ]
+            ],
+            "method": "GET",
+            "cache_ttl": 60000
+          },
+          "tags": [],
+          "uuid": "aab449fd-3210-5616-892f-be733693a0dd",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "response",
+              "config": {},
+              "test": "",
+              "uuid": "fedc2797-a9e0-4c6d-a3ae-85901cc48d8c",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "8a9dea5b-ee5e-5350-a7b5-a9b1a4a1cf9a"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 6
+                      },
+                      "type": "webhook",
+                      "webhook": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_data",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "8a9dea5b-ee5e-5350-a7b5-a9b1a4a1cf9a",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "response.body.results[0]",
+              "config": {},
+              "test": "",
+              "uuid": "9080da86-e039-402c-96c5-4a71d46f594e",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "eeaef0cf-3fb3-564e-8b04-c3a525512ff4"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 19
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "questions",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "eeaef0cf-3fb3-564e-8b04-c3a525512ff4",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "assessment_data[\"questions\"]",
+              "config": {},
+              "test": "",
+              "uuid": "414e35f6-d785-4749-8634-88a93e3a3819",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "656eab9f-735d-55fb-97ab-6ca361a4810c"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "expression": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 20
+                      },
+                      "type": "expression"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "question_num",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "656eab9f-735d-55fb-97ab-6ca361a4810c",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "0",
+              "config": {},
+              "test": "",
+              "uuid": "12b2444e-06b5-438d-aade-4dd3ee6f9304",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "ce0a99e7-7062-54ab-aa50-1446a589232e"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "literal": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 21
+                      },
+                      "type": "literal"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "score",
+          "type": "Core.Case",
+          "config": {},
+          "tags": [],
+          "uuid": "ce0a99e7-7062-54ab-aa50-1446a589232e",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "0",
+              "config": {},
+              "test": "",
+              "uuid": "a60397e7-1cd9-4e93-9d48-fe09b726ceb1",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "e4db9a69-5c3e-5f0b-93b5-cd4be3b33981"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "literal": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 22
+                      },
+                      "type": "literal"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "get_assessment_log",
+          "type": "Core.Log",
+          "config": {
+            "message": "bfe4451d-12ca-4f95-b5aa-44b95f77ea37"
+          },
+          "tags": [],
+          "uuid": "e4db9a69-5c3e-5f0b-93b5-cd4be3b33981",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "get_assessment_log",
+              "config": {},
+              "test": "",
+              "uuid": "1ac6983c-2789-448c-be66-fc01cb65ea73",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "632d2dfa-4931-5889-b0eb-c119213f203e"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "log": {},
+                      "meta": {
+                        "column": 3,
+                        "line": 23
+                      },
+                      "type": "log"
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "label": null,
+          "name": "assessment_start",
+          "type": "Core.Output",
+          "config": {
+            "value": "\"@config.items.assessment_slug\""
+          },
+          "tags": [],
+          "uuid": "632d2dfa-4931-5889-b0eb-c119213f203e",
+          "ui_metadata": {
+            "canvas_coordinates": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "exits": [
+            {
+              "default": true,
+              "name": "Default exit to \"CheckEnd\"",
+              "config": {},
+              "test": "",
+              "uuid": "db68648b-5056-4491-933e-3d67131a4566",
+              "semantic_label": "",
+              "vendor_metadata": {},
+              "destination_block": "cebd16e3-4d94-572c-bcd1-6def9e904347"
+            }
+          ],
+          "semantic_label": null,
+          "vendor_metadata": {
+            "io": {
+              "turn": {
+                "stacks_dsl": {
+                  "0.1.0": {
+                    "card": {
+                      "condition": null,
+                      "meta": {
+                        "column": 1,
+                        "line": 3
+                      },
+                      "name": "GetAssessment",
+                      "uuid": "bd0d63f3-c347-579a-bbb1-71431ecacfcb"
+                    },
+                    "card_item": {
+                      "meta": {
+                        "column": 3,
+                        "line": 24
+                      },
+                      "type": "write_result",
+                      "write_result": {}
+                    },
+                    "index": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "last_modified": "2024-06-05T13:31:57.159089Z",
+      "uuid": "c54ddfd9-9d51-4837-90af-123e235cc02a",
+      "languages": [
+        {
+          "id": "caa58408-64ae-458b-8b6f-e3b8e258b3db",
+          "label": "English",
+          "variant": null,
+          "iso_639_3": "eng",
+          "bcp_47": null
+        }
+      ],
+      "first_block_id": "53f47793-39d4-5241-9309-a82a22dde970",
+      "interaction_timeout": 300,
+      "vendor_metadata": {},
+      "supported_modes": [
+        "RICH_MESSAGING"
+      ],
+      "exit_block_id": ""
+    }
+  ],
+  "vendor_metadata": {},
+  "specification_version": "1.0.0-rc3"
+}

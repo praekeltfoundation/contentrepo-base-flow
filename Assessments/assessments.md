@@ -38,10 +38,10 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key             | Value                                    |
-| --------------- | ---------------------------------------- |
-| api_token       | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
-| assessment_slug | depression                               |
+| Key            | Value                                    |
+| -------------- | ---------------------------------------- |
+| api_token      | 22bbdd2a426526b55df8b3ed77eaa3523acfc6e7 |
+| assessment_tag | loc_assessment                           |
 
 <!-- { section: "c8467498-ead8-42c0-a1a8-e37d85ac349a", x: 0, y: 0} -->
 
@@ -54,7 +54,7 @@ card GetAssessment, then: CheckEnd do
       timeout: 5_000,
       cache_ttl: 60_000,
       query: [
-        ["slug", "@config.items.assessment_slug"]
+        ["tag", "@config.items.assessment_tag"]
       ],
       headers: [
         ["content-type", "application/json"],
@@ -96,6 +96,14 @@ card DisplayQuestion when count(questions[question_num].answers) > 3, then: Ques
     end
 end
 
+card DisplayQuestion when questions[question_num].question_type == "age_question",
+  then: ValidateAge do
+  # Display the Age Question type
+  question = questions[question_num]
+
+  age = ask("@question.question")
+end
+
 card DisplayQuestion, then: QuestionError do
   # For up to 3 options, use buttons
   question = questions[question_num]
@@ -104,6 +112,14 @@ card DisplayQuestion, then: QuestionError do
     buttons(QuestionResponse, map(question.answers, &[&1.answer, &1.answer])) do
       text("@question.question")
     end
+end
+
+card ValidateAge when not isnumber(age) or age > 150, then: QuestionError do
+  log("Validatation failed for age question")
+end
+
+card ValidateAge, then: QuestionResponse do
+  log("Validatation succeeded for age question")
 end
 
 card QuestionError, then: DisplayQuestion do
