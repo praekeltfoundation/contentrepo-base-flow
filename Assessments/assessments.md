@@ -25,10 +25,8 @@ This Journey does not write to any contact fields.
 
 This Journey does not link to any other Journeys
 
-<!-- { section: "aed77418-1b24-4954-ae4b-9585aba75c8b", x: 500, y: 48} -->
-
 ```stack
-trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "assessment")
+trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "forms")
 
 ```
 
@@ -38,12 +36,11 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key            | Value                                    |
-| -------------- | ---------------------------------------- |
-| api_token      | 22bbdd2a426526b55df8b3ed77eaa3523acfc6e7 |
-| assessment_tag | loc_assessment                           |
-
-<!-- { section: "c8467498-ead8-42c0-a1a8-e37d85ac349a", x: 0, y: 0} -->
+| Key             | Value                                    |
+| --------------- | ---------------------------------------- |
+| api_token       | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
+| assessment_slug | test-form                                |
+| assessment_tag  | test-form                                |
 
 ```stack
 card GetAssessment, then: CheckEnd do
@@ -66,6 +63,12 @@ card GetAssessment, then: CheckEnd do
   questions = assessment_data["questions"]
   question_num = 0
   score = 0
+
+  # A user can respond with a keyword such as "why" or "explain" to
+  # know the reason why asked a question. 
+  # We store a list of possible keyword iterations to handle typos
+  keywords = ["why", "wy", "wh", "explain", "expain", "eplain"]
+
   log("Starting assessment @config.items.assessment_slug")
   write_result("assessment_start", "@config.items.assessment_slug")
 end
@@ -105,7 +108,7 @@ card DisplayQuestion when questions[question_num].question_type == "age_question
 end
 
 card DisplayQuestion, then: QuestionError do
-  # For up to 3 options, use buttons
+  # For up to 3 options, use buttons 
   question = questions[question_num]
 
   question_response =
@@ -114,17 +117,46 @@ card DisplayQuestion, then: QuestionError do
     end
 end
 
-card ValidateAge when not isnumber(age) or age > 150, then: QuestionError do
+card ValidateAge when has_all_members(keywords, [@age]) == true,
+  then: AgeExplainer do
+end
+
+card ValidateAge when not isnumber(age) or age > 150,
+  then: QuestionError do
   log("Validatation failed for age question")
 end
 
 card ValidateAge, then: QuestionResponse do
-  log("Validatation succeeded for age question")
+  log("Validation suceeded for age question")
+end
+
+card AgeExplainer, then: DisplayQuestion do
+  explainer =
+    if(
+      is_nil_or_empty(question.explainer),
+      "*Explainer:* There's no explainer for this.",
+      question.explainer
+    )
+
+  text("@explainer")
+end
+
+card QuestionError when has_all_members(keywords, [@question_response]), then: DisplayQuestion do
+  explainer =
+    if(
+      is_nil_or_empty(question.explainer),
+      "*Explainer:* There's no explainer for this.",
+      concatenate("*Explainer:*", " ", question.explainer)
+    )
+
+  text("@explainer")
 end
 
 card QuestionError, then: DisplayQuestion do
-  # If we have an error for this question, then use that, otherwise use the assessment's generic error
+  # If we have an error for this question, then use that, otherwise use the generic one
   error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
+  log("Question number is @question_num")
+  log("You entered @question_response")
   text("@error")
 end
 
