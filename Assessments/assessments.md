@@ -36,11 +36,10 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key             | Value                                    |
-| --------------- | ---------------------------------------- |
-| api_token       | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
-| assessment_slug | test-form                                |
-| assessment_tag  | test-form                                |
+| Key             | Value     |
+| --------------- | --------- |
+| assessment_slug | test-form |
+| assessment_tag  | test-form |
 
 ```stack
 card GetAssessment, then: CheckEnd do
@@ -55,7 +54,7 @@ card GetAssessment, then: CheckEnd do
       ],
       headers: [
         ["content-type", "application/json"],
-        ["authorization", "Token @config.items.api_token"]
+        ["authorization", "Token @global.config.api_token"]
       ]
     )
 
