@@ -1,3 +1,10 @@
+<!-- { section: "2006d644-d5eb-4b63-9de1-bfc8d1eebc1f", x: 500, y: 48} -->
+
+```stack
+trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "tform")
+
+```
+
 # Assessments
 
 This Journey will fetch the assessment specified by the configured slug from ContentRepo, and run the user through the questions.
@@ -25,8 +32,10 @@ This Journey does not write to any contact fields.
 
 This Journey does not link to any other Journeys
 
+<!-- { section: "aed77418-1b24-4954-ae4b-9585aba75c8b", x: 500, y: 48} -->
+
 ```stack
-trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "forms")
+trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "assessment")
 
 ```
 
@@ -36,14 +45,15 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key             | Value     |
-| --------------- | --------- |
-| assessment_slug | test-form |
-| assessment_tag  | test-form |
+| Key            | Value     |
+| -------------- | --------- |
+| assessment_tag | test-form |
+
+<!-- { section: "c8467498-ead8-42c0-a1a8-e37d85ac349a", x: 0, y: 0} -->
 
 ```stack
 card GetAssessment, then: CheckEnd do
-  log("Fetching assessment @config.items.assessment_slug")
+  log("Fetching assessment @config.items.assessment_tag")
 
   response =
     get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/assessment/",
@@ -68,8 +78,9 @@ card GetAssessment, then: CheckEnd do
   # We store a list of possible keyword iterations to handle typos
   keywords = ["why", "wy", "wh", "explain", "expain", "eplain"]
 
-  log("Starting assessment @config.items.assessment_slug")
-  write_result("assessment_start", "@config.items.assessment_slug")
+  log("Starting assessment @config.items.assessment_tag")
+  write_result("assessment_start", "@config.items.assessment_tag")
+  write_result("locale", "@assessment_data.locale")
 end
 
 ```
@@ -80,7 +91,7 @@ card CheckEnd when question_num == count(questions), then: End do
   # have any more questions, before we can assume that there's a question that we can access the
   # attributes of, and we have to do this in a separate CheckEnd card before the DisplayQuestion card
   log("End of assessment, score: @score")
-  write_result("assessment_end", "@assessment_data.slug")
+  write_result("assessment_end", "@config.items.assessment_tag")
   write_result("assessment_score", "@score")
 end
 
@@ -107,7 +118,7 @@ card DisplayQuestion when questions[question_num].question_type == "age_question
 end
 
 card DisplayQuestion, then: QuestionError do
-  # For up to 3 options, use buttons 
+  # For up to 3 options, use buttons
   question = questions[question_num]
 
   question_response =
@@ -164,7 +175,7 @@ end
 ```stack
 card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
   write_result("question_num", question_num)
-  write_result("answer", age)
+  write_result("answer", age) # for freetext questions, save the answer
   log("Answered @age to question @question_num")
 
   question_num = question_num + 1
@@ -173,7 +184,7 @@ end
 card QuestionResponse, then: CheckEnd do
   answer = find(question.answers, &(&1.answer == question_response))
   write_result("question_num", question_num)
-  write_result("answer", answer.answer)
+  write_result("answer", answer.semantic_id) # for multiple choice questions, save the semantic_id
   log("Answered @answer.answer to question @question_num")
 
   score = score + answer.score
@@ -217,7 +228,7 @@ card DisplayEndPage do
       ],
       headers: [
         ["content-type", "application/json"],
-        ["authorization", "Token @config.items.api_token"]
+        ["authorization", "Token @global.config.api_token"]
       ]
     )
 
