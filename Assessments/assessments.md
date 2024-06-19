@@ -94,6 +94,18 @@ end
 
 ```
 
+## Display Question & Validation
+
+1. Check if the current question is the last question
+   1. If yes record the results
+      * `assessment_end`, the assessment tag
+      * `assessment_score`, the final score of the assessment
+2. Get the question from the API response
+3. Replace any variables in the question that need to be replaced
+4. Display the question
+5. Validate the answer and / or explain the reason for the question
+6. Repeat until we reach the last question
+
 ```stack
 card CheckEnd when question_num == count(questions), then: End do
   # Because all of the guards for a card get evaluated at the same time, we have to first check if we
@@ -137,51 +149,11 @@ card DisplayQuestion when questions[question_num].question_type == "age_question
   age = ask("@question_text")
 end
 
-card CheckEndMultiselect
-     when questions[question_num].question_type == "multiselect_question" and
-            answer_num == count(questions[question_num].answers),
-     then: CheckEnd do
-  question_num = question_num + 1
-  # write the answer results
-  write_result("question_num", question_num)
-  write_result("answer", multiselect_answer)
-  log("Answered @multiselect_answer to question @question_num")
-end
-
-card CheckEndMultiselect do
-  then(DisplayMultiselectAnswer)
-end
-
 card DisplayQuestion when questions[question_num].question_type == "multiselect_question",
   then: DisplayMultiselectAnswer do
   # Display the Multiselect Question type
   answer_num = 0
   multiselect_answer = ""
-end
-
-card DisplayMultiselectAnswer, then: QuestionError do
-  display_answer_num = answer_num + 1
-  num_answers = count(question.answers)
-  question_text = "@question_text"
-  answer = question.answers[answer_num]
-  answer_text = answer.answer
-  # Add in the Answer
-  # Add in the placeholder for x / y
-  question_text =
-    concatenate(
-      question_text,
-      "@unichar(10)",
-      "@unichar(10)",
-      "@answer_text",
-      "@unichar(10)",
-      "@unichar(10)",
-      "@display_answer_num / @num_answers"
-    )
-
-  question_response =
-    buttons(MultiselectResponseYes: "Yes", MultiselectResponseNo: "No") do
-      text("@question_text")
-    end
 end
 
 card DisplayQuestion, then: QuestionError do
@@ -238,7 +210,63 @@ end
 
 ```
 
+## Multiselect Question
+
+Multiselect gets a block on its own because it's essentially questions in a question. For multiselect, until we are able to use a checkbox-style input, we ask the question once for each answer that was configured, and ask the user to select `Yes`, or `No` for each answer.
+
+The basic idea for the multiselect question is very similar to how we display questions.
+
+1. Check if this is the last multiselect answer
+   1. If yes, record the results
+      * `question_num`, the question number
+      * `answer`, the final answer which will be a comma separated list of all the answers that were selected
+2. Get the next answer
+3. Concatenate the question and answer, along with a label indicating which answer the user is on
+4. Display the answer
+5. If they select yes save the answer in the `multiselect_answer` variable
+6. Repeat
+
 ```stack
+card CheckEndMultiselect
+     when questions[question_num].question_type == "multiselect_question" and
+            answer_num == count(questions[question_num].answers),
+     then: CheckEnd do
+  question_num = question_num + 1
+  # write the answer results
+  write_result("question_num", question_num)
+  write_result("answer", multiselect_answer)
+  log("Answered @multiselect_answer to question @question_num")
+end
+
+card CheckEndMultiselect do
+  then(DisplayMultiselectAnswer)
+end
+
+card DisplayMultiselectAnswer, then: QuestionError do
+  display_answer_num = answer_num + 1
+  num_answers = count(question.answers)
+  question_text = "@question_text"
+  answer = question.answers[answer_num]
+  answer_text = answer.answer
+  # Add in the Answer
+  # Add in the placeholder for x / y
+  question_text =
+    concatenate(
+      question_text,
+      "@unichar(10)",
+      "@unichar(10)",
+      "@answer_text",
+      "@unichar(10)",
+      "@unichar(10)",
+      "@display_answer_num / @num_answers"
+    )
+
+  question_response =
+    buttons(MultiselectResponseYes: "Yes", MultiselectResponseNo: "No") do
+      text("@question_text")
+    end
+end
+
 card MultiselectResponseYes,
   then: CheckEndMultiselect do
   answer = find(question.answers, &(&1.answer == answer_text))
@@ -260,6 +288,18 @@ end
 
 ```
 
+## Question Response
+
+Here we record the responses to each question.
+
+* For freetext questions we record the full answer.
+* For categorical or multiselect questions we record the semantic_id of the answer(s).
+
+We record the following Flow Results:
+
+* `question_num`, the question number
+* `answer`, the final answer which will be a comma separated list of all the answers that were selected
+
 ```stack
 card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
   write_result("question_num", question_num)
@@ -268,6 +308,22 @@ card QuestionResponse when questions[question_num].question_type == "age_questio
   log("Answered @age to question @question_num")
 
   question_num = question_num + 1
+end
+
+# If Never is a valid response and they respond with Never, skip over everything
+card QuestionResponse
+     when has_member(map(question.answers, &lower(&1.answer)), "never") and
+            lower("@question_response") == "never",
+     then: CheckEnd do
+  log("Skipping to end of Form")
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("question_num", question_num)
+  # for multiple choice questions, save the semantic_id
+  write_result("answer", answer.semantic_id)
+  log("Answered @answer.answer to question @question_num")
+
+  score = score + answer.score
+  question_num = count(questions)
 end
 
 card QuestionResponse, then: CheckEnd do
@@ -282,6 +338,14 @@ card QuestionResponse, then: CheckEnd do
 end
 
 ```
+
+## End
+
+We record the final result of the Form, and display the correct End page (high, medium, low).
+
+We record the following Flow Results:
+
+* `assessment_risk`, `low`, `medium`, or `high` depending on the risk.
 
 ```stack
 card End when score >= assessment_data.high_inflection do
