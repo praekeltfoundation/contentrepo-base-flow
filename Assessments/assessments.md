@@ -242,17 +242,17 @@ card CheckEndMultiselect do
   then(DisplayMultiselectAnswer)
 end
 
-card DisplayMultiselectAnswer, then: QuestionError do
+card DisplayMultiselectAnswer, then: MultiselectError do
   display_answer_num = answer_num + 1
   num_answers = count(question.answers)
-  question_text = "@question_text"
+  multiselect_question_text = "@question_text"
   answer = question.answers[answer_num]
   answer_text = answer.answer
   # Add in the Answer
   # Add in the placeholder for x / y
-  question_text =
+  multiselect_question_text =
     concatenate(
-      question_text,
+      multiselect_question_text,
       "@unichar(10)",
       "@unichar(10)",
       "@answer_text",
@@ -263,8 +263,29 @@ card DisplayMultiselectAnswer, then: QuestionError do
 
   question_response =
     buttons(MultiselectResponseYes: "Yes", MultiselectResponseNo: "No") do
-      text("@question_text")
+      text("@multiselect_question_text")
     end
+end
+
+card MultiselectError when has_all_members(keywords, [@question_response]),
+  then: DisplayMultiselectAnswer do
+  explainer =
+    if(
+      is_nil_or_empty(question.explainer),
+      "*Explainer:* There's no explainer for this.",
+      concatenate("*Explainer:*", " ", question.explainer)
+    )
+
+  text("@explainer")
+end
+
+card MultiselectError, then: DisplayMultiselectAnswer do
+  # If we have an error for this question, then use that, otherwise use the generic one
+  error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
+  log("Question number is @question_num")
+  log("Answer number is @answer_num")
+  log("You entered @question_response")
+  text("@error")
 end
 
 card MultiselectResponseYes,
