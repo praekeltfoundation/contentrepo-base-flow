@@ -1,19 +1,12 @@
-<!-- { section: "2006d644-d5eb-4b63-9de1-bfc8d1eebc1f", x: 500, y: 48} -->
-
-```stack
-trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "tform")
-
-```
-
 # Assessments
 
-This Journey will fetch the assessment specified by the configured slug from ContentRepo, and run the user through the questions.
+This journey consolidates the various form question types in a single journey.
 
-It keeps track of the score, and writes the risk category result to the flow results.
+It will fetch the assessment specified by the configured slug from ContentRepo, and run the user through the questions with type validations.
 
-It also writes the user's answers to the flow results.
+The values are set in the form.
 
-At the end of the assessment, it sends a message with the text of the page configured for that risk category.
+This journey writes the user's answers to the flow results.
 
 ## Content fields
 
@@ -24,13 +17,28 @@ This Journey does not write to any contact fields.
 * `assessment_start` - writes the slug of the started assessment when the assessment run starts
 * `question_num` - the number of the question being answered
 * `answer` - the answer that the user chose
+* `min` - the lower bound (minimum value that the number can be)
+* `max` - the upper bound (maximum value that the number can be)
 * `assessment_end` - writes the slug of the assessment when the assessment run ends
-* `assessment_score` - the final score that the user got for the assessment
-* `assessment_risk` - one of low, medium, or high. The final categorised risk for the user's score
+* `Substitution` - the journey uses substitution so the error messages are more specific.
+  {min} and {max} in the form are replaced with the minimum and maximum range values.
+  {current_year} and {lower_bound} in the form are replaced with current calendar year and lower bound valid year.
 
 ## Connections to other Journeys
 
 This Journey does not link to any other Journeys
+
+## Explainer keywords
+
+"why", "wy", "wh", "explain", "expain", "eplain"
+
+<!-- { section: "6f3a29f0-c26c-4c96-969d-dd0a082ccf2f", x: 0, y: 0} -->
+
+```stack
+trigger(on: "MESSAGE RECEIVED")
+when has_only_phrase(event.message.text.body, "demo-assessment")
+
+```
 
 <!--
  dictionary: "config"
@@ -38,30 +46,14 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key            | Value     |
-| -------------- | --------- |
-| assessment_tag | test-form |
-
-## Get Assessment
-
-We fetch the assessment as configured in the assessment_tag. At this point we initialise the following variables used throughout the Journey:
-
-* `questions`, the questions to be asked in the form
-* `locale`, the locale of the form
-* `question_num`, the current question number
-* `score`, the total assessment score, used at the end to determine which page to show the user
-* `keywords`, the keywords that will trigger the explainer text
-
-We also write the follwing flow results:
-
-* `assessment_start`, the assessment tag
-* `locale`, the locale of the form
-
-<!-- { section: "c8467498-ead8-42c0-a1a8-e37d85ac349a", x: 0, y: 0} -->
+| Key             | Value           |
+| --------------- | --------------- |
+| assessment_slug | demo-assessment |
+| assessment_tag  | demo-assessment |
 
 ```stack
 card GetAssessment, then: CheckEnd do
-  log("Fetching assessment @config.items.assessment_tag")
+  log("Fetching assessment @config.items.assessment_slug")
 
   response =
     get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/assessment/",
@@ -81,14 +73,20 @@ card GetAssessment, then: CheckEnd do
   locale = assessment_data["locale"]
   question_num = 0
   score = 0
+  min = 0
+  max = 0
+  assertion = ""
+  get_today = today()
+  get_year = year(get_today)
+  range = 120
 
   # A user can respond with a keyword such as "why" or "explain" to
-  # know the reason why asked a question. 
+  # know the reason why we asked a question. 
   # We store a list of possible keyword iterations to handle typos
   keywords = ["why", "wy", "wh", "explain", "expain", "eplain"]
 
-  log("Starting assessment @config.items.assessment_tag")
-  write_result("assessment_start", "@config.items.assessment_tag")
+  log("Starting assessment @config.items.assessment_slug")
+  write_result("assessment_start", "@config.items.assessment_slug")
   write_result("locale", "@locale")
 end
 
@@ -111,10 +109,12 @@ card CheckEnd when question_num == count(questions), then: End do
   # Because all of the guards for a card get evaluated at the same time, we have to first check if we
   # have any more questions, before we can assume that there's a question that we can access the
   # attributes of, and we have to do this in a separate CheckEnd card before the DisplayQuestion card
-  log("End of assessment, score: @score")
-  write_result("assessment_end", "@config.items.assessment_tag")
-  write_result("assessment_score", "@score")
+  write_result("assessment_end", "@assessment_data.slug")
 end
+
+# card CheckEnd do
+#  then(DisplayQuestion)
+# end
 
 card CheckEnd do
   then(GetQuestion)
@@ -127,6 +127,7 @@ card GetQuestion, then: DisplayQuestion do
   # Any variable replacement required can happen here
   name = if(is_nil_or_empty(contact.name), do: "", else: contact.name)
   question_text = substitute(question_text, "{{name}}", "@name")
+  log("question text is @question_text")
 end
 
 # For all question types that aren't multiselect questions
@@ -142,13 +143,6 @@ card DisplayQuestion
     end
 end
 
-card DisplayQuestion when questions[question_num].question_type == "age_question",
-  then: ValidateAge do
-  # Display the Age Question type
-
-  age = ask("@question_text")
-end
-
 card DisplayQuestion when questions[question_num].question_type == "multiselect_question",
   then: DisplayMultiselectAnswer do
   # Display the Multiselect Question type
@@ -156,8 +150,62 @@ card DisplayQuestion when questions[question_num].question_type == "multiselect_
   multiselect_answer = ""
 end
 
-card DisplayQuestion, then: QuestionError do
-  # For up to 3 options, use buttons
+card DisplayQuestion when count(questions[question_num].answers) > 3, then: QuestionExplainer do
+  # For more than 3 options, use a list
+  question = questions[question_num]
+
+  question_response =
+    list("Select option", QuestionResponse, map(question.answers, &[&1.answer, &1.answer])) do
+      text("@question_text")
+    end
+end
+
+card DisplayQuestion when questions[question_num].question_type == "year_of_birth_question",
+  then: QuestionExplainer do
+  # Display the Year of Birth Question type
+  question = questions[question_num]
+
+  answer = ask("@question_text")
+  difference = get_year - answer
+
+  assertion =
+    has_number("@answer") and has_number_lte("@answer", "@get_year") and
+      has_number_lte("@difference", "@range") and has_pattern("@answer", "^[0-9]+$")
+end
+
+card DisplayQuestion when questions[question_num].question_type == "freetext_question",
+  then: QuestionExplainer do
+  # Display the freetext Question type
+  question = questions[question_num]
+
+  answer = ask("@question_text")
+end
+
+card DisplayQuestion when questions[question_num].question_type == "integer_question",
+  then: QuestionExplainer do
+  # Display the Integer Question type
+  question = questions[question_num]
+
+  answer = ask("@question_text")
+  min = questions[question_num].min
+  max = questions[question_num].max
+
+  assertion =
+    has_number("@answer") and has_number_gte("@answer", "@min") and
+      has_number_lte("@answer", "@max")
+end
+
+card DisplayQuestion when questions[question_num].question_type == "age_question",
+  then: ValidateAge do
+  # Display the Age Question type
+  question = questions[question_num]
+
+  age = ask("@question_text")
+end
+
+card DisplayQuestion, then: QuestionExplainer do
+  # For up to 3 options, use buttons 
+  question = questions[question_num]
 
   question_response =
     buttons(QuestionResponse, map(question.answers, &[&1.answer, &1.answer])) do
@@ -167,6 +215,7 @@ end
 
 card ValidateAge when has_all_members(keywords, [@age]) == true,
   then: AgeExplainer do
+  log("Explainer returned for age question")
 end
 
 card ValidateAge when not isnumber(age) or age > 150,
@@ -183,10 +232,67 @@ card AgeExplainer, then: GetQuestion do
     if(
       is_nil_or_empty(question.explainer),
       "*Explainer:* There's no explainer for this.",
-      question.explainer
+      concatenate("*Explainer:*", " ", question.explainer)
     )
 
   text("@explainer")
+end
+
+card QuestionExplainer when has_all_members(keywords, [@answer]), then: GetQuestion do
+  explainer =
+    if(
+      is_nil_or_empty(question.explainer),
+      "*Explainer:* There's no explainer for this.",
+      concatenate("*Explainer:*", " ", question.explainer)
+    )
+
+  text("@explainer")
+end
+
+card QuestionExplainer, then: ValidateInput do
+  type = questions[question_num].question_type
+  log("Question type is @type")
+  log("Your answer was @answer to question number @question_num")
+end
+
+card ValidateInput
+     when assertion == false and questions[question_num].question_type == "year_of_birth_question",
+     then: QuestionError do
+  log("Error input")
+end
+
+card ValidateInput
+     when assertion == false and questions[question_num].question_type == "integer_question",
+     then: QuestionError do
+  log("Error input")
+end
+
+card ValidateInput, then: QuestionResponse do
+  log("Valid input")
+end
+
+card QuestionError when questions[question_num].question_type == "integer_question",
+  then: GetQuestion do
+  # If we have an error for this question, then use that, otherwise use the generic one
+  error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
+  type = questions[question_num].question_type
+  replace_min = substitute("@error", "{min}", "@min")
+  substituted_text = substitute("@replace_min", "{max}", "@max")
+  styled_error = concatenate("*Error:*", " ", "@substituted_text")
+  text("@styled_error")
+end
+
+card QuestionError when questions[question_num].question_type == "year_of_birth_question",
+  then: GetQuestion do
+  # If we have an error for this question, then use that, otherwise use the generic one
+  error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
+  type = questions[question_num].question_type
+  lower_bound_year = get_year - range
+  log("get_year is @get_year and difference is @difference")
+  replace_current_year = substitute("@error", "{current_year}", "@get_year")
+  substituted_text = substitute("@replace_current_year", "{lower_bound}", "@lower_bound_year")
+  styled_error = concatenate("*Error:*", " ", "@substituted_text")
+  text("@styled_error")
 end
 
 card QuestionError when has_all_members(keywords, [@question_response]), then: GetQuestion do
@@ -322,11 +428,39 @@ We record the following Flow Results:
 * `answer`, the final answer which will be a comma separated list of all the answers that were selected
 
 ```stack
+card QuestionResponse when questions[question_num].question_type == "integer_question",
+  then: CheckEnd do
+  write_result("question_num", question_num)
+  write_result("question", question.question)
+  write_result("answer", answer)
+  write_result("min", min)
+  write_result("max", max)
+
+  question_num = question_num + 1
+end
+
+card QuestionResponse when questions[question_num].question_type == "freetext_question",
+  then: CheckEnd do
+  write_result("question_num", question_num)
+  write_result("question", question.question)
+  write_result("answer", answer)
+
+  question_num = question_num + 1
+end
+
 card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
   write_result("question_num", question_num)
-  # for freetext questions, save the answer
   write_result("answer", age)
   log("Answered @age to question @question_num")
+
+  question_num = question_num + 1
+end
+
+card QuestionResponse when questions[question_num].question_type == "year_of_birth_question",
+  then: CheckEnd do
+  write_result("question_num", question_num)
+  write_result("question", question.question)
+  write_result("answer", answer)
 
   question_num = question_num + 1
 end
@@ -348,8 +482,10 @@ card QuestionResponse
 end
 
 card QuestionResponse, then: CheckEnd do
+  log("*******HERE*******")
   answer = find(question.answers, &(&1.answer == question_response))
   write_result("question_num", question_num)
+  write_result("answer", answer.answer)
   # for multiple choice questions, save the semantic_id
   write_result("answer", answer.semantic_id)
   log("Answered @answer.answer to question @question_num")
@@ -359,14 +495,6 @@ card QuestionResponse, then: CheckEnd do
 end
 
 ```
-
-## End
-
-We record the final result of the Form, and display the correct End page (high, medium, low).
-
-We record the following Flow Results:
-
-* `assessment_risk`, `low`, `medium`, or `high` depending on the risk.
 
 ```stack
 card End when score >= assessment_data.high_inflection do
@@ -403,10 +531,11 @@ card DisplayEndPage do
       ],
       headers: [
         ["content-type", "application/json"],
-        ["authorization", "Token @global.config.api_token"]
+        ["authorization", "Token @config.items.api_token"]
       ]
     )
 
+  # log("@response")
   message_body = response.body.body.text.value.message
   text("@message_body")
 end
