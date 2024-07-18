@@ -32,11 +32,9 @@ This Journey does not link to any other Journeys
 
 "why", "wy", "wh", "explain", "expain", "eplain"
 
-<!-- { section: "6f3a29f0-c26c-4c96-969d-dd0a082ccf2f", x: 0, y: 0} -->
-
 ```stack
 trigger(on: "MESSAGE RECEIVED")
-when has_only_phrase(event.message.text.body, "demo-assessment")
+when has_only_phrase(event.message.text.body, "tform")
 
 ```
 
@@ -46,10 +44,9 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key             | Value           |
-| --------------- | --------------- |
-| assessment_slug | demo-assessment |
-| assessment_tag  | demo-assessment |
+| Key            | Value     |
+| -------------- | --------- |
+| assessment_tag | xxxxxxxxx |
 
 ```stack
 card GetAssessment, then: CheckEnd do
@@ -79,6 +76,7 @@ card GetAssessment, then: CheckEnd do
   get_today = today()
   get_year = year(get_today)
   range = 120
+  max_score = 0
 
   # A user can respond with a keyword such as "why" or "explain" to
   # know the reason why we asked a question. 
@@ -112,10 +110,6 @@ card CheckEnd when question_num == count(questions), then: End do
   write_result("assessment_end", "@assessment_data.slug")
 end
 
-# card CheckEnd do
-#  then(DisplayQuestion)
-# end
-
 card CheckEnd do
   then(GetQuestion)
 end
@@ -127,7 +121,6 @@ card GetQuestion, then: DisplayQuestion do
   # Any variable replacement required can happen here
   name = if(is_nil_or_empty(contact.name), do: "", else: contact.name)
   question_text = substitute(question_text, "{{name}}", "@name")
-  log("question text is @question_text")
 end
 
 # For all question types that aren't multiselect questions
@@ -148,6 +141,9 @@ card DisplayQuestion when questions[question_num].question_type == "multiselect_
   # Display the Multiselect Question type
   answer_num = 0
   multiselect_answer = ""
+  scores = map(question.answers, & &1.score)
+  max_question_score = reduce(scores, 0, &(&1 + &2))
+  max_score = max_score + max_question_score
 end
 
 card DisplayQuestion when count(questions[question_num].answers) > 3, then: QuestionExplainer do
@@ -165,12 +161,12 @@ card DisplayQuestion when questions[question_num].question_type == "year_of_birt
   # Display the Year of Birth Question type
   question = questions[question_num]
 
-  answer = ask("@question_text")
-  difference = get_year - answer
+  question_response = ask("@question_text")
+  difference = get_year - question_response
 
   assertion =
-    has_number("@answer") and has_number_lte("@answer", "@get_year") and
-      has_number_lte("@difference", "@range") and has_pattern("@answer", "^[0-9]+$")
+    has_number("@question_response") and has_number_lte("@question_response", "@get_year") and
+      has_number_lte("@difference", "@range") and has_pattern("@question_response", "^[0-9]+$")
 end
 
 card DisplayQuestion when questions[question_num].question_type == "freetext_question",
@@ -178,7 +174,7 @@ card DisplayQuestion when questions[question_num].question_type == "freetext_que
   # Display the freetext Question type
   question = questions[question_num]
 
-  answer = ask("@question_text")
+  question_response = ask("@question_text")
 end
 
 card DisplayQuestion when questions[question_num].question_type == "integer_question",
@@ -186,13 +182,13 @@ card DisplayQuestion when questions[question_num].question_type == "integer_ques
   # Display the Integer Question type
   question = questions[question_num]
 
-  answer = ask("@question_text")
+  question_response = ask("@question_text")
   min = questions[question_num].min
   max = questions[question_num].max
 
   assertion =
-    has_number("@answer") and has_number_gte("@answer", "@min") and
-      has_number_lte("@answer", "@max")
+    has_number("@question_response") and has_number_gte("@question_response", "@min") and
+      has_number_lte("@question_response", "@max")
 end
 
 card DisplayQuestion when questions[question_num].question_type == "age_question",
@@ -200,7 +196,7 @@ card DisplayQuestion when questions[question_num].question_type == "age_question
   # Display the Age Question type
   question = questions[question_num]
 
-  age = ask("@question_text")
+  question_response = ask("@question_text")
 end
 
 card DisplayQuestion, then: QuestionExplainer do
@@ -213,12 +209,12 @@ card DisplayQuestion, then: QuestionExplainer do
     end
 end
 
-card ValidateAge when has_all_members(keywords, [@age]) == true,
+card ValidateAge when has_all_members(keywords, [@question_response]) == true,
   then: AgeExplainer do
   log("Explainer returned for age question")
 end
 
-card ValidateAge when not isnumber(age) or age > 150,
+card ValidateAge when not isnumber(question_response) or question_response > 150,
   then: QuestionError do
   log("Validatation failed for age question")
 end
@@ -238,7 +234,7 @@ card AgeExplainer, then: GetQuestion do
   text("@explainer")
 end
 
-card QuestionExplainer when has_all_members(keywords, [@answer]), then: GetQuestion do
+card QuestionExplainer when has_all_members(keywords, [@question_response]), then: GetQuestion do
   explainer =
     if(
       is_nil_or_empty(question.explainer),
@@ -252,7 +248,7 @@ end
 card QuestionExplainer, then: ValidateInput do
   type = questions[question_num].question_type
   log("Question type is @type")
-  log("Your answer was @answer to question number @question_num")
+  log("Your answer was @question_response to question number @question_num")
 end
 
 card ValidateInput
@@ -271,8 +267,14 @@ card ValidateInput, then: QuestionResponse do
   log("Valid input")
 end
 
-card QuestionError when questions[question_num].question_type == "integer_question",
-  then: GetQuestion do
+card QuestionError
+     when questions[question_num].question_type == "integer_question" and
+            @question_response != lower("skip"),
+     then: GetQuestion do
+  log(
+    "Invalid input for integer_question: @question_response. Required value between @min and @max."
+  )
+
   # If we have an error for this question, then use that, otherwise use the generic one
   error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
   type = questions[question_num].question_type
@@ -282,8 +284,14 @@ card QuestionError when questions[question_num].question_type == "integer_questi
   text("@styled_error")
 end
 
-card QuestionError when questions[question_num].question_type == "year_of_birth_question",
-  then: GetQuestion do
+card QuestionError
+     when questions[question_num].question_type == "year_of_birth_question" and
+            @question_response != lower("skip"),
+     then: GetQuestion do
+  log(
+    "Invalid input for year_of_birth_question: @question_response. Required value between @lower_bound_year and @get_year"
+  )
+
   # If we have an error for this question, then use that, otherwise use the generic one
   error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
   type = questions[question_num].question_type
@@ -304,6 +312,20 @@ card QuestionError when has_all_members(keywords, [@question_response]), then: G
     )
 
   text("@explainer")
+end
+
+card QuestionError when @question_response == lower("skip"), then: GetQuestion do
+  # If they skip a question we should 
+  # - record the answer as "skip"
+  # - do not count the question towards the score
+  # - do not add the max score for this question (i.e. completely exclude this question from scoring)
+  write_result("question_num", question_num)
+  write_result("answer", "skip")
+
+  log("Skipping question @question_num")
+  log("Current score: @score, Current max score: @max_score")
+
+  question_num = question_num + 1
 end
 
 card QuestionError, then: GetQuestion do
@@ -385,6 +407,22 @@ card MultiselectError when has_all_members(keywords, [@question_response]),
   text("@explainer")
 end
 
+card MultiselectError when @question_response == lower("skip"), then: GetQuestion do
+  # If they skip a question we should 
+  # - record the answer as "skip"
+  # - do not count the question towards the score
+  # - do not add the max score for this question (i.e. completely exclude this question from scoring)
+  write_result("question_num", question_num)
+  write_result("answer", "skip")
+
+  max_score = max_score - max_question_score
+
+  log("Skipping multiselect question @question_num")
+  log("Current score: @score, Current max score: @max_score")
+
+  question_num = question_num + 1
+end
+
 card MultiselectError, then: DisplayMultiselectAnswer do
   # If we have an error for this question, then use that, otherwise use the generic one
   error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
@@ -399,6 +437,7 @@ card MultiselectResponseYes,
   answer = find(question.answers, &(&1.answer == answer_text))
   semantic_id = answer.semantic_id
   score = score + answer.score
+  log("Current score: @score, Current max score: @max_score")
   answer_num = answer_num + 1
 
   multiselect_answer =
@@ -432,7 +471,7 @@ card QuestionResponse when questions[question_num].question_type == "integer_que
   then: CheckEnd do
   write_result("question_num", question_num)
   write_result("question", question.question)
-  write_result("answer", answer)
+  write_result("answer", question_response)
   write_result("min", min)
   write_result("max", max)
 
@@ -443,14 +482,14 @@ card QuestionResponse when questions[question_num].question_type == "freetext_qu
   then: CheckEnd do
   write_result("question_num", question_num)
   write_result("question", question.question)
-  write_result("answer", answer)
+  write_result("answer", question_response)
 
   question_num = question_num + 1
 end
 
 card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
   write_result("question_num", question_num)
-  write_result("answer", age)
+  write_result("answer", question_response)
   log("Answered @age to question @question_num")
 
   question_num = question_num + 1
@@ -460,7 +499,7 @@ card QuestionResponse when questions[question_num].question_type == "year_of_bir
   then: CheckEnd do
   write_result("question_num", question_num)
   write_result("question", question.question)
-  write_result("answer", answer)
+  write_result("answer", question_response)
 
   question_num = question_num + 1
 end
@@ -482,7 +521,8 @@ card QuestionResponse
 end
 
 card QuestionResponse, then: CheckEnd do
-  log("*******HERE*******")
+  scores = map(question.answers, & &1.score)
+  max_question_score = reduce(scores, scores[0], &max(&1, &2))
   answer = find(question.answers, &(&1.answer == question_response))
   write_result("question_num", question_num)
   write_result("answer", answer.answer)
@@ -490,14 +530,16 @@ card QuestionResponse, then: CheckEnd do
   write_result("answer", answer.semantic_id)
   log("Answered @answer.answer to question @question_num")
 
+  max_score = max_score + max_question_score
   score = score + answer.score
+  log("Current score: @score, Current max score: @max_score")
   question_num = question_num + 1
 end
 
 ```
 
 ```stack
-card End when score >= assessment_data.high_inflection do
+card End when score / max_score * 100 >= assessment_data.high_inflection do
   write_result("assessment_risk", "high")
   log("Assessment risk: high")
   page_id = assessment_data.high_result_page.id
@@ -505,7 +547,7 @@ card End when score >= assessment_data.high_inflection do
   then(DisplayEndPage)
 end
 
-card End when score >= assessment_data.medium_inflection do
+card End when score / max_score * 100 >= assessment_data.medium_inflection do
   write_result("assessment_risk", "medium")
   log("Assessment risk: medium")
   page_id = assessment_data.medium_result_page.id
@@ -535,9 +577,10 @@ card DisplayEndPage do
       ]
     )
 
-  # log("@response")
   message_body = response.body.body.text.value.message
   text("@message_body")
 end
 
 ```
+
+Add markdown here
