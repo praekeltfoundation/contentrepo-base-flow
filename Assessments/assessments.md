@@ -123,19 +123,6 @@ card GetQuestion, then: DisplayQuestion do
   question_text = substitute(question_text, "{{name}}", "@name")
 end
 
-# For all question types that aren't multiselect questions
-card DisplayQuestion
-     when questions[question_num].question_type != "multiselect_question" and
-            count(questions[question_num].answers) > 3,
-     then: QuestionError do
-  # For more than 3 options, use a list
-
-  question_response =
-    list("Select option", QuestionResponse, map(question.answers, &[&1.answer, &1.answer])) do
-      text("@question_text")
-    end
-end
-
 card DisplayQuestion when questions[question_num].question_type == "multiselect_question",
   then: DisplayMultiselectAnswer do
   # Display the Multiselect Question type
@@ -518,6 +505,20 @@ card QuestionResponse
 
   score = score + answer.score
   question_num = count(questions)
+end
+
+card QuestionResponse when @question_response == lower("skip"), then: CheckEnd do
+  # If they skip a question we should 
+  # - record the answer as "skip"
+  # - do not count the question towards the score
+  # - do not add the max score for this question (i.e. completely exclude this question from scoring)
+  write_result("question_num", question_num)
+  write_result("answer", "skip")
+
+  log("Skipping question @question_num")
+  log("Current score: @score, Current max score: @max_score")
+
+  question_num = question_num + 1
 end
 
 card QuestionResponse, then: CheckEnd do
