@@ -39,7 +39,7 @@ This Journey does not link to any other Journeys
 
 ```stack
 trigger(on: "MESSAGE RECEIVED")
-when has_only_phrase(event.message.text.body, "tform")
+when has_only_phrase(event.message.text.body, "forms")
 
 ```
 
@@ -591,7 +591,8 @@ end
 
 card End
      when skip_count < skip_threshold and
-            score / max_score * 100 >= assessment_data.medium_inflection do
+            score / max_score * 100 >= assessment_data.medium_inflection and
+            score / max_score * 100 < assessment_data.high_inflection do
   result_tag = concatenate("@slug", "_", "@version", "_risk")
   write_result("@result_tag", "medium")
   log("Assessment risk: medium")
