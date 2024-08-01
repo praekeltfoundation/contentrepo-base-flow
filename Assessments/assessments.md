@@ -1,8 +1,8 @@
-# Assessments
+# Forms
 
 This journey consolidates the various form question types in a single journey.
 
-It will fetch the assessment specified by the configured slug from ContentRepo, and run the user through the questions with type validations.
+It will fetch the form specified by the configured slug from ContentRepo, and run the user through the questions with type validations.
 
 The values are set in the form.
 
@@ -10,7 +10,7 @@ This journey writes the user's answers to the flow results.
 
 ## Content fields
 
-This Journey does not write to any contact fields.
+This Journey does not write to any contact fields. Unless it's necessary for the particular implementation, it's best that this journey doesn't write any contact fields.
 
 ## Flow results
 
@@ -20,7 +20,12 @@ This Journey does not write to any contact fields.
 * `min` - the lower bound (minimum value that the number can be)
 * `max` - the upper bound (maximum value that the number can be)
 * `assessment_end` - writes the slug of the assessment when the assessment run ends
-* `Substitution` - the journey uses substitution so the error messages are more specific.
+* `assessment_score`, the score that the user got for this run of the assessment
+* `max_assessment_score`, the maximum score possible for this user for this run of the assessment
+
+## Substitution
+
+The journey uses substitution so the error messages are more specific.
   {min} and {max} in the form are replaced with the minimum and maximum range values.
   {current_year} and {lower_bound} in the form are replaced with current calendar year and lower bound valid year.
 
@@ -44,13 +49,13 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key            | Value     |
-| -------------- | --------- |
-| assessment_tag | xxxxxxxxx |
+| Key            | Value            |
+| -------------- | ---------------- |
+| assessment_tag | placeholder_form |
 
 ```stack
 card GetAssessment, then: CheckEnd do
-  log("Fetching assessment @config.items.assessment_slug")
+  log("Fetching assessment @config.items.assessment_tag")
 
   response =
     get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/assessment/",
@@ -61,13 +66,15 @@ card GetAssessment, then: CheckEnd do
       ],
       headers: [
         ["content-type", "application/json"],
-        ["authorization", "Token @global.config.api_token"]
+        ["authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
   assessment_data = response.body.results[0]
   questions = assessment_data["questions"]
   locale = assessment_data["locale"]
+  slug = assessment_data["slug"]
+  version = assessment_data["version"]
   question_num = 0
   score = 0
   min = 0
@@ -77,14 +84,18 @@ card GetAssessment, then: CheckEnd do
   get_year = year(get_today)
   range = 120
   max_score = 0
+  skip_count = 0
+  skip_threshold = assessment_data["skip_threshold"]
 
   # A user can respond with a keyword such as "why" or "explain" to
   # know the reason why we asked a question. 
   # We store a list of possible keyword iterations to handle typos
   keywords = ["why", "wy", "wh", "explain", "expain", "eplain"]
 
-  log("Starting assessment @config.items.assessment_slug")
-  write_result("assessment_start", "@config.items.assessment_slug")
+  log("Starting assessment @config.items.assessment_tag")
+  write_result("version", "@version")
+  v_start = concatenate(slug, "_", version, "_start")
+  write_result("@v_start", "@config.items.assessment_tag")
   write_result("locale", "@locale")
 end
 
@@ -107,7 +118,8 @@ card CheckEnd when question_num == count(questions), then: End do
   # Because all of the guards for a card get evaluated at the same time, we have to first check if we
   # have any more questions, before we can assume that there's a question that we can access the
   # attributes of, and we have to do this in a separate CheckEnd card before the DisplayQuestion card
-  write_result("assessment_end", "@assessment_data.slug")
+  slug_end = concatenate(slug, "_end")
+  write_result("@slug_end", "@assessment_data.slug")
 end
 
 card CheckEnd do
@@ -304,10 +316,15 @@ end
 card QuestionError when @question_response == lower("skip"), then: GetQuestion do
   # If they skip a question we should 
   # - record the answer as "skip"
+  # - increment skip count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  write_result("question_num", question_num)
-  write_result("answer", "skip")
+  result_tag = concatenate("@slug", "_", "@version", "_question_num")
+  write_result("@result_tag", question_num)
+  question_id = questions[question_num].semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
+  write_result("@result_tag", "skip")
+  skip_count = skip_count + 1
 
   log("Skipping question @question_num")
   log("Current score: @score, Current max score: @max_score")
@@ -348,8 +365,11 @@ card CheckEndMultiselect
      then: CheckEnd do
   question_num = question_num + 1
   # write the answer results
-  write_result("question_num", question_num)
-  write_result("answer", multiselect_answer)
+  result_tag = concatenate("@slug", "_", "@version", "question_num")
+  write_result("@result_tag", question_num)
+  question_id = questions[question_num].semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
+  write_result("@result_tag", "@multiselect_answer")
   log("Answered @multiselect_answer to question @question_num")
 end
 
@@ -394,13 +414,19 @@ card MultiselectError when has_all_members(keywords, [@question_response]),
   text("@explainer")
 end
 
-card MultiselectError when @question_response == lower("skip"), then: GetQuestion do
+card MultiselectError when lower(@question_response) == "skip", then: GetQuestion do
   # If they skip a question we should 
   # - record the answer as "skip"
+  # - increment skip_count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  write_result("question_num", question_num)
-  write_result("answer", "skip")
+  result_tag = concatenate("@slug", "_", "@version", "question_num")
+  write_result("@result_tag", question_num)
+  question_id = questions[question_num].semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
+  write_result("@result_tag", "skip")
+
+  skip_count = skip_count + 1
 
   max_score = max_score - max_question_score
 
@@ -456,27 +482,30 @@ We record the following Flow Results:
 ```stack
 card QuestionResponse when questions[question_num].question_type == "integer_question",
   then: CheckEnd do
-  write_result("question_num", question_num)
-  write_result("question", question.question)
-  write_result("answer", question_response)
-  write_result("min", min)
-  write_result("max", max)
+  question_id = questions[question_num].semantic_id
+  write_result("@slug_@version_question_num", question_num)
+  write_result("@slug_@version_question", question.question)
+  write_result("@slug_@version_@question_id", "@question_response")
+  write_result("@slug_@version_min", min)
+  write_result("@slug_@version_max", max)
 
   question_num = question_num + 1
 end
 
 card QuestionResponse when questions[question_num].question_type == "freetext_question",
   then: CheckEnd do
-  write_result("question_num", question_num)
-  write_result("question", question.question)
-  write_result("answer", question_response)
+  question_id = questions[question_num].semantic_id
+  write_result("@slug_@version_question_num", question_num)
+  write_result("@slug_@version_question", question.question)
+  write_result("@slug_@version_@question_id", "@question_response")
 
   question_num = question_num + 1
 end
 
 card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
-  write_result("question_num", question_num)
-  write_result("answer", question_response)
+  question_id = questions[question_num].semantic_id
+  write_result("@slug_@version_question_num", question_num)
+  write_result("@slug_@version_@question_id", "@question_response")
   log("Answered @age to question @question_num")
 
   question_num = question_num + 1
@@ -484,9 +513,10 @@ end
 
 card QuestionResponse when questions[question_num].question_type == "year_of_birth_question",
   then: CheckEnd do
-  write_result("question_num", question_num)
-  write_result("question", question.question)
-  write_result("answer", question_response)
+  question_id = questions[question_num].semantic_id
+  write_result("@slug_@version_question_num", question_num)
+  write_result("@slug_@version_question", question.question)
+  write_result("@slug_@version_@question_id", "@question_response")
 
   question_num = question_num + 1
 end
@@ -498,22 +528,28 @@ card QuestionResponse
      then: CheckEnd do
   log("Skipping to end of Form")
   answer = find(question.answers, &(&1.answer == question_response))
-  write_result("question_num", question_num)
-  # for multiple choice questions, save the semantic_id
-  write_result("answer", answer.semantic_id)
+  write_result("@slug_@version_question_num", question_num)
+  question_id = questions[question_num].semantic_id
+  write_result("@slug_@version_@question_id", "@question_response")
   log("Answered @answer.answer to question @question_num")
 
   score = score + answer.score
   question_num = count(questions)
 end
 
-card QuestionResponse when @question_response == lower("skip"), then: CheckEnd do
+card QuestionResponse when lower("@question_response") == "skip", then: CheckEnd do
   # If they skip a question we should 
   # - record the answer as "skip"
+  # - increment skip_count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  write_result("question_num", question_num)
-  write_result("answer", "skip")
+  result_tag = concatenate("@slug", "_", "@version", "_question_num")
+  write_result("@result_tag", question_num)
+  question_id = questions[question_num].semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
+  write_result("@result_tag", "skip")
+
+  skip_count = skip_count + 1
 
   log("Skipping question @question_num")
   log("Current score: @score, Current max score: @max_score")
@@ -525,10 +561,12 @@ card QuestionResponse, then: CheckEnd do
   scores = map(question.answers, & &1.score)
   max_question_score = reduce(scores, scores[0], &max(&1, &2))
   answer = find(question.answers, &(&1.answer == question_response))
-  write_result("question_num", question_num)
-  write_result("answer", answer.answer)
-  # for multiple choice questions, save the semantic_id
-  write_result("answer", answer.semantic_id)
+  question_id = questions[question_num].semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_question_num")
+  write_result("@result_tag", question_num)
+  # for multiple choice and categorical questions, save the semantic_id
+  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
+  write_result("@result_tag", answer.semantic_id)
   log("Answered @answer.answer to question @question_num")
 
   max_score = max_score + max_question_score
@@ -540,24 +578,40 @@ end
 ```
 
 ```stack
-card End when score / max_score * 100 >= assessment_data.high_inflection do
-  write_result("assessment_risk", "high")
+card End
+     when skip_count < skip_threshold and
+            score / max_score * 100 >= assessment_data.high_inflection do
+  result_tag = concatenate("@slug", "_", "@version", "_risk")
+  write_result("@result_tag", "high")
   log("Assessment risk: high")
   page_id = assessment_data.high_result_page.id
 
   then(DisplayEndPage)
 end
 
-card End when score / max_score * 100 >= assessment_data.medium_inflection do
-  write_result("assessment_risk", "medium")
+card End
+     when skip_count < skip_threshold and
+            score / max_score * 100 >= assessment_data.medium_inflection do
+  result_tag = concatenate("@slug", "_", "@version", "_risk")
+  write_result("@result_tag", "medium")
   log("Assessment risk: medium")
   page_id = assessment_data.medium_result_page.id
 
   then(DisplayEndPage)
 end
 
+card End when skip_count >= skip_threshold do
+  result_tag = concatenate("@slug", "_", "@version", "_risk")
+  write_result("@result_tag", "skip_high")
+  log("Assessment risk: skip_high")
+  page_id = assessment_data.skip_high_result_page.id
+
+  then(DisplayEndPage)
+end
+
 card End do
-  write_result("assessment_risk", "low")
+  result_tag = concatenate("@slug", "_", "@version", "_risk")
+  write_result("@result_tag", "low")
   log("Assessment risk: low")
   page_id = assessment_data.low_result_page.id
 
@@ -565,6 +619,11 @@ card End do
 end
 
 card DisplayEndPage do
+  result_tag = concatenate("@slug", "_", "@version", "_score")
+  write_result("@result_tag", score)
+  result_tag = concatenate("@slug", "_", "@version", "_max_score")
+  write_result("@result_tag", max_score)
+
   response =
     get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@page_id/",
       timeout: 5_000,
@@ -574,7 +633,7 @@ card DisplayEndPage do
       ],
       headers: [
         ["content-type", "application/json"],
-        ["authorization", "Token @config.items.api_token"]
+        ["authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -583,5 +642,3 @@ card DisplayEndPage do
 end
 
 ```
-
-Add markdown here
