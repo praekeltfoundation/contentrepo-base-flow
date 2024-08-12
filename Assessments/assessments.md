@@ -118,6 +118,9 @@ card CheckEnd when question_num == count(questions), then: End do
   # Because all of the guards for a card get evaluated at the same time, we have to first check if we
   # have any more questions, before we can assume that there's a question that we can access the
   # attributes of, and we have to do this in a separate CheckEnd card before the DisplayQuestion card
+
+  # workaround because the percentage calculation will throw a division by 0 error if max_score is 0 in either an if or a when clause.
+  score_perc = score / max(max_score, 1) * 100
   slug_end = concatenate(slug, "_end")
   write_result("@slug_end", "@assessment_data.slug")
 end
@@ -580,7 +583,7 @@ end
 ```stack
 card End
      when skip_count < skip_threshold and
-            score / max_score * 100 >= assessment_data.high_inflection do
+            score_perc >= assessment_data.high_inflection do
   result_tag = concatenate("@slug", "_", "@version", "_risk")
   write_result("@result_tag", "high")
   log("Assessment risk: high")
@@ -591,8 +594,8 @@ end
 
 card End
      when skip_count < skip_threshold and
-            score / max_score * 100 >= assessment_data.medium_inflection and
-            score / max_score * 100 < assessment_data.high_inflection do
+            score_perc >= assessment_data.medium_inflection and
+            score_perc < assessment_data.high_inflection do
   result_tag = concatenate("@slug", "_", "@version", "_risk")
   write_result("@result_tag", "medium")
   log("Assessment risk: medium")
