@@ -49,9 +49,37 @@ version: "0.1.0"
 columns: [] 
 -->
 
-| Key            | Value            |
-| -------------- | ---------------- |
-| assessment_tag | placeholder_form |
+| Key            | Value     |
+| -------------- | --------- |
+| assessment_tag | test-form |
+
+## Get Assessment
+
+We fetch the assessment as configured in the assessment_tag. At this point we initialise the following variables used throughout the Journey:
+
+* `assessment_data`, the full assessment data
+* `questions`, the questions to be asked in the form
+* `locale`, the locale of the form
+* `slug`
+* `version`
+* `question_num`, the current question number
+* `score`, the total assessment score, used at the end to determine which page to show the user. Skipped questions are excluded from this score
+* `min`,
+* `max`,
+* `assertion`,
+* `get_today`, today
+* `get_year`, the current year
+* `range`, the maximum age range, default 120
+* `max_score`, the maximum score possible for this user, skipped questions are excluded from this score
+* `skip_count`, the number of questions skipped
+* `skip_threshold`, how many questions the user must skip to see the skip message at the end of the form
+* `keywords`, the keywords that will trigger the explainer text
+
+We also write the follwing flow results:
+
+* `@slug_@version_start`, the form tag
+* `locale`, the locale of the form
+* `version`, the version of the form
 
 ```stack
 card GetAssessment, then: CheckEnd do
@@ -263,6 +291,12 @@ card ValidateInput
      when assertion == false and questions[question_num].question_type == "integer_question",
      then: QuestionError do
   log("Error input")
+end
+
+card ValidateInput
+     when not has_member(map(question.answers, & &1.answer), question_response),
+     then: QuestionError do
+  log("Invalid input")
 end
 
 card ValidateInput, then: QuestionResponse do
@@ -579,6 +613,16 @@ card QuestionResponse, then: CheckEnd do
 end
 
 ```
+
+## End
+
+We record the final result of the Form, and display the correct End page (high, medium, low, skip_high).
+
+We record the following Flow Results:
+
+* `@slug_@version_risk`, `skip_high`, `low`, `medium`, or `high` depending on the risk.
+* `@slug_@version_score`, the user's score at the end of the form
+* `@slug_@version_max_score`, the user's maximum possible score at the end of the form
 
 ```stack
 card End
