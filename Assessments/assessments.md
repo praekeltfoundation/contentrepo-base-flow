@@ -294,7 +294,8 @@ card ValidateInput
 end
 
 card ValidateInput
-     when not has_member(map(question.answers, & &1.answer), question_response),
+     when count(question.answers) > 0 and
+            not has_member(map(question.answers, & &1.answer), question_response),
      then: QuestionError do
   log("Invalid input")
 end
@@ -399,7 +400,7 @@ The basic idea for the multiselect question is very similar to how we display qu
 card CheckEndMultiselect
      when questions[question_num].question_type == "multiselect_question" and
             answer_num == count(questions[question_num].answers),
-     then: CheckEnd do
+     then: StoreResponse do
   question_num = question_num + 1
   # write the answer results
   result_tag = concatenate("@slug", "_", "@version", "question_num")
@@ -518,7 +519,7 @@ We record the following Flow Results:
 
 ```stack
 card QuestionResponse when questions[question_num].question_type == "integer_question",
-  then: CheckEnd do
+  then: StoreResponse do
   question_id = questions[question_num].semantic_id
   write_result("@slug_@version_question_num", question_num)
   write_result("@slug_@version_question", question.question)
@@ -530,7 +531,7 @@ card QuestionResponse when questions[question_num].question_type == "integer_que
 end
 
 card QuestionResponse when questions[question_num].question_type == "freetext_question",
-  then: CheckEnd do
+  then: StoreResponse do
   question_id = questions[question_num].semantic_id
   write_result("@slug_@version_question_num", question_num)
   write_result("@slug_@version_question", question.question)
@@ -539,7 +540,8 @@ card QuestionResponse when questions[question_num].question_type == "freetext_qu
   question_num = question_num + 1
 end
 
-card QuestionResponse when questions[question_num].question_type == "age_question", then: CheckEnd do
+card QuestionResponse when questions[question_num].question_type == "age_question",
+  then: StoreResponse do
   question_id = questions[question_num].semantic_id
   write_result("@slug_@version_question_num", question_num)
   write_result("@slug_@version_@question_id", "@question_response")
@@ -549,7 +551,7 @@ card QuestionResponse when questions[question_num].question_type == "age_questio
 end
 
 card QuestionResponse when questions[question_num].question_type == "year_of_birth_question",
-  then: CheckEnd do
+  then: StoreResponse do
   question_id = questions[question_num].semantic_id
   write_result("@slug_@version_question_num", question_num)
   write_result("@slug_@version_question", question.question)
@@ -594,7 +596,7 @@ card QuestionResponse when lower("@question_response") == "skip", then: CheckEnd
   question_num = question_num + 1
 end
 
-card QuestionResponse, then: CheckEnd do
+card QuestionResponse, then: StoreResponse do
   scores = map(question.answers, & &1.score)
   max_question_score = reduce(scores, scores[0], &max(&1, &2))
   answer = find(question.answers, &(&1.answer == question_response))
@@ -610,6 +612,48 @@ card QuestionResponse, then: CheckEnd do
   score = score + answer.score
   log("Current score: @score, Current max score: @max_score")
   question_num = question_num + 1
+end
+
+```
+
+## Store Response
+
+These cards are to configure storing the answers of the Form in contact fields. Each question will need its own contact field. Most forms won't need this, so you can comment out or remove the cards (Except the last / default one which is critical to the flow of Forms).
+
+```stack
+card StoreResponse when questions[question_num].semantic_id == "feelings-question" do
+  update_contact(form_feelings: "@multiselect_answer")
+  then(CheckEnd)
+end
+
+card StoreResponse when questions[question_num].semantic_id == "amazing-question" do
+  update_contact(form_amazing: "@question_response")
+  then(CheckEnd)
+end
+
+card StoreResponse when questions[question_num].semantic_id == "age-question" do
+  update_contact(form_age: "@question_response")
+  then(CheckEnd)
+end
+
+card StoreResponse when questions[question_num].semantic_id == "freetext-question" do
+  update_contact(form_freetext: "@question_response")
+  then(CheckEnd)
+end
+
+card StoreResponse when questions[question_num].semantic_id == "integer-question" do
+  update_contact(form_integer: "@question_response")
+  then(CheckEnd)
+end
+
+card StoreResponse when questions[question_num].semantic_id == "yob-question" do
+  update_contact(form_yob: "@question_response")
+  then(CheckEnd)
+end
+
+# This card should be left alone
+card StoreResponse do
+  then(CheckEnd)
 end
 
 ```
