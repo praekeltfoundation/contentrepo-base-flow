@@ -307,7 +307,7 @@ end
 card QuestionError
      when questions[question_num].question_type == "integer_question" and
             @question_response != lower("skip"),
-     then: GetQuestion do
+     then: CheckEnd do
   log(
     "Invalid input for integer_question: @question_response. Required value between @min and @max."
   )
@@ -324,7 +324,7 @@ end
 card QuestionError
      when questions[question_num].question_type == "year_of_birth_question" and
             @question_response != lower("skip"),
-     then: GetQuestion do
+     then: CheckEnd do
   log(
     "Invalid input for year_of_birth_question: @question_response. Required value between @lower_bound_year and @get_year"
   )
@@ -340,7 +340,7 @@ card QuestionError
   text("@styled_error")
 end
 
-card QuestionError when has_all_members(keywords, [@question_response]), then: GetQuestion do
+card QuestionError when has_all_members(keywords, [@question_response]), then: CheckEnd do
   explainer =
     if(
       is_nil_or_empty(question.explainer),
@@ -351,7 +351,7 @@ card QuestionError when has_all_members(keywords, [@question_response]), then: G
   text("@explainer")
 end
 
-card QuestionError when @question_response == lower("skip"), then: GetQuestion do
+card QuestionError when @question_response == lower("skip"), then: CheckEnd do
   # If they skip a question we should 
   # - record the answer as "skip"
   # - increment skip count
@@ -370,7 +370,7 @@ card QuestionError when @question_response == lower("skip"), then: GetQuestion d
   question_num = question_num + 1
 end
 
-card QuestionError, then: GetQuestion do
+card QuestionError, then: CheckEnd do
   # If we have an error for this question, then use that, otherwise use the generic one
   error = if(is_nil_or_empty(question.error), assessment_data.generic_error, question.error)
   log("Question number is @question_num")
