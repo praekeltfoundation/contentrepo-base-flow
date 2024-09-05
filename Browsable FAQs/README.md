@@ -12,3 +12,8 @@ On the last message of the page, if there are related pages for that content pag
 If the page has one media, the media will be displayed and followed by the main menu. 
 
 if the page have more than one media e.g image and a video they will be given a button option to select which media they would like to view followed by the main menu.
+
+# Editing flows
+This flow is stored in the `platform-1` sandbox number on the `Praekelt.org` organisation on the whatsapp.turn.io instance.
+
+It is synced and managed by the (flow-wrangler)[https://github.com/praekeltfoundation/flow-wrangler]
