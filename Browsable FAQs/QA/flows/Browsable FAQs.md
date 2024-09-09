@@ -2,9 +2,21 @@
 
 This Journey allows users to browse through the tree structure in the CMS, to view all of the content themselves.
 
-# Configuration
+## Configuration
 
 This Journey requires the `config.contentrepo_token` global variable to be set.
+
+## Contact fields
+
+This Journey doesn't use or set any contact fields
+
+## Flow results
+
+This Journey doesn't write any flow results
+
+## Connections to other stacks
+
+When you reach the leaf of the content tree, a single "Main Menu" button appears. This needs to be linked to go back to the service's main menu.
 
 <!-- { section: "5717187d-7351-498d-a008-73fa6b29183d", x: 0, y: 0} -->
 
