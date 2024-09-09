@@ -1,13 +1,10 @@
-<!--
- dictionary: "config"
-version: "0.1.0"
-columns: [] 
--->
+# Browsable FAQs
 
-| Key               | Value                                    |
-| ----------------- | ---------------------------------------- |
-| contentrepo_token | xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
-| contentrepo_url   | TODO: FIX                                |
+This Journey allows users to browse through the tree structure in the CMS, to view all of the content themselves.
+
+# Configuration
+
+This Journey requires the `config.contentrepo_token` global variable to be set.
 
 <!-- { section: "5717187d-7351-498d-a008-73fa6b29183d", x: 0, y: 0} -->
 
@@ -19,7 +16,7 @@ card MainMenu do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/indexes/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: []
     )
@@ -45,7 +42,7 @@ card IndexMenu, then: FetchContent do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [["child_of", "@selected_index_id"]]
     )
@@ -71,7 +68,7 @@ card FetchContent, then: DisplayContent do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [["whatsapp", "true"], ["message", "@message"]]
     )
@@ -93,7 +90,7 @@ card DisplayContent when content_data.body.has_children do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [
         ["child_of", "@selected_content_id"]
@@ -130,7 +127,7 @@ card DisplayContent when count(content_data.body.related_pages) > 0 do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -158,7 +155,7 @@ card DisplayContent
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/media/@media_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -169,7 +166,7 @@ card DisplayContent
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -195,7 +192,7 @@ card DisplayContent when isnumber(content_data.body.body.text.value.media), then
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/media/@media_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -212,7 +209,7 @@ card DisplayContent when isnumber(content_data.body.body.text.value.image), then
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @globals.config.contentrepo_token"]
       ]
     )
 
@@ -239,7 +236,7 @@ card SelectRelatedPage, then: DisplayContent do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [["whatsapp", "true"], ["message", "@message"]]
     )
@@ -248,7 +245,7 @@ card SelectRelatedPage, then: DisplayContent do
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
       headers: [
-        ["Authorization", "Token @config.items.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [["child_of", "@content_data.body.meta.parent.id"]]
     )
