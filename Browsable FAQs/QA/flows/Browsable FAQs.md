@@ -18,6 +18,10 @@ This Journey doesn't write any flow results
 
 When you reach the leaf of the content tree, a single "Main Menu" button appears. This needs to be linked to go back to the service's main menu.
 
+# MainMenu
+
+This menu displays all the titles of the index pages that are found in the CMS, along with a hardcoded message.
+
 <!-- { section: "5717187d-7351-498d-a008-73fa6b29183d", x: 0, y: 0} -->
 
 ```stack
@@ -46,6 +50,13 @@ card MainMenu do
     end
 end
 
+```
+
+# IndexMenu
+
+This card fetches all the children of the selected index page, and displays them in a list
+
+```stack
 card IndexMenu, then: FetchContent do
   # Here we fetch all the children of the selected index
   selected_index_id = filter(indexes_data.body.results, &(&1.title == selected_index_name))[0].id
@@ -72,6 +83,18 @@ card IndexMenu, then: FetchContent do
     end
 end
 
+```
+
+# FetchContent & DisplayContent
+
+These cards fetch the current selected content from the CMS, and displays it. It handles:
+
+* If the content has children, it should show a list of those children
+* If the content has more than one message, it should show a button to see the next message
+* If there are related pages, it should show a list and allow the user to browse to a related page
+* If there is an image or media file, it should display that
+
+```stack
 card FetchContent, then: DisplayContent do
   selected_content_id =
     filter(page_list_data.body.results, &(&1.title == selected_content_name))[0].id
