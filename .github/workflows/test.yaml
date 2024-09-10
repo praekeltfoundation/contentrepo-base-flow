@@ -1,0 +1,29 @@
+name: Run tests
+on:
+    push:
+        branches: ["*"]
+        tags: ["v*"]
+    pull_request:
+        branches: ["main"]
+
+jobs:
+    flow-tests:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Elixir install
+              uses: erlef/setup-beam@v1
+              with:
+                elixir-version: "1.17"
+                otp-version: "27"
+            - name: Fetch flow tester
+              uses: actions/checkout@v4
+              with:
+                repository: praekeltfoundation/flow_tester
+                ref: v0.2.1
+                path: flow_tester
+                ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+            - name: Check formatting
+              run: mix format --check-formatted "Browsable FAQs/QA/tests/*.exs"
+            - name: Test flows
+              run: ./flow_tester/run_flow_tests.exs "Browsable FAQs/QA/tests/"
