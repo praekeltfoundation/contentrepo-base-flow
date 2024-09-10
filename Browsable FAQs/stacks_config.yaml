@@ -1,0 +1,5 @@
+base_url: https://whatsapp.turn.io/
+qa_dir: QA
+stack_uuids:
+- name: Browsable FAQs
+  qa_uuid: 8ab45813-2c9c-4ea6-bed1-10ad091d85e8
