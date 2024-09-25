@@ -1,3 +1,10 @@
+<!-- { section: "7ac3c144-c5fa-49b9-a924-9d9e7516c428", x: 500, y: 48} -->
+
+```stack
+trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "browse")
+
+```
+
 # Browsable FAQs
 
 This Journey allows users to browse through the tree structure in the CMS, to view all of the content themselves.
@@ -95,7 +102,7 @@ These cards fetch the current selected content from the CMS, and displays it. It
 * If there is an image or media file, it should display that
 
 ```stack
-card FetchContent, then: DisplayContent do
+card FetchContent, then: GetVariation do
   selected_content_id =
     filter(page_list_data.body.results, &(&1.title == selected_content_name))[0].id
 
@@ -107,6 +114,24 @@ card FetchContent, then: DisplayContent do
       ],
       query: [["whatsapp", "true"], ["message", "@message"]]
     )
+
+  log("content data @content_data")
+end
+
+card GetVariation when count(content_data.body.body.text) > 0, then: DisplayContent do
+  content_body = content_data.body.body.text.value.message
+  log("content body @content_body")
+  variations = content_data.body.body.text.value.variation_messages
+  log("variations @variations")
+
+  gender_variations =
+    filter(variations, &(&1.profile_field == "gender" and &1.value == contact.gender))
+
+  content_body = if(count(gender_variations) > 0, gender_variations[0].message, content_body)
+end
+
+card GetVariation, then: DisplayContent do
+  log("No messages, not searching for variations")
 end
 
 card DisplayContent when count(content_data.body.body.text.value.buttons) > 0 do
@@ -116,7 +141,7 @@ card DisplayContent when count(content_data.body.body.text.value.buttons) > 0 do
     buttons(ProcessButton, map(content_buttons, &[&1.value.title, &1.value.title])) do
       text("""
       @content_data.body.title
-      @content_data.body.body.text.value.message
+      @content_body
       """)
     end
 end
@@ -126,7 +151,7 @@ card DisplayContent when content_data.body.has_children do
   parent_body =
     if(
       count(content_data.body.body.text) > 0,
-      content_data.body.body.text.value.message,
+      content_body,
       "Select an item"
     )
 
@@ -171,7 +196,7 @@ card DisplayContent when count(content_data.body.related_pages) > 0 do
     list("Select related page", SelectRelatedPage, related_pages) do
       text("""
       @content_data.body.title
-      @content_data.body.body.text.value.message
+      @content_body
       """)
     end
 end
@@ -255,12 +280,12 @@ card DisplayContent do
   buttons(Exit: "Main Menu") do
     text("""
     @content_data.body.title
-    @content_data.body.body.text.value.message
+    @content_body
     """)
   end
 end
 
-card SelectRelatedPage, then: DisplayContent do
+card SelectRelatedPage, then: GetVariation do
   selected_content_id =
     find(related_data.body.related_pages, &(&1.title == selected_content_name)).value
 
@@ -296,7 +321,7 @@ card DisplayImage, then: MainMenu do
   log("Image Type: @image_data.media_type")
 
   image("@image_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia when media_data.media_type == "audio", then: MainMenu do
@@ -304,7 +329,7 @@ card DisplayMedia when media_data.media_type == "audio", then: MainMenu do
   log("Media Type-2: @media_data.media_type")
 
   audio("@media_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia when media_data.media_type == "video", then: MainMenu do
@@ -313,7 +338,7 @@ card DisplayMedia when media_data.media_type == "video", then: MainMenu do
   log("@media_data.meta.download_url")
 
   video("@media_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia do
@@ -365,7 +390,7 @@ card ActionButton when selected_button.type == "go_to_page" do
       query: [["child_of", "@content_data.body.meta.parent.id"]]
     )
 
-  then(DisplayContent)
+  then(GetVariation)
 end
 
 card ActionButton do
