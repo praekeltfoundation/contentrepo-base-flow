@@ -46,7 +46,10 @@ defmodule BrowsableFAQsTest do
       title: "Multiple Messages Leaf",
       wa_messages: [
         %WAMsg{message: "First message", buttons: [%Btn.Next{title: "Next"}]},
-        %WAMsg{message: "Second message"}
+        %WAMsg{
+          message: "Second message",
+          buttons: [%Btn.GoToPage{title: "Another page", page: "leaf-page-1"}]
+        }
       ]
     }
 
@@ -201,12 +204,26 @@ defmodule BrowsableFAQsTest do
       |> receive_message(%{})
       |> FlowTester.send("Next")
       |> receive_message(%{
-        text: "Multiple Messages Leaf\nSecond message\n",
-        buttons: [{"Main Menu", "Main Menu"}]
+        text: "Multiple Messages Leaf\nSecond message\n"
       })
     end
 
-    # TODO: go_to_page button type
+    test "go_to_page buttons should go to the specified page" do
+      setup_flow()
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
+      |> receive_message(%{buttons: [{"Another page", "Another page"}]})
+      |> FlowTester.send("Another page")
+      |> receive_message(%{
+        text: "Leaf Page 1\nTest leaf content page\n",
+        buttons: [{"Main Menu", "Main Menu"}]
+      })
+    end
 
     # TODO: Add media support to FakeCMS
     # test "give the user a choice when both image and document is present" do

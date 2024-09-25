@@ -342,6 +342,32 @@ card ActionButton when selected_button.type == "next_message" do
   then(FetchContent)
 end
 
+card ActionButton when selected_button.type == "go_to_page" do
+  selected_content_id = selected_button.value.page
+
+  message = 1
+
+  content_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
+      headers: [
+        ["Authorization", "Token @global.config.contentrepo_token"]
+      ],
+      query: [["whatsapp", "true"], ["message", "@message"]]
+    )
+
+  page_list_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
+      headers: [
+        ["Authorization", "Token @global.config.contentrepo_token"]
+      ],
+      query: [["child_of", "@content_data.body.meta.parent.id"]]
+    )
+
+  then(DisplayContent)
+end
+
 card ActionButton do
   log("ERROR: Unknown button type @selected_button.type")
   # Cause an error
