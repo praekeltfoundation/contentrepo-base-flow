@@ -70,6 +70,21 @@ defmodule BrowsableFAQsTest do
               profile_field: "gender",
               value: "female",
               message: "Female variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "single",
+              message: "Single variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "in_a_relationship",
+              message: "In a relationship variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "complicated",
+              message: "In a complicated relationship variation of message"
             }
           ]
         }
@@ -314,6 +329,41 @@ defmodule BrowsableFAQsTest do
       |> receive_message(%{})
       |> FlowTester.send("Variations test")
       |> receive_message(%{text: "Variations test\nFemale variation of message\n"})
+    end
+
+    test "variation relationship single" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "single"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nSingle variation of message\n"})
+    end
+
+    test "variation in relationship" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "in a relationship"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nIn a relationship variation of message\n"})
+    end
+
+    test "variation relationship complicated" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "it's complicated"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\nIn a complicated relationship variation of message\n"
+      })
     end
   end
 end

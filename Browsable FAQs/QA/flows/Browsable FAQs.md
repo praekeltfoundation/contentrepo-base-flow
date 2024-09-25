@@ -114,20 +114,31 @@ card FetchContent, then: GetVariation do
       ],
       query: [["whatsapp", "true"], ["message", "@message"]]
     )
-
-  log("content data @content_data")
 end
 
 card GetVariation when count(content_data.body.body.text) > 0, then: DisplayContent do
   content_body = content_data.body.body.text.value.message
-  log("content body @content_body")
   variations = content_data.body.body.text.value.variation_messages
-  log("variations @variations")
 
   gender_variations =
     filter(variations, &(&1.profile_field == "gender" and &1.value == contact.gender))
 
   content_body = if(count(gender_variations) > 0, gender_variations[0].message, content_body)
+
+  relationship_mapping = [
+    ["single", "single"],
+    ["in a relationship", "in_a_relationship"],
+    ["it's complicated", "complicated"],
+    ["", ""]
+  ]
+
+  relationship_status = find(relationship_mapping, &(&1[0] == contact.relationship_status))[1]
+
+  relationship_variations =
+    filter(variations, &(&1.profile_field == "relationship" and &1.value == relationship_status))
+
+  content_body =
+    if(count(relationship_variations) > 0, relationship_variations[0].message, content_body)
 end
 
 card GetVariation, then: DisplayContent do
