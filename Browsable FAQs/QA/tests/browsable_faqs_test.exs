@@ -1,8 +1,8 @@
 defmodule BrowsableFAQsTest do
   use FlowTester.Case
+  use FakeCMS
 
   alias FlowTester.WebhookHandler, as: WH
-  alias FlowTester.WebhookHandler.FakeCMS.Content.{Image}
 
   defp flow_path(flow_name), do: Path.join([__DIR__, "..", "flows_json", flow_name <> ".json"])
 
