@@ -109,6 +109,18 @@ card FetchContent, then: DisplayContent do
     )
 end
 
+card DisplayContent when count(content_data.body.body.text.value.buttons) > 0 do
+  content_buttons = content_data.body.body.text.value.buttons
+
+  selected_button =
+    buttons(ProcessButton, map(content_buttons, &[&1.value.title, &1.value.title])) do
+      text("""
+      @content_data.body.title
+      @content_data.body.body.text.value.message
+      """)
+    end
+end
+
 card DisplayContent when content_data.body.has_children do
   # If there are children, then give the user a list of options to choose from
   parent_body =
@@ -142,19 +154,6 @@ card DisplayContent when content_data.body.has_children do
       @parent_body
       """)
     end
-end
-
-card DisplayContent when isnumber(content_data.body.body.next_message) do
-  next_prompt = "@content_data.body.body.text.value.next_prompt"
-  next_prompt = if(len(next_prompt) > 0, next_prompt, "Tell me more")
-  message = content_data.body.body.next_message
-
-  buttons(FetchContent: "@next_prompt") do
-    text("""
-    @content_data.body.title
-    @content_data.body.body.text.value.message
-    """)
-  end
 end
 
 card DisplayContent when count(content_data.body.related_pages) > 0 do
@@ -324,6 +323,55 @@ card DisplayMedia do
     @content_data.body.text.value.message
     """)
   end
+end
+
+```
+
+# ProcessButton & ActionButton
+
+These cards handle processing a button action that is defined in the CMS, and performing that action
+
+```stack
+card ProcessButton do
+  selected_button = find(content_buttons, &(&1.value.title == selected_button))
+  then(ActionButton)
+end
+
+card ActionButton when selected_button.type == "next_message" do
+  message = content_data.body.body.next_message
+  then(FetchContent)
+end
+
+card ActionButton when selected_button.type == "go_to_page" do
+  selected_content_id = selected_button.value.page
+
+  message = 1
+
+  content_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
+      headers: [
+        ["Authorization", "Token @global.config.contentrepo_token"]
+      ],
+      query: [["whatsapp", "true"], ["message", "@message"]]
+    )
+
+  page_list_data =
+    get(
+      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
+      headers: [
+        ["Authorization", "Token @global.config.contentrepo_token"]
+      ],
+      query: [["child_of", "@content_data.body.meta.parent.id"]]
+    )
+
+  then(DisplayContent)
+end
+
+card ActionButton do
+  log("ERROR: Unknown button type @selected_button.type")
+  # Cause an error
+  base64_decode("ERROR: Unknown button type @selected_button.type")
 end
 
 ```

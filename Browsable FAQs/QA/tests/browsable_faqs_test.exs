@@ -1,8 +1,8 @@
 defmodule BrowsableFAQsTest do
   use FlowTester.Case
+  use FakeCMS
 
   alias FlowTester.WebhookHandler, as: WH
-  alias FlowTester.WebhookHandler.FakeCMS.Content.{Image}
 
   defp flow_path(flow_name), do: Path.join([__DIR__, "..", "flows_json", flow_name <> ".json"])
 
@@ -45,8 +45,11 @@ defmodule BrowsableFAQsTest do
       slug: "multiple-messages-leaf",
       title: "Multiple Messages Leaf",
       wa_messages: [
-        %WAMsg{message: "First message"},
-        %WAMsg{message: "Second message"}
+        %WAMsg{message: "First message", buttons: [%Btn.Next{title: "Next"}]},
+        %WAMsg{
+          message: "Second message",
+          buttons: [%Btn.GoToPage{title: "Another page", page: "leaf-page-1"}]
+        }
       ]
     }
 
@@ -178,19 +181,49 @@ defmodule BrowsableFAQsTest do
     #   })
     # end
 
-    # TODO: next_message support for fake CMS
-    # test "allow to page through all messages of leaf content" do
-    #   setup_flow()
-    #   |> FlowTester.start()
-    #   |> receive_message(%{})
-    #   |> FlowTester.send("Topic 1")
-    #   |> receive_message(%{})
-    #   |> FlowTester.send("Multiple Messages Leaf")
-    #   |> receive_message(%{
-    #     text: "Multiple Messages Leaf\nFirst message\n",
-    #     buttons: [{"Main Menu", "Main Menu"}]
-    #   })
-    # end
+    test "show list of buttons defined in CMS" do
+      setup_flow()
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{
+        text: "Multiple Messages Leaf\nFirst message\n",
+        buttons: [{"Next", "Next"}]
+      })
+    end
+
+    test "next message buttons should show the next message" do
+      setup_flow()
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
+      |> receive_message(%{
+        text: "Multiple Messages Leaf\nSecond message\n"
+      })
+    end
+
+    test "go_to_page buttons should go to the specified page" do
+      setup_flow()
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
+      |> receive_message(%{buttons: [{"Another page", "Another page"}]})
+      |> FlowTester.send("Another page")
+      |> receive_message(%{
+        text: "Leaf Page 1\nTest leaf content page\n",
+        buttons: [{"Main Menu", "Main Menu"}]
+      })
+    end
 
     # TODO: Add media support to FakeCMS
     # test "give the user a choice when both image and document is present" do
