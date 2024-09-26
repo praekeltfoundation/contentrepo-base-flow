@@ -95,7 +95,7 @@ defmodule BrowsableFAQsTest do
               profile_field: "age",
               value: "19-24",
               message: "19-24 year old variation of message"
-            },
+            }
           ]
         }
       ]
