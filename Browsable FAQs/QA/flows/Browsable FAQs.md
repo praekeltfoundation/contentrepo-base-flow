@@ -120,15 +120,19 @@ card GetVariation when count(content_data.body.body.text) > 0, then: DisplayCont
   content_body = content_data.body.body.text.value.message
   variations = content_data.body.body.text.value.variation_messages
 
+  # Find and apply gender variation
   gender_variations =
     filter(variations, &(&1.profile_field == "gender" and &1.value == contact.gender))
 
   content_body = if(count(gender_variations) > 0, gender_variations[0].message, content_body)
 
+  # Find and apply relationship variation
+  # Relationship stored on the contact is different to the one on the CMS, so translate between them
   relationship_mapping = [
     ["single", "single"],
     ["in a relationship", "in_a_relationship"],
     ["it's complicated", "complicated"],
+    ["empty", ""],
     ["", ""]
   ]
 
@@ -139,6 +143,28 @@ card GetVariation when count(content_data.body.body.text) > 0, then: DisplayCont
 
   content_body =
     if(count(relationship_variations) > 0, relationship_variations[0].message, content_body)
+
+  # Find and apply age variation
+  # We only have year of birth, so we have to make the 1 January assumption and just difference to current year
+  # Age is also stored as ranges in the CMS, so map between age and age ranges
+  year_of_birth = contact.year_of_birth or ""
+
+  age =
+    if(
+      isnumber(year_of_birth),
+      year(now()) - year_of_birth,
+      -1
+    )
+
+  age_mapping = [
+    [[15, 18], "15-18"],
+    [[19, 24], "19-24"]
+  ]
+
+  age_mapping_result = filter(age_mapping, &(age >= &1[0][0] and age <= &1[0][1]))
+  age_range = if(count(age_mapping_result) > 0, age_mapping_result[0][1], "")
+  age_variations = filter(variations, &(&1.profile_field == "age" and &1.value == age_range))
+  content_body = if(count(age_variations) > 0, age_variations[0].message, content_body)
 end
 
 card GetVariation, then: DisplayContent do

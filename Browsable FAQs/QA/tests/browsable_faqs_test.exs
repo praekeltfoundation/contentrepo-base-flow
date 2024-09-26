@@ -85,7 +85,17 @@ defmodule BrowsableFAQsTest do
               profile_field: "relationship",
               value: "complicated",
               message: "In a complicated relationship variation of message"
-            }
+            },
+            %Variation{
+              profile_field: "age",
+              value: "15-18",
+              message: "15-18 year old variation of message"
+            },
+            %Variation{
+              profile_field: "age",
+              value: "19-24",
+              message: "19-24 year old variation of message"
+            },
           ]
         }
       ]
@@ -363,6 +373,34 @@ defmodule BrowsableFAQsTest do
       |> FlowTester.send("Variations test")
       |> receive_message(%{
         text: "Variations test\nIn a complicated relationship variation of message\n"
+      })
+    end
+
+    test "variation 15-18 years old" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"year_of_birth" => "2008"})
+      |> FlowTester.set_fake_time(~U[2024-01-01 00:00:00Z])
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\n15-18 year old variation of message\n"
+      })
+    end
+
+    test "variation 19-24 years old" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"year_of_birth" => "2004"})
+      |> FlowTester.set_fake_time(~U[2024-01-01 00:00:00Z])
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\n19-24 year old variation of message\n"
       })
     end
   end
