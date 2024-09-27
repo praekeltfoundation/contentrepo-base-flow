@@ -53,6 +53,54 @@ defmodule BrowsableFAQsTest do
       ]
     }
 
+    variations_page = %ContentPage{
+      parent: "topic-1",
+      slug: "variations-page",
+      title: "Variations test",
+      wa_messages: [
+        %WAMsg{
+          message: "Default message without variations",
+          variation_messages: [
+            %Variation{
+              profile_field: "gender",
+              value: "male",
+              message: "Male variation of message"
+            },
+            %Variation{
+              profile_field: "gender",
+              value: "female",
+              message: "Female variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "single",
+              message: "Single variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "in_a_relationship",
+              message: "In a relationship variation of message"
+            },
+            %Variation{
+              profile_field: "relationship",
+              value: "complicated",
+              message: "In a complicated relationship variation of message"
+            },
+            %Variation{
+              profile_field: "age",
+              value: "15-18",
+              message: "15-18 year old variation of message"
+            },
+            %Variation{
+              profile_field: "age",
+              value: "19-24",
+              message: "19-24 year old variation of message"
+            }
+          ]
+        }
+      ]
+    }
+
     # TODO: FakeCMS support for related_pages
 
     media_index = %Index{slug: "media-topic", title: "Media Topic"}
@@ -93,7 +141,8 @@ defmodule BrowsableFAQsTest do
                nested_leaf_page,
                multiple_messages_leaf,
                media_index,
-               image_page
+               image_page,
+               variations_page
              ])
 
     assert :ok = FakeCMS.add_images(wh_pid, [image])
@@ -137,7 +186,8 @@ defmodule BrowsableFAQsTest do
            [
              {"Leaf Page 1", "Leaf Page 1"},
              {"Parent Page 1", "Parent Page 1"},
-             {"Multiple Messages Leaf", "Multiple Messages Leaf"}
+             {"Multiple Messages Leaf", "Multiple Messages Leaf"},
+             {"Variations test", "Variations test"}
            ]}
       })
     end
@@ -256,6 +306,102 @@ defmodule BrowsableFAQsTest do
         %{text: "Image", image: "https://example.org/image.jpeg"},
         %{text: "*How can I help you today?*" <> _}
       ])
+    end
+
+    test "variation no gender" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"gender" => ""})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nDefault message without variations\n"})
+    end
+
+    test "variation male" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"gender" => "male"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nMale variation of message\n"})
+    end
+
+    test "variation female" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"gender" => "female"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nFemale variation of message\n"})
+    end
+
+    test "variation relationship single" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "single"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nSingle variation of message\n"})
+    end
+
+    test "variation in relationship" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "in a relationship"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{text: "Variations test\nIn a relationship variation of message\n"})
+    end
+
+    test "variation relationship complicated" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"relationship_status" => "it's complicated"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\nIn a complicated relationship variation of message\n"
+      })
+    end
+
+    test "variation 15-18 years old" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"year_of_birth" => "2008"})
+      |> FlowTester.set_fake_time(~U[2024-01-01 00:00:00Z])
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\n15-18 year old variation of message\n"
+      })
+    end
+
+    test "variation 19-24 years old" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"year_of_birth" => "2004"})
+      |> FlowTester.set_fake_time(~U[2024-01-01 00:00:00Z])
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Variations test")
+      |> receive_message(%{
+        text: "Variations test\n19-24 year old variation of message\n"
+      })
     end
   end
 end
