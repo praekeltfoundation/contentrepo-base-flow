@@ -1,5 +1,8 @@
-base_url: https://whatsapp.turn.io/
-qa_dir: QA
+urls:
+  - name: contentrepo
+    qa_url: https://content-repo-api-qa.prk-k8s.prd-p6t.org
+    prod_url: https://platform-mnch-contentrepo.prk-k8s.prd-p6t.org
 stack_uuids:
 - name: Browsable FAQs
   qa_uuid: 8ab45813-2c9c-4ea6-bed1-10ad091d85e8
+  prod_uuid: todo
