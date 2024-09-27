@@ -113,8 +113,6 @@ defmodule BrowsableFAQsTest do
       ]
     }
 
-    # TODO: FakeCMS support for related_pages
-
     media_index = %Index{slug: "media-topic", title: "Media Topic"}
     image = %Image{id: 1, title: "Test image", download_url: "https://example.org/image.jpeg"}
 
