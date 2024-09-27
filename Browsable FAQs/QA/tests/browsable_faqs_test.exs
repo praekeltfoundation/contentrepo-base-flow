@@ -64,6 +64,7 @@ defmodule BrowsableFAQsTest do
         }
       ]
     }
+
     variations_page = %ContentPage{
       parent: "topic-1",
       slug: "variations-page",
@@ -336,7 +337,8 @@ defmodule BrowsableFAQsTest do
       |> FlowTester.send("Multiple Messages Leaf")
       |> receive_message(%{
         text: "Multiple Messages Leaf\nFirst message\n",
-        buttons: [{"Next", "Next"}]})
+        buttons: [{"Next", "Next"}]
+      })
     end
 
     test "variation no gender" do
