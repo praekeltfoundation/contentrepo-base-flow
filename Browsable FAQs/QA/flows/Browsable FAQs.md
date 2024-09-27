@@ -219,15 +219,7 @@ card DisplayContent when content_data.body.has_children do
 end
 
 card DisplayContent when count(content_data.body.related_pages) > 0 do
-  related_data =
-    get(
-      "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@selected_content_id/",
-      headers: [
-        ["Authorization", "Token @global.config.contentrepo_token"]
-      ]
-    )
-
-  related_pages = map(related_data.body.related_pages, &[&1.title, &1.title])
+  related_pages = map(content_data.body.related_pages, &[&1.title, &1.title])
 
   selected_content_name =
     list("Select related page", SelectRelatedPage, related_pages) do
@@ -324,7 +316,7 @@ end
 
 card SelectRelatedPage, then: GetVariation do
   selected_content_id =
-    find(related_data.body.related_pages, &(&1.title == selected_content_name)).value
+    find(content_data.body.related_pages, &(&1.title == selected_content_name)).value
 
   message = 1
 

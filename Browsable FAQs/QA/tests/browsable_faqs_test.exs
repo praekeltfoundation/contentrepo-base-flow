@@ -53,6 +53,18 @@ defmodule BrowsableFAQsTest do
       ]
     }
 
+    related_page_leaf = %ContentPage{
+      parent: "topic-1",
+      slug: "related-page-leaf",
+      title: "Related Page Leaf",
+      related_pages: ["multiple-messages-leaf"],
+      wa_messages: [
+        %WAMsg{
+          message: "Test related page leaf"
+        }
+      ]
+    }
+
     variations_page = %ContentPage{
       parent: "topic-1",
       slug: "variations-page",
@@ -101,8 +113,6 @@ defmodule BrowsableFAQsTest do
       ]
     }
 
-    # TODO: FakeCMS support for related_pages
-
     media_index = %Index{slug: "media-topic", title: "Media Topic"}
     image = %Image{id: 1, title: "Test image", download_url: "https://example.org/image.jpeg"}
 
@@ -140,6 +150,7 @@ defmodule BrowsableFAQsTest do
                parent_page,
                nested_leaf_page,
                multiple_messages_leaf,
+               related_page_leaf,
                media_index,
                image_page,
                variations_page
@@ -187,6 +198,7 @@ defmodule BrowsableFAQsTest do
              {"Leaf Page 1", "Leaf Page 1"},
              {"Parent Page 1", "Parent Page 1"},
              {"Multiple Messages Leaf", "Multiple Messages Leaf"},
+             {"Related Page Leaf", "Related Page Leaf"},
              {"Variations test", "Variations test"}
            ]}
       })
@@ -306,6 +318,25 @@ defmodule BrowsableFAQsTest do
         %{text: "Image", image: "https://example.org/image.jpeg"},
         %{text: "*How can I help you today?*" <> _}
       ])
+    end
+
+    test "display related pages" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"gender" => ""})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Related Page Leaf")
+      |> receive_message(%{
+        text: "Related Page Leaf\nTest related page leaf\n",
+        list: {"Select related page", [{"Multiple Messages Leaf", "Multiple Messages Leaf"}]}
+      })
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{
+        text: "Multiple Messages Leaf\nFirst message\n",
+        buttons: [{"Next", "Next"}]
+      })
     end
 
     test "variation no gender" do
