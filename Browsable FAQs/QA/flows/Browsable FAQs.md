@@ -1,3 +1,10 @@
+<!-- { section: "7ac3c144-c5fa-49b9-a924-9d9e7516c428", x: 500, y: 48} -->
+
+```stack
+trigger(on: "MESSAGE RECEIVED") when has_only_phrase(event.message.text.body, "browse")
+
+```
+
 # Browsable FAQs
 
 This Journey allows users to browse through the tree structure in the CMS, to view all of the content themselves.
@@ -95,7 +102,7 @@ These cards fetch the current selected content from the CMS, and displays it. It
 * If there is an image or media file, it should display that
 
 ```stack
-card FetchContent, then: DisplayContent do
+card FetchContent, then: GetVariation do
   selected_content_id =
     filter(page_list_data.body.results, &(&1.title == selected_content_name))[0].id
 
@@ -109,6 +116,61 @@ card FetchContent, then: DisplayContent do
     )
 end
 
+card GetVariation when count(content_data.body.body.text) > 0, then: DisplayContent do
+  content_body = content_data.body.body.text.value.message
+  variations = content_data.body.body.text.value.variation_messages
+
+  # Find and apply gender variation
+  gender_variations =
+    filter(variations, &(&1.profile_field == "gender" and &1.value == contact.gender))
+
+  content_body = if(count(gender_variations) > 0, gender_variations[0].message, content_body)
+
+  # Find and apply relationship variation
+  # Relationship stored on the contact is different to the one on the CMS, so translate between them
+  relationship_mapping = [
+    ["single", "single"],
+    ["in a relationship", "in_a_relationship"],
+    ["it's complicated", "complicated"],
+    ["empty", ""],
+    ["", ""]
+  ]
+
+  relationship_status = find(relationship_mapping, &(&1[0] == contact.relationship_status))[1]
+
+  relationship_variations =
+    filter(variations, &(&1.profile_field == "relationship" and &1.value == relationship_status))
+
+  content_body =
+    if(count(relationship_variations) > 0, relationship_variations[0].message, content_body)
+
+  # Find and apply age variation
+  # We only have year of birth, so we have to make the 1 January assumption and just difference to current year
+  # Age is also stored as ranges in the CMS, so map between age and age ranges
+  year_of_birth = contact.year_of_birth or ""
+
+  age =
+    if(
+      isnumber(year_of_birth),
+      year(now()) - year_of_birth,
+      -1
+    )
+
+  age_mapping = [
+    [[15, 18], "15-18"],
+    [[19, 24], "19-24"]
+  ]
+
+  age_mapping_result = filter(age_mapping, &(age >= &1[0][0] and age <= &1[0][1]))
+  age_range = if(count(age_mapping_result) > 0, age_mapping_result[0][1], "")
+  age_variations = filter(variations, &(&1.profile_field == "age" and &1.value == age_range))
+  content_body = if(count(age_variations) > 0, age_variations[0].message, content_body)
+end
+
+card GetVariation, then: DisplayContent do
+  log("No messages, not searching for variations")
+end
+
 card DisplayContent when count(content_data.body.body.text.value.buttons) > 0 do
   content_buttons = content_data.body.body.text.value.buttons
 
@@ -116,7 +178,7 @@ card DisplayContent when count(content_data.body.body.text.value.buttons) > 0 do
     buttons(ProcessButton, map(content_buttons, &[&1.value.title, &1.value.title])) do
       text("""
       @content_data.body.title
-      @content_data.body.body.text.value.message
+      @content_body
       """)
     end
 end
@@ -126,7 +188,7 @@ card DisplayContent when content_data.body.has_children do
   parent_body =
     if(
       count(content_data.body.body.text) > 0,
-      content_data.body.body.text.value.message,
+      content_body,
       "Select an item"
     )
 
@@ -163,7 +225,7 @@ card DisplayContent when count(content_data.body.related_pages) > 0 do
     list("Select related page", SelectRelatedPage, related_pages) do
       text("""
       @content_data.body.title
-      @content_data.body.body.text.value.message
+      @content_body
       """)
     end
 end
@@ -247,12 +309,12 @@ card DisplayContent do
   buttons(Exit: "Main Menu") do
     text("""
     @content_data.body.title
-    @content_data.body.body.text.value.message
+    @content_body
     """)
   end
 end
 
-card SelectRelatedPage, then: DisplayContent do
+card SelectRelatedPage, then: GetVariation do
   selected_content_id =
     find(content_data.body.related_pages, &(&1.title == selected_content_name)).value
 
@@ -288,7 +350,7 @@ card DisplayImage, then: MainMenu do
   log("Image Type: @image_data.media_type")
 
   image("@image_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia when media_data.media_type == "audio", then: MainMenu do
@@ -296,7 +358,7 @@ card DisplayMedia when media_data.media_type == "audio", then: MainMenu do
   log("Media Type-2: @media_data.media_type")
 
   audio("@media_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia when media_data.media_type == "video", then: MainMenu do
@@ -305,7 +367,7 @@ card DisplayMedia when media_data.media_type == "video", then: MainMenu do
   log("@media_data.meta.download_url")
 
   video("@media_data.meta.download_url")
-  text("@content_data.body.body.text.value.message")
+  text("@content_body")
 end
 
 card DisplayMedia do
@@ -357,7 +419,7 @@ card ActionButton when selected_button.type == "go_to_page" do
       query: [["child_of", "@content_data.body.meta.parent.id"]]
     )
 
-  then(DisplayContent)
+  then(GetVariation)
 end
 
 card ActionButton do
