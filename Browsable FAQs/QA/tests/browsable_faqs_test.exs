@@ -311,7 +311,6 @@ defmodule BrowsableFAQsTest do
       |> receive_message(%{text: "Leaf Page 1\nLast message\n"})
     end
 
-
     # TODO: Add media support to FakeCMS
     # test "give the user a choice when both image and document is present" do
     #   setup_flow()
