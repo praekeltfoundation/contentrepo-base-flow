@@ -74,7 +74,7 @@ card IndexMenu, then: FetchContent do
       headers: [
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
-      query: [["child_of", "@selected_index_id"]]
+      query: [["child_of", "@selected_index_id"], ["whatsapp", "true"]]
     )
 
   index_menu_items = map(page_list_data.body.results, &[&1.title, &1.title])
@@ -202,7 +202,8 @@ card DisplayContent when content_data.body.has_children do
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [
-        ["child_of", "@selected_content_id"]
+        ["child_of", "@selected_content_id"],
+        ["whatsapp", "true"]
       ]
     )
 
@@ -297,7 +298,7 @@ card DisplayContent when isnumber(content_data.body.body.text.value.image), then
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
       headers: [
-        ["Authorization", "Token @globals.config.contentrepo_token"]
+        ["Authorization", "Token @global.config.contentrepo_token"]
       ]
     )
 
@@ -335,7 +336,7 @@ card SelectRelatedPage, then: GetVariation do
       headers: [
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
-      query: [["child_of", "@content_data.body.meta.parent.id"]]
+      query: [["child_of", "@content_data.body.meta.parent.id"], ["whatsapp", "true"]]
     )
 end
 
@@ -410,13 +411,15 @@ card ActionButton when selected_button.type == "go_to_page" do
       query: [["whatsapp", "true"], ["message", "@message"]]
     )
 
+  selected_content_name = content_data.body.title
+
   page_list_data =
     get(
       "https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/",
       headers: [
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
-      query: [["child_of", "@content_data.body.meta.parent.id"]]
+      query: [["child_of", "@content_data.body.meta.parent.id"], ["whatsapp", "true"]]
     )
 
   then(GetVariation)
