@@ -18,7 +18,11 @@ defmodule BrowsableFAQsTest do
       title: "Leaf Page 1",
       wa_messages: [
         %WAMsg{
-          message: "Test leaf content page"
+          message: "Test leaf content page",
+          buttons: [%Btn.Next{title: "Next"}]
+        },
+        %WAMsg{
+          message: "Last message"
         }
       ]
     }
@@ -26,7 +30,8 @@ defmodule BrowsableFAQsTest do
     parent_page = %ContentPage{
       parent: "topic-1",
       slug: "parent-page-1",
-      title: "Parent Page 1"
+      title: "Parent Page 1",
+      wa_messages: [%WAMsg{message: "Show this in whatsapp menus"}]
     }
 
     nested_leaf_page = %ContentPage{
@@ -213,7 +218,7 @@ defmodule BrowsableFAQsTest do
       |> FlowTester.send("Leaf Page 1")
       |> receive_message(%{
         text: "Leaf Page 1\nTest leaf content page\n",
-        buttons: [{"Main Menu", "Main Menu"}]
+        buttons: [{"Next", "Next"}]
       })
     end
 
@@ -224,6 +229,8 @@ defmodule BrowsableFAQsTest do
       |> FlowTester.send("Topic 1")
       |> receive_message(%{})
       |> FlowTester.send("Leaf Page 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
       |> receive_message(%{})
       |> FlowTester.send("Main Menu")
       |> receive_message(%{text: "TODO: Exit"})
@@ -283,8 +290,25 @@ defmodule BrowsableFAQsTest do
       |> FlowTester.send("Another page")
       |> receive_message(%{
         text: "Leaf Page 1\nTest leaf content page\n",
-        buttons: [{"Main Menu", "Main Menu"}]
+        buttons: [{"Next", "Next"}]
       })
+    end
+
+    test "next_message buttons should work after go_to_page button" do
+      # Picked up by QA, DELTA-1316
+      setup_flow()
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{})
+      |> FlowTester.send("Multiple Messages Leaf")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
+      |> receive_message(%{})
+      |> FlowTester.send("Another page")
+      |> receive_message(%{})
+      |> FlowTester.send("Next")
+      |> receive_message(%{text: "Leaf Page 1\nLast message\n"})
     end
 
     # TODO: Add media support to FakeCMS
