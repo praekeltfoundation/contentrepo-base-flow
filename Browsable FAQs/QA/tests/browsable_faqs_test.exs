@@ -27,6 +27,22 @@ defmodule BrowsableFAQsTest do
       ]
     }
 
+    tagged_leaf_page = %ContentPage{
+      parent: "topic-1",
+      slug: "tagged-leaf-page-1",
+      title: "Tagged Leaf Page 1",
+      tags: ["female"],
+      wa_messages: [
+        %WAMsg{
+          message: "Test tagged leaf content page",
+          buttons: [%Btn.Next{title: "Next"}]
+        },
+        %WAMsg{
+          message: "Last message"
+        }
+      ]
+    }
+
     parent_page = %ContentPage{
       parent: "topic-1",
       slug: "parent-page-1",
@@ -74,6 +90,7 @@ defmodule BrowsableFAQsTest do
       parent: "topic-1",
       slug: "variations-page",
       title: "Variations test",
+      tags: ["female", "male"],
       wa_messages: [
         %WAMsg{
           message: "Default message without variations",
@@ -158,7 +175,8 @@ defmodule BrowsableFAQsTest do
                related_page_leaf,
                media_index,
                image_page,
-               variations_page
+               variations_page,
+               tagged_leaf_page
              ])
 
     assert :ok = FakeCMS.add_images(wh_pid, [image])
@@ -171,6 +189,10 @@ defmodule BrowsableFAQsTest do
   defp fake_cms(step, base_url, auth_token),
     do: WH.set_adapter(step, base_url, setup_fake_cms(auth_token))
 
+  defp setup_contact_fields(context) do
+    context |> FlowTester.set_contact_properties(%{"gender" => ""})
+  end
+
   defp setup_flow() do
     auth_token = "testtoken"
 
@@ -178,6 +200,7 @@ defmodule BrowsableFAQsTest do
     |> FlowTester.from_json!()
     |> fake_cms("https://content-repo-api-qa.prk-k8s.prd-p6t.org/", auth_token)
     |> FlowTester.set_global_dict("config", %{"contentrepo_token" => auth_token})
+    |> setup_contact_fields()
   end
 
   describe "browsable faqs" do
@@ -204,8 +227,23 @@ defmodule BrowsableFAQsTest do
              {"Parent Page 1", "Parent Page 1"},
              {"Multiple Messages Leaf", "Multiple Messages Leaf"},
              {"Related Page Leaf", "Related Page Leaf"},
-             {"Variations test", "Variations test"}
+             {"Variations test", "Variations test"},
+             {"Tagged Leaf Page 1", "Tagged Leaf Page 1"}
            ]}
+      })
+    end
+
+    test "show menu of children of index page filtered by tag" do
+      setup_flow()
+      |> FlowTester.set_contact_properties(%{"gender" => "female"})
+      |> FlowTester.start()
+      |> receive_message(%{})
+      |> FlowTester.send("Topic 1")
+      |> receive_message(%{
+        text: "Topic 1\n-----\nSelect the topic you are interested in from the list\n",
+        list:
+          {"Select topic",
+           [{"Variations test", "Variations test"}, {"Tagged Leaf Page 1", "Tagged Leaf Page 1"}]}
       })
     end
 

@@ -32,6 +32,11 @@ This menu displays all the titles of the index pages that are found in the CMS, 
 <!-- { section: "5717187d-7351-498d-a008-73fa6b29183d", x: 0, y: 0} -->
 
 ```stack
+# Here you can initialise any filter parameters that will be used to filter index pages or pages
+card InitFilterParams, then: MainMenu do
+  gender = if is_nil_or_empty("@contact.gender"), do: "", else: "@contact.gender"
+end
+
 card MainMenu do
   # Main menu displays all of the index pages for the user to select from
   # TODO: replace this with URL in config once Turn has fixed the bug that changes the URL into markdown
@@ -74,7 +79,7 @@ card IndexMenu, then: FetchContent do
       headers: [
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
-      query: [["child_of", "@selected_index_id"], ["whatsapp", "true"]]
+      query: [["child_of", "@selected_index_id"], ["whatsapp", "true"], ["tag", "@gender"]]
     )
 
   index_menu_items = map(page_list_data.body.results, &[&1.title, &1.title])
