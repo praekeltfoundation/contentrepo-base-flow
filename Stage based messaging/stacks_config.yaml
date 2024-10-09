@@ -1,0 +1,14 @@
+urls:
+  - name: contentrepo
+    qa_url: https://content-repo-api-qa.prk-k8s.prd-p6t.org
+    prod_url: https://platform-mnch-contentrepo.prk-k8s.prd-p6t.org
+stack_uuids:
+- name: signup
+  qa_uuid: ce9d3d33-8760-47fe-a6c2-298991cb5764
+  prod_uuid: todo
+- name: schedule_next_push_message
+  qa_uuid: f291b782-72d3-49eb-8434-e47e388c2ea1
+  prod_uuid: todo
+- name: send_next_message_callback
+  qa_uuid: 8eb4490c-dc45-4c1f-bf10-1a95158ef45f
+  prod_uuid: todo
