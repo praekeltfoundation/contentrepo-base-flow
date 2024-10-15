@@ -80,7 +80,8 @@ card GetAssessment, then: CheckEnd do
       timeout: 5_000,
       cache_ttl: 60_000,
       query: [
-        ["tag", "@config.items.assessment_tag"]
+        # TODO: Remove hard coding when flow tester gets support for dicts
+        ["tag", "dma_form"]
       ],
       headers: [
         ["content-type", "application/json"],
