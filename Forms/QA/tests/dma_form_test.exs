@@ -26,6 +26,17 @@ defmodule DMAFormTest do
       ]
     })
 
+    FakeCMS.add_page(wh_pid, %ContentPage{
+      parent: "home",
+      slug: "skip-result-page",
+      title: "Skip Result Page",
+      wa_messages: [
+        %WAMsg{
+          message: "You are seeing this message because you skipped an answer."
+        }
+      ]
+    })
+
     FakeCMS.add_form(wh_pid, %Form{
       id: 1,
       title: "DMA_Form_01",
@@ -38,6 +49,7 @@ defmodule DMAFormTest do
       high_result_page: "mnch_onboarding_dma_results_high",
       medium_inflection: 3.0,
       skip_threshold: 1.0,
+      skip_high_result_page: "skip-result-page",
       questions: [
         %Forms.CategoricalQuestion{
           question:
@@ -123,6 +135,18 @@ defmodule DMAFormTest do
       |> receive_message(%{text: "*Thank you for completing this*" <> _})
       |> results_match([
         %Result{name: "mnch_onboarding_dma_form_dma-do-things", value: "dma_form01_agree"} | _
+      ])
+    end
+
+    test "store the results when a question is skipped" do
+      setup_flow()
+      |> FlowTester.start()
+      |> FlowStep.clear_messages()
+      |> FlowStep.clear_results()
+      |> FlowTester.send("skip")
+      |> receive_message(%{text: "You are seeing this message because you skipped an answer."})
+      |> results_match([
+        %Result{name: "mnch_onboarding_dma_form_dma-do-things", value: "skip"} | _
       ])
     end
 

@@ -342,7 +342,7 @@ card QuestionError when has_all_members(keywords, [@question_response]), then: C
   text("@explainer")
 end
 
-card QuestionError when @question_response == lower("skip"), then: CheckEnd do
+card QuestionError when @question_response == lower("skip"), then: StoreResponse do
   # If they skip a question we should 
   # - record the answer as "skip"
   # - increment skip count
@@ -435,7 +435,7 @@ card MultiselectError when has_all_members(keywords, [@question_response]),
   text("@explainer")
 end
 
-card MultiselectError when lower(@question_response) == "skip", then: GetQuestion do
+card MultiselectError when lower(@question_response) == "skip", then: CheckEndMultiselect do
   # If they skip a question we should 
   # - record the answer as "skip"
   # - increment skip_count
@@ -540,7 +540,7 @@ card QuestionResponse
   question_num = count(questions)
 end
 
-card QuestionResponse when lower("@question_response") == "skip", then: CheckEnd do
+card QuestionResponse when lower("@question_response") == "skip", then: StoreResponse do
   # If they skip a question we should 
   # - record the answer as "skip"
   # - increment skip_count
@@ -578,40 +578,45 @@ These cards are to configure storing the answers of the Form in contact fields. 
 ```stack
 card StoreResponse when question_id == "dma-do-things" do
   # TODO: remove this hard-coding once we can have dynamic labels for flow results
-  answer = find(question.answers, &(&1.answer == question_response))
-  write_result("mnch_onboarding_dma_form_dma-do-things", "@answer.semantic_id")
+  answer = filter(question.answers, &(&1.answer == question_response))
+  semantic_id = if(count(answer) == 0, "skip", answer[0].semantic_id)
+  write_result("mnch_onboarding_dma_form_dma-do-things", semantic_id)
   update_contact(dma_01: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-medical-care" do
   # TODO: remove this hard-coding once we can have dynamic labels for flow results
-  answer = find(question.answers, &(&1.answer == question_response))
-  write_result("mnch_onboarding_dma_form_dma-medical-care", "@answer.semantic_id")
+  answer = filter(question.answers, &(&1.answer == question_response))
+  semantic_id = if(count(answer) == 0, "skip", answer[0].semantic_id)
+  write_result("mnch_onboarding_dma_form_dma-medical-care", semantic_id)
   update_contact(dma_02: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-sharing" do
   # TODO: remove this hard-coding once we can have dynamic labels for flow results
-  answer = find(question.answers, &(&1.answer == question_response))
-  write_result("mnch_onboarding_dma_form_dma-sharing", "@answer.semantic_id")
+  answer = filter(question.answers, &(&1.answer == question_response))
+  semantic_id = if(count(answer) == 0, "skip", answer[0].semantic_id)
+  write_result("mnch_onboarding_dma_form_dma-sharing", semantic_id)
   update_contact(dma_03: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-medical-advice" do
   # TODO: remove this hard-coding once we can have dynamic labels for flow results
-  answer = find(question.answers, &(&1.answer == question_response))
-  write_result("mnch_onboarding_dma_form_dma-medical-advice", "@answer.semantic_id")
+  answer = filter(question.answers, &(&1.answer == question_response))
+  semantic_id = if(count(answer) == 0, "skip", answer[0].semantic_id)
+  write_result("mnch_onboarding_dma_form_dma-medical-advice", semantic_id)
   update_contact(dma_04: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-find-solutions" do
   # TODO: remove this hard-coding once we can have dynamic labels for flow results
-  answer = find(question.answers, &(&1.answer == question_response))
-  write_result("mnch_onboarding_dma_form_dma-find-solutions", "@answer.semantic_id")
+  answer = filter(question.answers, &(&1.answer == question_response))
+  semantic_id = if(count(answer) == 0, "skip", answer[0].semantic_id)
+  write_result("mnch_onboarding_dma_form_dma-find-solutions", semantic_id)
   update_contact(dma_05: "@question_response")
   then(CheckEnd)
 end
