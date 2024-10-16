@@ -3,6 +3,7 @@ defmodule DMAFormTest do
   use FakeCMS
 
   alias FlowTester.WebhookHandler, as: WH
+  alias FlowTester.Result
 
   defp flow_path(flow_name), do: Path.join([__DIR__, "..", "flows_json", flow_name <> ".json"])
 
@@ -90,6 +91,11 @@ defmodule DMAFormTest do
              {"Strongly Agree", "Strongly Agree"}
            ]}
       })
+      |> results_match([
+        %Result{name: "version", value: "v1.0"},
+        %Result{name: "mnch_onboarding_dma_form_v1.0_started", value: "yes"},
+        %Result{name: "locale", value: "en"}
+      ])
     end
   end
 end

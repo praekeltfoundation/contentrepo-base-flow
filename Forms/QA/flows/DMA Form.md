@@ -113,8 +113,8 @@ card GetAssessment, then: CheckEnd do
 
   log("Starting assessment @config.items.assessment_tag")
   write_result("version", "@version")
-  v_start = concatenate(slug, "_", version, "_start")
-  write_result("@v_start", "@config.items.assessment_tag")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_started", "yes")
   write_result("locale", "@locale")
 end
 
