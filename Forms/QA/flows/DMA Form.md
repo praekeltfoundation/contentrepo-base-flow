@@ -140,8 +140,8 @@ card CheckEnd when question_num == count(questions), then: End do
 
   # workaround because the percentage calculation will throw a division by 0 error if max_score is 0 in either an if or a when clause.
   score_perc = score / max(max_score, 1) * 100
-  slug_end = concatenate(slug, "_end")
-  write_result("@slug_end", "@assessment_data.slug")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_completed", "yes")
 end
 
 card CheckEnd do
@@ -348,11 +348,7 @@ card QuestionError when @question_response == lower("skip"), then: CheckEnd do
   # - increment skip count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  result_tag = concatenate("@slug", "_", "@version", "_question_num")
-  write_result("@result_tag", question_num)
   question_id = questions[question_num].semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
-  write_result("@result_tag", "skip")
   skip_count = skip_count + 1
 
   log("Skipping question @question_num")
@@ -394,11 +390,7 @@ card CheckEndMultiselect
      then: StoreResponse do
   question_num = question_num + 1
   # write the answer results
-  result_tag = concatenate("@slug", "_", "@version", "question_num")
-  write_result("@result_tag", question_num)
   question_id = questions[question_num].semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
-  write_result("@result_tag", "@multiselect_answer")
   log("Answered @multiselect_answer to question @question_num")
 end
 
@@ -449,11 +441,7 @@ card MultiselectError when lower(@question_response) == "skip", then: GetQuestio
   # - increment skip_count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  result_tag = concatenate("@slug", "_", "@version", "question_num")
-  write_result("@result_tag", question_num)
   question_id = questions[question_num].semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
-  write_result("@result_tag", "skip")
 
   skip_count = skip_count + 1
 
@@ -512,11 +500,6 @@ We record the following Flow Results:
 card QuestionResponse when questions[question_num].question_type == "integer_question",
   then: StoreResponse do
   question_id = questions[question_num].semantic_id
-  write_result("@slug_@version_question_num", question_num)
-  write_result("@slug_@version_question", question.question)
-  write_result("@slug_@version_@question_id", "@question_response")
-  write_result("@slug_@version_min", min)
-  write_result("@slug_@version_max", max)
 
   question_num = question_num + 1
 end
@@ -524,9 +507,6 @@ end
 card QuestionResponse when questions[question_num].question_type == "freetext_question",
   then: StoreResponse do
   question_id = questions[question_num].semantic_id
-  write_result("@slug_@version_question_num", question_num)
-  write_result("@slug_@version_question", question.question)
-  write_result("@slug_@version_@question_id", "@question_response")
 
   question_num = question_num + 1
 end
@@ -534,8 +514,6 @@ end
 card QuestionResponse when questions[question_num].question_type == "age_question",
   then: StoreResponse do
   question_id = questions[question_num].semantic_id
-  write_result("@slug_@version_question_num", question_num)
-  write_result("@slug_@version_@question_id", "@question_response")
   log("Answered @age to question @question_num")
 
   question_num = question_num + 1
@@ -544,9 +522,6 @@ end
 card QuestionResponse when questions[question_num].question_type == "year_of_birth_question",
   then: StoreResponse do
   question_id = questions[question_num].semantic_id
-  write_result("@slug_@version_question_num", question_num)
-  write_result("@slug_@version_question", question.question)
-  write_result("@slug_@version_@question_id", "@question_response")
 
   question_num = question_num + 1
 end
@@ -558,9 +533,7 @@ card QuestionResponse
      then: CheckEnd do
   log("Skipping to end of Form")
   answer = find(question.answers, &(&1.answer == question_response))
-  write_result("@slug_@version_question_num", question_num)
   question_id = questions[question_num].semantic_id
-  write_result("@slug_@version_@question_id", "@question_response")
   log("Answered @answer.answer to question @question_num")
 
   score = score + answer.score
@@ -573,11 +546,7 @@ card QuestionResponse when lower("@question_response") == "skip", then: CheckEnd
   # - increment skip_count
   # - do not count the question towards the score
   # - do not add the max score for this question (i.e. completely exclude this question from scoring)
-  result_tag = concatenate("@slug", "_", "@version", "_question_num")
-  write_result("@result_tag", question_num)
   question_id = questions[question_num].semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
-  write_result("@result_tag", "skip")
 
   skip_count = skip_count + 1
 
@@ -592,11 +561,6 @@ card QuestionResponse, then: StoreResponse do
   max_question_score = reduce(scores, scores[0], &max(&1, &2))
   answer = find(question.answers, &(&1.answer == question_response))
   question_id = questions[question_num].semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_question_num")
-  write_result("@result_tag", question_num)
-  # for multiple choice and categorical questions, save the semantic_id
-  result_tag = concatenate("@slug", "_", "@version", "_", "@question_id")
-  write_result("@result_tag", answer.semantic_id)
   log("Answered @answer.answer to question @question_num")
 
   max_score = max_score + max_question_score
@@ -613,26 +577,41 @@ These cards are to configure storing the answers of the Form in contact fields. 
 
 ```stack
 card StoreResponse when question_id == "dma-do-things" do
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("mnch_onboarding_dma_form_dma-do-things", "@answer.semantic_id")
   update_contact(dma_01: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-medical-care" do
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("mnch_onboarding_dma_form_dma-medical-care", "@answer.semantic_id")
   update_contact(dma_02: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-sharing" do
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("mnch_onboarding_dma_form_dma-sharing", "@answer.semantic_id")
   update_contact(dma_03: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-medical-advice" do
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("mnch_onboarding_dma_form_dma-medical-advice", "@answer.semantic_id")
   update_contact(dma_04: "@question_response")
   then(CheckEnd)
 end
 
 card StoreResponse when question_id == "dma-find-solutions" do
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  answer = find(question.answers, &(&1.answer == question_response))
+  write_result("mnch_onboarding_dma_form_dma-find-solutions", "@answer.semantic_id")
   update_contact(dma_05: "@question_response")
   then(CheckEnd)
 end
@@ -656,8 +635,8 @@ We record the following Flow Results:
 card End
      when skip_count < skip_threshold and
             score_perc >= assessment_data.high_inflection do
-  result_tag = concatenate("@slug", "_", "@version", "_risk")
-  write_result("@result_tag", "high")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_risk", "high")
   log("Assessment risk: high")
   page_id = assessment_data.high_result_page.id
 
@@ -668,8 +647,8 @@ card End
      when skip_count < skip_threshold and
             score_perc >= assessment_data.medium_inflection and
             score_perc < assessment_data.high_inflection do
-  result_tag = concatenate("@slug", "_", "@version", "_risk")
-  write_result("@result_tag", "medium")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_risk", "medium")
   log("Assessment risk: medium")
   page_id = assessment_data.medium_result_page.id
 
@@ -677,8 +656,8 @@ card End
 end
 
 card End when skip_count >= skip_threshold do
-  result_tag = concatenate("@slug", "_", "@version", "_risk")
-  write_result("@result_tag", "skip_high")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_risk", "skip_high")
   log("Assessment risk: skip_high")
   page_id = assessment_data.skip_high_result_page.id
 
@@ -686,8 +665,8 @@ card End when skip_count >= skip_threshold do
 end
 
 card End do
-  result_tag = concatenate("@slug", "_", "@version", "_risk")
-  write_result("@result_tag", "low")
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_risk", "low")
   log("Assessment risk: low")
   page_id = assessment_data.low_result_page.id
 
@@ -695,10 +674,9 @@ card End do
 end
 
 card DisplayEndPage do
-  result_tag = concatenate("@slug", "_", "@version", "_score")
-  write_result("@result_tag", score)
-  result_tag = concatenate("@slug", "_", "@version", "_max_score")
-  write_result("@result_tag", max_score)
+  # TODO: remove this hard-coding once we can have dynamic labels for flow results
+  write_result("mnch_onboarding_dma_form_v1.0_score", score)
+  write_result("mnch_onboarding_dma_form_v1.0_max_score", max_score)
 
   response =
     get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/pages/@page_id/",

@@ -4,12 +4,27 @@ defmodule DMAFormTest do
 
   alias FlowTester.WebhookHandler, as: WH
   alias FlowTester.Result
+  alias FlowTester.FlowStep
 
   defp flow_path(flow_name), do: Path.join([__DIR__, "..", "flows_json", flow_name <> ".json"])
 
   def setup_fake_cms(auth_token) do
     # Start the handler.
     wh_pid = start_link_supervised!({FakeCMS, %FakeCMS.Config{auth_token: auth_token}})
+
+    FakeCMS.add_page(wh_pid, %Index{slug: "home", title: "Home"})
+
+    FakeCMS.add_page(wh_pid, %ContentPage{
+      parent: "home",
+      slug: "mnch_onboarding_dma_results_high",
+      title: "DMA_results_high",
+      wa_messages: [
+        %WAMsg{
+          message:
+            "*Thank you for completing this*\n\nYou seem comfortable and confident making decisions about your health.\n\nKeep on doing what you’re doing! 🤩"
+        }
+      ]
+    })
 
     FakeCMS.add_form(wh_pid, %Form{
       id: 1,
@@ -20,6 +35,7 @@ defmodule DMAFormTest do
       locale: "en",
       tags: ["dma_form"],
       high_inflection: 5.0,
+      high_result_page: "mnch_onboarding_dma_results_high",
       medium_inflection: 3.0,
       skip_threshold: 1.0,
       questions: [
@@ -95,6 +111,34 @@ defmodule DMAFormTest do
         %Result{name: "version", value: "v1.0"},
         %Result{name: "mnch_onboarding_dma_form_v1.0_started", value: "yes"},
         %Result{name: "locale", value: "en"}
+      ])
+    end
+
+    test "store the results when a question is answered" do
+      setup_flow()
+      |> FlowTester.start()
+      |> FlowStep.clear_messages()
+      |> FlowStep.clear_results()
+      |> FlowTester.send("Agree")
+      |> receive_message(%{text: "*Thank you for completing this*" <> _})
+      |> results_match([
+        %Result{name: "mnch_onboarding_dma_form_dma-do-things", value: "dma_form01_agree"} | _
+      ])
+    end
+
+    test "store the results when a form is completed" do
+      setup_flow()
+      |> FlowTester.start()
+      |> FlowStep.clear_messages()
+      |> FlowStep.clear_results()
+      |> FlowTester.send("Agree")
+      |> receive_message(%{text: "*Thank you for completing this*" <> _})
+      |> results_match([
+        _,
+        %Result{name: "mnch_onboarding_dma_form_v1.0_completed", value: "yes"},
+        %Result{name: "mnch_onboarding_dma_form_v1.0_risk", value: "high"},
+        %Result{name: "mnch_onboarding_dma_form_v1.0_score", value: 1.0},
+        %Result{name: "mnch_onboarding_dma_form_v1.0_max_score", value: 2.0}
       ])
     end
   end
