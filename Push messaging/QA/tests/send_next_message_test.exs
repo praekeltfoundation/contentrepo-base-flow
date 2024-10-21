@@ -49,14 +49,14 @@ defmodule SendNextMessageTest do
       profile_fields: [%ProfileField{name: "relationship", value: "single"}],
       pages: [
         %OrderedContentSetPage{
-          contentpage_id: 2,
+          slug: "leaf-page-1",
           time: 1,
           unit: "day",
           before_or_after: "before",
           contact_field: "edd"
         },
         %OrderedContentSetPage{
-          contentpage_id: 3,
+          slug: "leaf-page-2",
           time: 5,
           unit: "minutes",
           before_or_after: "after",
