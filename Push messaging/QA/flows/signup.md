@@ -45,9 +45,9 @@ card FetchContentSet, then: CompleteSignup do
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
       query: [
-        ["gender", "@config.gender"],
-        ["age", "@config.age"],
-        ["relationship", "@config.relationship"]
+        ["gender", "@contact.gender"],
+        ["age", "@contact.age"],
+        ["relationship", "@contact.relationship"]
       ]
     )
 

@@ -1,4 +1,4 @@
-defmodule SignupTest do
+defmodule SendNextMessageTest do
   use FlowTester.Case
   use FakeCMS
 
@@ -16,6 +16,7 @@ defmodule SignupTest do
       parent: "topic-1",
       slug: "leaf-page-1",
       title: "Leaf Page 1",
+      whatsapp_template_name: "test_name",
       wa_messages: [
         %WAMsg{
           message: "Test leaf content page",
@@ -53,15 +54,7 @@ defmodule SignupTest do
           unit: "day",
           before_or_after: "before",
           contact_field: "edd"
-        }
-      ]
-    }
-
-    ocs2 = %OrderedContentSet{
-      id: 2,
-      name: "Test Ordered Content Set 2",
-      profile_fields: [%ProfileField{name: "relationship", value: "it's complicated"}],
-      pages: [
+        },
         %OrderedContentSetPage{
           contentpage_id: 3,
           time: 5,
@@ -81,8 +74,7 @@ defmodule SignupTest do
 
     assert :ok =
              FakeCMS.add_ordered_content_sets(wh_pid, [
-               ocs1,
-               ocs2
+               ocs1
              ])
 
     # Return the adapter.
@@ -100,51 +92,41 @@ defmodule SignupTest do
   defp setup_flow() do
     auth_token = "testtoken"
 
-    flow_path("signup")
+    flow_path("send_next_message")
     |> FlowTester.from_json!()
     |> fake_cms("https://content-repo-api-qa.prk-k8s.prd-p6t.org/", auth_token)
     |> FlowTester.set_global_dict("config", %{"contentrepo_token" => auth_token})
     |> setup_contact_fields()
   end
 
-  describe "push messaging signup" do
-    test "AskSignup" do
-      setup_flow()
-      |> FlowTester.start()
-      |> receive_message(%{
-        text:
-          "Hi!\n\nWould you like to sign up to our testing messaging set?\n\nYou will receive 5 messages, one every 5 minutes.\n",
-        buttons: [{"Yes, please", "Yes, please"}, {"No, thank you", "No, thank you"}]
-      })
-    end
-
-    test "AskSignup -> Exit" do
-      setup_flow()
-      |> FlowTester.start()
-      |> receive_message(%{})
-      |> FlowTester.send("No, thank you")
-      |> receive_message(%{
-        text: "Thank you! You will not be sent any messages."
-      })
-      |> result_matches(%{name: "push_messaging_signup", value: "no"})
-      |> flow_finished()
-    end
-
-    test "AskSignup -> CompleteSignup" do
+  describe "push messaging" do
+    test "send whatsapp template" do
       fake_time = ~U[2023-02-28 00:00:00Z]
+      # 5.5 minutes later
+      future_fake_time = DateTime.add(fake_time, 330, :second)
       string_fake_time = DateTime.to_iso8601(fake_time)
 
       setup_flow()
-      |> FlowTester.set_fake_time(fake_time)
+      |> FlowTester.set_fake_time(future_fake_time)
+      |> FlowTester.set_contact_properties(%{"push_messaging_signup" => string_fake_time})
       |> FlowTester.start()
-      |> receive_message(%{})
-      |> FlowTester.send("Yes, please")
+      |> result_matches(%{name: "template_sent", value: "test_name"})
+    end
+
+    test "send regular message" do
+      fake_time = ~U[2023-02-28 00:00:00Z]
+      # 3 minutes later
+      future_fake_time = DateTime.add(fake_time, 180, :second)
+      string_fake_time = DateTime.to_iso8601(fake_time)
+
+      setup_flow()
+      |> FlowTester.set_fake_time(future_fake_time)
+      |> FlowTester.set_contact_properties(%{"push_messaging_signup" => string_fake_time})
+      |> FlowTester.start()
       |> receive_message(%{
-        text: "Thank you for signing up! You will receive your first message shortly"
+        text: "Leaf Page 2\n\nTest leaf content page 2\n"
       })
-      |> contact_matches(%{"push_messaging_signup" => ^string_fake_time})
-      |> result_matches(%{name: "push_messaging_signup", value: "1"})
-      |> flow_finished()
+      |> result_matches(%{name: "message_sent", value: "3"})
     end
   end
 end

@@ -1,8 +1,8 @@
 ```stack
- # One trigger for each message that needs to be sent in OCS
+# One trigger for each message that needs to be sent in OCS
 
- trigger(interval: "+5m", relative_to: "contact.push_messaging_signup")
- trigger(interval: "+10m", relative_to: "contact.push_messaging_signup")
+trigger(interval: "+5m", relative_to: "contact.push_messaging_signup")
+trigger(interval: "+10m", relative_to: "contact.push_messaging_signup")
 
 ```
 
@@ -23,7 +23,7 @@ This Journey also requires configuration for "gender", "age", and/or "relationsh
 
 ## Contact fields
 
-* push_messaging_scheduled_at, when the next message is scheduled to be sent. The name of this contact field should be changed according to the implementation, otherwise all the push messages will overwrite each other's scheduled times.
+* push_messaging_signup, the time the user signed up for these messages. The name of this contact field should be changed according to the implementation, otherwise all the push messages will overwrite each other's scheduled times.
 * whatsapp_profile_name, used to personalise the template sent to the user
 
 ## Flow results
@@ -35,8 +35,15 @@ This Journey also requires configuration for "gender", "age", and/or "relationsh
 
 This Journey does not link to any other Journeys
 
+## Determine message
+
+This block figures out which message to send to the user based on the difference between the current time plus the trigger time, and when the user signed up. This way if we update CMS with a new message then the correct sequence is still followed for users partway through.
+
 ```stack
-card DetermineMessage when contact.push_messaging_signup >= datetime_add(now(), 5, "m") and contact.push_messaging_signup < datetime_add(now(), 10, "m"), then: GetMessage do
+card DetermineMessage
+     when now() >= datetime_add(contact.push_messaging_signup, 5, "m") and
+            now() < datetime_add(contact.push_messaging_signup, 10, "m"),
+     then: GetMessage do
   # send first message
   push_messaging_content_set_position = 0
 end
@@ -47,6 +54,7 @@ card DetermineMessage, then: GetMessage do
   # send second message
   push_messaging_content_set_position = 1
 end
+
 ```
 
 ```stack
@@ -57,12 +65,16 @@ card GetMessage, then: SendMessage do
       headers: [
         ["Authorization", "Token @global.config.contentrepo_token"]
       ],
-      query: [["gender", "@config.gender"], ["age", "@config.age"], ["relationship", "@config.relationship"]]
+      query: [
+        ["gender", "@contact.gender"],
+        ["age", "@contact.age"],
+        ["relationship", "@contact.relationship"]
+      ]
     )
 
   contentset = contentsets.body.results[0]
 
-  contentset_item = contentset.body.pages[push_messaging_content_set_position]
+  contentset_item = contentset.pages[push_messaging_content_set_position]
 
   page =
     get(
@@ -72,6 +84,8 @@ card GetMessage, then: SendMessage do
       ],
       query: [["whatsapp", "true"]]
     )
+
+  log("page @page")
 end
 
 card SendMessage when page.body.body.is_whatsapp_template do
