@@ -234,7 +234,7 @@ defmodule SendNextMessageTest do
                leaf_page5,
                leaf_page6,
                leaf_page7,
-               leaf_page8,
+               leaf_page8
              ])
 
     assert :ok =
@@ -242,7 +242,7 @@ defmodule SendNextMessageTest do
                ocs1,
                ocs2,
                ocs3,
-               ocs4,
+               ocs4
              ])
 
     # Return the adapter.
@@ -254,7 +254,11 @@ defmodule SendNextMessageTest do
 
   defp setup_contact_fields(context) do
     context
-    |> FlowTester.set_contact_properties(%{"gender" => "", "year_of_birth" => "1988", "relationship_status" => ""})
+    |> FlowTester.set_contact_properties(%{
+      "gender" => "",
+      "year_of_birth" => "1988",
+      "relationship_status" => ""
+    })
   end
 
   defp setup_flow() do
@@ -305,7 +309,10 @@ defmodule SendNextMessageTest do
 
       setup_flow()
       |> FlowTester.set_fake_time(future_fake_time)
-      |> FlowTester.set_contact_properties(%{"push_messaging_signup" => string_fake_time, "relationship_status" => "in a relationship"})
+      |> FlowTester.set_contact_properties(%{
+        "push_messaging_signup" => string_fake_time,
+        "relationship_status" => "in a relationship"
+      })
       |> FlowTester.start()
       |> receive_message(%{
         text: "Leaf Page 6\n\nTest leaf content page 6\n"
@@ -321,7 +328,10 @@ defmodule SendNextMessageTest do
 
       setup_flow()
       |> FlowTester.set_fake_time(future_fake_time)
-      |> FlowTester.set_contact_properties(%{"year_of_birth" => "2010", "push_messaging_signup" => string_fake_time})
+      |> FlowTester.set_contact_properties(%{
+        "year_of_birth" => "2010",
+        "push_messaging_signup" => string_fake_time
+      })
       |> FlowTester.start()
       |> receive_message(%{
         text: "Leaf Page 2\n\nTest leaf content page 2\n"
@@ -337,7 +347,10 @@ defmodule SendNextMessageTest do
 
       setup_flow()
       |> FlowTester.set_fake_time(future_fake_time)
-      |> FlowTester.set_contact_properties(%{"gender" => "male", "push_messaging_signup" => string_fake_time})
+      |> FlowTester.set_contact_properties(%{
+        "gender" => "male",
+        "push_messaging_signup" => string_fake_time
+      })
       |> FlowTester.start()
       |> receive_message(%{
         text: "Leaf Page 8\n\nTest leaf content page 8\n"
