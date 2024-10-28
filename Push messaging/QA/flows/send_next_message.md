@@ -37,22 +37,58 @@ This Journey does not link to any other Journeys
 
 ## Determine message
 
-This block figures out which message to send to the user based on the difference between the current time plus the trigger time, and when the user signed up. This way if we update CMS with a new message then the correct sequence is still followed for users partway through.
+This block figures out which message to send to the user based on the difference between the current time, and when the user signed up plus the trigger time. This way if we update CMS with a new message then the correct sequence is still followed for users partway through.
 
 ```stack
 card DetermineMessage
      when now() >= datetime_add(contact.push_messaging_signup, 5, "m") and
             now() < datetime_add(contact.push_messaging_signup, 10, "m"),
-     then: GetMessage do
+     then: CalculateAge do
   # send first message
   push_messaging_content_set_position = 0
 end
 
 # Add your other conditions here
 
-card DetermineMessage, then: GetMessage do
+card DetermineMessage, then: CalculateAge do
   # send second message
   push_messaging_content_set_position = 1
+end
+
+```
+
+## Calculate Age & Determine Age Range
+
+CMS uses age ranges, so in order to filter by age, we need get the age either from the `age` contact field or calculate it from the `year_of_birth` contact field, and then determine which age range it falls into.
+
+```stack
+card CalculateAge, then: DetermineAgeRange do
+  # age =
+  #   if is_nil_or_empty(contact.age) do
+  #     year(now()) - contact.year_of_birth
+  #   else
+  #     contact.age
+  #   end
+  # we don't currently have an age contact field and it seems silly to have to create it for
+  # this journey
+  age =
+    if is_nil_or_empty(contact.year_of_birth) do
+      0
+    else
+      year(now()) - contact.year_of_birth
+    end
+end
+
+card DetermineAgeRange when age >= 15 and age <= 18, then: GetMessage do
+  age_range = "15 - 18"
+end
+
+card DetermineAgeRange when age >= 25 and age <= 30, then: GetMessage do
+  age_range = "25 - 30"
+end
+
+card DetermineAgeRange, then: GetMessage do
+  age_range = ""
 end
 
 ```
@@ -67,8 +103,8 @@ card GetMessage, then: SendMessage do
       ],
       query: [
         ["gender", "@contact.gender"],
-        ["age", "@contact.age"],
-        ["relationship", "@contact.relationship"]
+        ["age", "@age_range"],
+        ["relationship", "@contact.relationship_status"]
       ]
     )
 
@@ -84,8 +120,6 @@ card GetMessage, then: SendMessage do
       ],
       query: [["whatsapp", "true"]]
     )
-
-  log("page @page")
 end
 
 card SendMessage when page.body.body.is_whatsapp_template do
