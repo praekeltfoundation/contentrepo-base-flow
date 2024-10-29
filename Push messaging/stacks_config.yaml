@@ -1,0 +1,15 @@
+base_url: https://whatsapp.turn.io/
+prod_dir: Prod
+qa_dir: QA
+stack_uuids: 
+- name: signup
+  qa_uuid: ec6311dc-6447-4701-9c35-7e4a26ec6c3f
+  prod_uuid: todo
+- name: send_next_message
+  qa_uuid: 55b1690d-a546-4d33-912c-7f2b83665ef0
+  prod_uuid: todo
+tokens: []
+urls:
+- name: contentrepo
+  prod_url: https://platform-mnch-contentrepo.prk-k8s.prd-p6t.org
+  qa_url: https://content-repo-api-qa.prk-k8s.prd-p6t.org
