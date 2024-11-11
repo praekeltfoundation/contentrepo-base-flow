@@ -134,7 +134,7 @@ defmodule DMAFormTest do
       |> FlowTester.send("Agree")
       |> receive_message(%{text: "*Thank you for completing this*" <> _})
       |> results_match([
-        %Result{name: "mnch_onboarding_dma_form_dma-do-things", value: "dma_form01_agree"} | _
+        %Result{name: "mnch_onboarding_dma_form_v1.0_dma-do-things", value: "dma_form01_agree"} | _
       ])
     end
 
@@ -146,7 +146,7 @@ defmodule DMAFormTest do
       |> FlowTester.send("skip")
       |> receive_message(%{text: "You are seeing this message because you skipped an answer."})
       |> results_match([
-        %Result{name: "mnch_onboarding_dma_form_dma-do-things", value: "skip"} | _
+        %Result{name: "mnch_onboarding_dma_form_v1.0_dma-do-things", value: "skip"} | _
       ])
     end
 
