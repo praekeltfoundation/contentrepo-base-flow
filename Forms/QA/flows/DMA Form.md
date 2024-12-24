@@ -508,6 +508,8 @@ We record the following Flow Results:
 * `question_num`, the question number
 * `answer`, the final answer which will be a comma separated list of all the answers that were selected
 
+If it's a choice selection question type that has a `response`, then we show the user the response before moving on to the next question.
+
 ```stack
 card QuestionResponse when questions[question_num].question_type == "integer_question",
   then: StoreResponse do
@@ -602,7 +604,7 @@ card QuestionResponse when lower("@question_response") == "skip", then: StoreRes
   question_num = question_num + 1
 end
 
-card QuestionResponse, then: StoreResponse do
+card QuestionResponse, then: DisplayResponse do
   scores = map(question.answers, & &1.score)
   max_question_score = reduce(scores, scores[0], &max(&1, &2))
   answer = find(question.answers, &(&1.answer == question_response))
@@ -620,6 +622,16 @@ card QuestionResponse, then: StoreResponse do
   score = score + answer.score
   log("Current score: @score, Current max score: @max_score")
   question_num = question_num + 1
+end
+
+card DisplayResponse when has_text(answer.response), then: StoreResponse do
+  buttons(StoreResponse: "Next question") do
+    text("@answer.response")
+  end
+end
+
+card DisplayResponse do
+  then(StoreResponse)
 end
 
 ```
@@ -678,7 +690,7 @@ card End
   log("Assessment risk: high")
   page_id = assessment_data.high_result_page.id
 
-  then(DisplayEndPage)
+  then(FetchEndPage)
 end
 
 card End
@@ -690,7 +702,7 @@ card End
   log("Assessment risk: medium")
   page_id = assessment_data.medium_result_page.id
 
-  then(DisplayEndPage)
+  then(FetchEndPage)
 end
 
 card End when skip_count >= skip_threshold do
@@ -699,7 +711,7 @@ card End when skip_count >= skip_threshold do
   log("Assessment risk: skip_high")
   page_id = assessment_data.skip_high_result_page.id
 
-  then(DisplayEndPage)
+  then(FetchEndPage)
 end
 
 card End do
@@ -708,10 +720,10 @@ card End do
   log("Assessment risk: low")
   page_id = assessment_data.low_result_page.id
 
-  then(DisplayEndPage)
+  then(FetchEndPage)
 end
 
-card DisplayEndPage do
+card FetchEndPage, then: DisplayEndPage do
   result_tag = concatenate("@slug", "_", "@version", "_score")
   write_result("score", score, label: "@result_tag")
   result_tag = concatenate("@slug", "_", "@version", "_max_score")
@@ -732,6 +744,25 @@ card DisplayEndPage do
 
   log("@page_id")
   message_body = response.body.body.text.value.message
+  image_id = response.body.body.text.value.image
+end
+
+card DisplayEndPage when isnumber(image_id) do
+  image_response =
+    get("https://content-repo-api-qa.prk-k8s.prd-p6t.org/api/v2/images/@image_id/",
+      timeout: 5_000,
+      cache_ttl: 60_000,
+      headers: [
+        ["content-type", "application/json"],
+        ["authorization", "Token @global.config.contentrepo_token"]
+      ]
+    )
+
+  image("@image_response.body.meta.download_url")
+  text("@message_body")
+end
+
+card DisplayEndPage do
   text("@message_body")
 end
 
