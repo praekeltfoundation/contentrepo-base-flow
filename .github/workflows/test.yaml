@@ -26,4 +26,4 @@ jobs:
             - name: Check formatting
               run: mix format --check-formatted "Browsable FAQs/QA/tests/*.exs" "Push messaging/QA/tests/*.exs"
             - name: Test flows
-              run: ./flow_tester/run_flow_tests.exs "Browsable FAQs/QA/tests/" "Push messaging/QA/tests/"
+              run: ./flow_tester/run_flow_tests.exs "Browsable FAQs/QA/tests/" "Push messaging/QA/tests/" "Forms/QA/tests/"
