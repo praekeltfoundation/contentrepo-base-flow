@@ -12,6 +12,12 @@ defmodule DMAFormTest do
     # Start the handler.
     wh_pid = start_link_supervised!({FakeCMS, %FakeCMS.Config{auth_token: auth_token}})
 
+    FakeCMS.add_image(wh_pid, %Image{
+      id: 1,
+      download_url: "https://example.com/image.jpg",
+      title: "Test image"
+    })
+
     FakeCMS.add_page(wh_pid, %Index{slug: "home", title: "Home"})
 
     FakeCMS.add_page(wh_pid, %ContentPage{
@@ -32,7 +38,8 @@ defmodule DMAFormTest do
       title: "Skip Result Page",
       wa_messages: [
         %WAMsg{
-          message: "You are seeing this message because you skipped an answer."
+          message: "You are seeing this message because you skipped an answer.",
+          image: 1
         }
       ]
     })
@@ -79,7 +86,8 @@ defmodule DMAFormTest do
             %Forms.Answer{
               score: 2.0,
               answer: "Strongly Agree",
-              semantic_id: "dma_form01_strongly_agree"
+              semantic_id: "dma_form01_strongly_agree",
+              response: "You chose strongly agree!"
             }
           ]
         }
@@ -168,6 +176,35 @@ defmodule DMAFormTest do
         %Result{name: "score", value: 1.0},
         %Result{name: "max_score", value: 2.0}
       ])
+    end
+
+    test "shows response if answer has response" do
+      setup_flow()
+      |> FlowTester.set_local_params("config", %{"response_button_text" => "Next question"})
+      |> FlowTester.start()
+      |> FlowStep.clear_messages()
+      |> FlowStep.clear_results()
+      |> FlowTester.send("Strongly Agree")
+      |> receive_message(%{
+        text: "You chose strongly agree!",
+        buttons: [{"@config.items.response_button_text", "Next question"}]
+      })
+      |> FlowTester.send("Next question")
+      |> receive_message(%{
+        text: "*Thank you for completing this*" <> _
+      })
+    end
+
+    test "supports images in result page" do
+      setup_flow()
+      |> FlowTester.start()
+      |> FlowStep.clear_messages()
+      |> FlowStep.clear_results()
+      |> FlowTester.send("skip")
+      |> receive_message(%{
+        text: "You are seeing this message because you skipped an answer.",
+        image: "https://example.com/image.jpg"
+      })
     end
   end
 end
