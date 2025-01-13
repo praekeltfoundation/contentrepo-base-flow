@@ -180,13 +180,14 @@ defmodule DMAFormTest do
 
     test "shows response if answer has response" do
       setup_flow()
+      |> FlowTester.set_local_params("config", %{"response_button_text" => "Next question"})
       |> FlowTester.start()
       |> FlowStep.clear_messages()
       |> FlowStep.clear_results()
       |> FlowTester.send("Strongly Agree")
       |> receive_message(%{
         text: "You chose strongly agree!",
-        buttons: [{"Next question", "Next question"}]
+        buttons: [{"@config.items.response_button_text", "Next question"}]
       })
       |> FlowTester.send("Next question")
       |> receive_message(%{
