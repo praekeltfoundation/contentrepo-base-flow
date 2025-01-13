@@ -106,6 +106,7 @@ defmodule DMAFormTest do
   describe "dma form" do
     test "show the first question when started" do
       setup_flow()
+      |> FlowTester.set_local_params("config", %{"assessment_tag" => "dma_form"})
       |> FlowTester.start()
       |> receive_message(%{
         text: "Thanks, Lethabo\n\nNow please share your view on these statements" <> _,
@@ -121,7 +122,7 @@ defmodule DMAFormTest do
       })
       |> results_match([
         %Result{name: "version", value: "v1.0"},
-        %Result{name: "mnch_onboarding_dma_form_v1.0_started", value: "yes"},
+        %Result{name: "started", value: "dma_form"},
         %Result{name: "locale", value: "en"}
       ])
     end
@@ -134,7 +135,8 @@ defmodule DMAFormTest do
       |> FlowTester.send("Agree")
       |> receive_message(%{text: "*Thank you for completing this*" <> _})
       |> results_match([
-        %Result{name: "mnch_onboarding_dma_form_v1.0_dma-do-things", value: "dma_form01_agree"} | _
+        %Result{name: "question_num", value: 0},
+        %Result{name: "question_id", value: "dma_form01_agree"} | _
       ])
     end
 
@@ -146,7 +148,8 @@ defmodule DMAFormTest do
       |> FlowTester.send("skip")
       |> receive_message(%{text: "You are seeing this message because you skipped an answer."})
       |> results_match([
-        %Result{name: "mnch_onboarding_dma_form_v1.0_dma-do-things", value: "skip"} | _
+        %Result{name: "question_num", value: 0},
+        %Result{name: "question_id", value: "skip"} | _
       ])
     end
 
@@ -159,10 +162,11 @@ defmodule DMAFormTest do
       |> receive_message(%{text: "*Thank you for completing this*" <> _})
       |> results_match([
         _,
-        %Result{name: "mnch_onboarding_dma_form_v1.0_completed", value: "yes"},
-        %Result{name: "mnch_onboarding_dma_form_v1.0_risk", value: "high"},
-        %Result{name: "mnch_onboarding_dma_form_v1.0_score", value: 1.0},
-        %Result{name: "mnch_onboarding_dma_form_v1.0_max_score", value: 2.0}
+        _,
+        %Result{name: "end", value: "mnch_onboarding_dma_form"},
+        %Result{name: "risk", value: "high"},
+        %Result{name: "score", value: 1.0},
+        %Result{name: "max_score", value: 2.0}
       ])
     end
   end
